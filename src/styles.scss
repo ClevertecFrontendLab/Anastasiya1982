@@ -1,0 +1,315 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap");
+
+body {
+    height: 100%;
+    justify-content: center;
+    scroll-behavior: smooth;
+    text-rendering: optimizeSpeed;
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #ffffff;
+    color: #363636;
+    letter-spacing: 0.1px;
+}
+
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:not([class]) {
+    text-decoration-skip-ink: auto;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+article > * + * {
+    margin-top: 1em;
+}
+
+input,
+button,
+textarea,
+select {
+    padding: 0;
+    font: inherit;
+}
+
+input[type="search"]:focus {
+    outline: none;
+}
+
+h2 {
+    font-size: 44px;
+    font-weight: 600;
+    line-height: 54px;
+    letter-spacing: 0px;
+    text-align: left;
+}
+
+h3 {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 40px;
+}
+
+h4 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 30px;
+}
+
+h5 {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+}
+
+$main-white: white;
+$main-dark: #363636;
+$main-gray: #a7a7a7;
+
+@mixin gradient-text($angle: 231.58deg, $color: #f83600, $anount: #f9d423 297.76%) {
+    color: #f83600;
+    background: -webkit-linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    display: inline-block;
+}
+
+@mixin h5-with-gradient() {
+    @include gradient-text();
+}
+
+@mixin icon-button() {
+    height: 38px;
+    width: 38px;
+    border: none;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0px 1px 5px 0px rgba(191, 196, 201, 0.24), 0px 3px 4px 0px rgba(191, 196, 201, 0.18),
+        0px 2px 4px 0px rgba(191, 196, 201, 0.2);
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0px 2px 5px 0px rgba(54, 54, 54, 0.1);
+    }
+
+    &:active {
+        box-shadow: 0px 1px 10px 0px rgba(249, 89, 8, 0.2), 0px 3px 4px 0px rgba(222, 125, 11, 0.2);
+    }
+
+    @include mobile {
+        height: 32px;
+        width: 32px;
+    }
+}
+
+@mixin button-primary {
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+    border-radius: 20px;
+    color: $main-white;
+    border: none;
+
+    &:hover {
+        background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+        border: 1px solid #ff740f;
+        box-shadow: 0px 2px 5px 0px rgba(54, 54, 54, 0.1);
+        cursor: pointer;
+    }
+    &:active {
+        background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+        box-shadow: 0px 3px 4px rgba(222, 125, 11, 0.2), 0px 1px 10px rgba(249, 89, 8, 0.2);
+        border-radius: 30px;
+    }
+    &:disabled {
+        background: #ebebeb;
+        border-radius: 30px;
+        color: rgba(235, 235, 235, 1);
+    }
+}
+@mixin button-secondary() {
+    width: 100%;
+    height: 40px;
+    background: #f9f9fa;
+    color: $main-dark;
+    border: 1px solid #bfc4c9;
+    border-radius: 30px;
+    background: #ffffff;
+    border: 1px solid #bfc4c9;
+
+    &:disabled {
+        background: #f9f9fa;
+        border: 1px solid #bfc4c9;
+        border-radius: 30px;
+        color: rgba(167, 167, 167, 1);
+    }
+}
+@mixin search-input(){
+               
+                width: 100%;
+                height: 38px;       
+              
+                padding-left: 40px;
+                padding-right: 30px;
+                box-shadow: inset 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18),
+                    0px 1px 5px rgba(191, 196, 201, 0.24);
+                border-radius: 599px;
+                -webkit-border-radius: 599px;
+                -moz-border-radius: 599px;
+                border: none;
+                color: #a7a7a7;
+
+                &:focus,
+                &:hover {
+                    outline: none;
+                    color: #f83600;
+                    background: none;                    
+                }
+                &:focus-visible {
+                    color: #f83600;
+                }
+
+                &::-webkit-search-cancel-button {
+                  display: none;
+                }
+
+                &::-webkit-input-placeholder {
+                    color: #a7a7a7;
+                    
+                }
+
+                &::-moz-placeholder {
+                    /* Firefox 18- */
+                    color: #a7a7a7;
+                }
+
+                &::-moz-placeholder {
+                    /* Firefox 19+ */
+                    color: #a7a7a7;
+                }
+
+                &::-ms-input-placeholder {
+                    color: #a7a7a7;
+                }
+
+}
+
+@mixin Subtitle-Large() {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+@mixin Subtitle-Small() {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+}
+
+@mixin body-large() {
+    font-family: "Montserrat";
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.10000000149011612px;
+    text-align: left;
+}
+
+@mixin body-small() {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.1px;
+}
+
+@mixin mobile-h3() {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0.10000000149011612px;
+    text-align: left;
+}
+
+@mixin mobile {
+    @media (max-width: 321px) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: 861px) {
+        @content;
+    }
+}
+
+@mixin laptop-small {
+    @media (max-width: 961px) {
+        @content;
+    }
+}
+
+@mixin landscape {
+    @media (max-width: 482px) {
+        @content;
+    }
+}
+
+@mixin iPad-portrate {
+    @media (max-width: 641px) {
+        @content;
+    }
+}
+
+@mixin desctop-small {
+    @media only screen and (min-width: 1224px) {
+        @content;
+    }
+}

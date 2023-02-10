@@ -1,0 +1,102 @@
+@import "../../styles.scss";
+
+.detailed-table {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 146px;
+    justify-content: space-between;
+
+    @include tablet {
+        gap: 38px;
+    }
+
+    @media (max-width: 505px) {
+        flex-direction: column;
+        gap: 0px;
+    }
+
+    .table-column-first {
+        max-width: 330px;
+        height: 185px;
+        width: 100%;
+        flex-direction: column;
+        justify-content: space-between;
+        column-gap: 16px;
+
+        @include tablet {
+            max-width: 305px;
+        }
+
+        @include mobile {
+            max-width: 288px;
+            height: 100%;
+        }
+    }
+
+    .table-column-second {
+        max-width: 635px;
+        width: 100%;
+        flex-direction: column;
+        justify-content: space-between;
+        column-gap: 16px;
+
+        @include mobile {
+            max-width: 288px;
+            height: 100%;
+        }
+    }
+
+    .table-row {
+        display: flex;
+        justify-content: flex-start;
+        gap: 70px;
+        margin: 16px 0px;
+
+        @include tablet {
+            margin: 10px 0px;
+            gap: 23px;
+        }
+
+        @include mobile {
+            gap: 40px;
+            margin-bottom: 16px;
+        }
+
+        .row-title {
+            max-width: 120px;
+            width: 100%;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+            color: #a7a7a7;
+            word-wrap: none;
+
+            @include tablet {
+                max-width: 104px;
+                width: 100%;
+            }
+
+            @include mobile {
+                max-width: 120px;
+                min-width: 120px;
+                width: 100%;
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 16px;
+            }
+        }
+        .row-content {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            color: #363636;
+
+            @include mobile {
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 16px;
+            }
+        }
+    }
+}

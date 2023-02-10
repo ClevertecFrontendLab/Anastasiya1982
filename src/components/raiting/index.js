@@ -1,0 +1,1 @@
+import { Raiting } from './raiting';

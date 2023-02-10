@@ -1,0 +1,12 @@
+.raiting-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    margin-bottom: 8px;
+
+    .active {
+        fill: rgba(255, 188, 31, 1);
+    }
+}
