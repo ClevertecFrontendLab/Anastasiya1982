@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { categories } from '../../constants/categoreis';
 import { ReactComponent as IconDown } from '../../assets/Icon_Chevron.svg';
@@ -12,8 +13,12 @@ export const LeftBarBurgerMenu= ({ isMenuOpen, setIsMenuOpen }) => {
   const [isHeaderActive, setIsHeaderActive] = useState(true);
   const [isShowcaseOfBooksOpen, setIsShowcaseOfBooksOpen] = useState(true);
 
+  const categories = useSelector((store) => store.books.categoriesData);
+  const booksLoadingError = useSelector((store) => store.books.booksDataError);
+
   const location = useLocation();
   const menuRef = useRef(null);
+
 
   useEffect(() => {
     if (location.pathname === '/books/terms' || location.pathname === '/books/contract') {
@@ -45,6 +50,12 @@ export const LeftBarBurgerMenu= ({ isMenuOpen, setIsMenuOpen }) => {
       document.removeEventListener('mousedown', checkIfClickedOutside);
     };
   }, [isMenuOpen, setIsMenuOpen]);
+
+  useEffect(() => {
+    if (booksLoadingError) {
+      setIsShowcaseOfBooksOpen(false);
+    }
+  }, [booksLoadingError, isShowcaseOfBooksOpen]);
 
  
   return (

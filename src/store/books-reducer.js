@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { axiosInstance } from '../shared/api/http-common';
 
-
-
 const initialState = {
   booksData: [],
-  isBookssDataLoading: false,
-  booksDataError: null,  
-  currentBook:null
+  isDataLoading: false,
+  booksDataError: null,
+  currentBook: null,
+  categoriesData: [],
+  categoriesDataError: null,
 };
 
 export const booksSlice = createSlice({
@@ -15,43 +15,55 @@ export const booksSlice = createSlice({
   name: 'books',
   initialState,
   reducers: {
-    setBooksData: (state, action) => {       
-      state.booksData = [state.booksData,...action.payload];
+    setBooksData: (state, action) => {
+      state.booksData = [...action.payload];
     },
-    setIsBooksDataLoading: (state, action) => {
-      state.isBookssDataLoading = action.payload;
+    setIsDataLoading: (state, action) => {
+      state.setIsDataLoading = action.payload;
     },
 
     setBooksDataError: (state, action) => {
       state.booksDataError = action.payload;
     },
+
+    setCategoriesData: (state, action) => {
+      state.categoriesData = [...action.payload];
+    },
+    setCategoriesDataError: (state, action) => {
+      state.categoriesDataError = action.payload;
+    },
   },
   /* eslint-enable no-param-reassign */
 });
 
-export const { setBooksData, setIsBooksDataLoading, setBooksDataError } = booksSlice.actions;
+export const { setBooksData, setIsDataLoading, setBooksDataError, setCategoriesData, setCategoriesDataError } =
+  booksSlice.actions;
 export const booksReducer = booksSlice.reducer;
 
-// thunks 
+// thunks
 
-export const getBooksDataAsync = () => async (dispatch) => {  
-  dispatch(setIsBooksDataLoading(true));
+export const getBooksDataAsync = () => async (dispatch) => {
+  dispatch(setIsDataLoading(true));
   try {
-    const response = await axiosInstance.get('books');   
-   
-    if (response.data) {       
-      dispatch(setBooksData(response.data));
-    } else {
-      dispatch(setBooksDataError('Error with loading data'));
-    //   toast.error('Failed to loading user');
-    }
-  } catch (err) {
-    // dispatch(setUsersDataError('Error with loading data'));
-    // toast.error('Error with loading data');
-    console.log('====================================');
-    console.log(err);
-    console.log('====================================');
+    const response = await axiosInstance.get('books');
+    dispatch(setBooksData(response.data));
+  } catch (error) {
+    dispatch(setBooksDataError(error.response.data.error));
   }
-  dispatch(setIsBooksDataLoading(false));
+  dispatch(setIsDataLoading(false));
 };
 
+// Categories
+
+export const getCategoriesDataAsync = () => async (dispatch) => {
+  dispatch(setIsDataLoading(true));
+  try {
+    const response = await axiosInstance.get('categories');
+
+    dispatch(setCategoriesData(response.data));
+  } catch (error) {
+    dispatch(setCategoriesDataError(error.response.data.error))
+    
+  }
+  dispatch(setIsDataLoading(false));
+};

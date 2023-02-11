@@ -1,6 +1,9 @@
-import { useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
+import { getBookDataAsync } from '../../store/book-data-reducer';
+import { Loader } from '../../components/loader/loader';
 import { Raiting } from '../../components/raiting/raiting';
 import { usersRewiews } from '../../users-rewiews';
 import { DetailedInfoBlock } from '../../components/detailed-information/detailed-info';
@@ -13,18 +16,30 @@ import { ReactComponent as SwitchIconDown } from '../../assets/switch-down-icon.
 import './book-page.scss';
 
 export const BookPage = () => {
-  const [isCommentsBlockOpen, setIsCommentsBlockOpen] = useState(true);
-  const location = useLocation();
+  const dispatch = useDispatch();
+  const { booksId } = useParams();
 
-  const { title, category, image } = location.state;
+  useEffect(() => {
+    dispatch(getBookDataAsync(booksId));
+  }, [dispatch, booksId]);
+
+  const [isCommentsBlockOpen, setIsCommentsBlockOpen] = useState(true);
+
+  const book = useSelector((store) => store.bookData.bookData);
+
+  if (!book) {
+    return <Loader />;
+  }
+
+  const currentDate = '2022-10-23T12:23:13.012Z';
 
   return (
     <div className='book-page'>
       <header className='book-page-header'>
         <div className='header-container'>
           <div className='book-category-name'>
-            {category}
-            <span>&#8260;</span> {title}
+            {book.categories[0]}
+            <span>&#8260;</span> {book.title}
           </div>
         </div>
       </header>
@@ -32,47 +47,35 @@ export const BookPage = () => {
         <div className='container'>
           <section className='book-status-container'>
             <div className='img-container'>
-              <BookPreview imageRoute={image} />
+              <BookPreview imageRoute={book.images} />
             </div>
             <div className='books-description'>
-              <h3 className='books-title'>
-                Грокаем алгоритмы. Иллюстрированное пособие для программистов и любопытствующих.
-              </h3>
-              <div className='books-author'>Адитья Бхаргава, 2019</div>
+              <h3 className='books-title'>{book.title}</h3>
+              <div className='books-author'>{book.authors[0]}</div>
               <div className='booked-button-section'>
                 <button type='button'>Забронировать</button>
               </div>
             </div>
             <div className='about-book'>
               <div className='title'>О книге</div>
-              <p>
-                Алгоритмы — это всего лишь пошаговые алгоритмы решения задач, и большинство таких задач уже были кем-то
-                решены, протестированы и проверены. Можно, конечно, погрузится в глубокую философию гениального Кнута,
-                изучить многостраничные фолианты с доказательствами и обоснованиями, но хотите ли вы тратить на это свое
-                время?
-              </p>
-              <p>
-                Откройте великолепно иллюстрированную книгу и вы сразу поймете, что алгоритмы — это просто. А грокать
-                алгоритмы — это веселое и увлекательное занятие.
-              </p>
+              <p>{book.description}</p>
             </div>
           </section>
 
           <section className='rating-section'>
             <div className='title'>Rating</div>
             <div className='rating-container'>
-              <Raiting rating={4} />
-              <span className='rating-count'>4.3</span>
+              <Raiting rating={book.rating} />
+              <span className='rating-count'>{book.rating}</span>
             </div>
           </section>
           <section className='detailed-information'>
             <div className='title'>Подробная информация</div>
-
-            <DetailedInfoBlock />
+            <DetailedInfoBlock book={book} />
           </section>
           <section className='rewiews'>
             <div className='title'>
-              <span>Отзывы</span> <span className='rewiews-count'>2</span>
+              <span>Отзывы</span> <span className='rewiews-count'>{book.comments ? book.comments.length : ''}</span>
               <span
                 data-test-id='button-hide-reviews'
                 className='switch-icon'
@@ -83,21 +86,25 @@ export const BookPage = () => {
               </span>
             </div>
             <div className={classNames('rewiews-list', { closed: !isCommentsBlockOpen })}>
-              {usersRewiews.map((comment) => (
-                <div className='comment-content' key={comment.id}>
-                  <div className='user-logo'>
-                    <img src={userLogo} alt='user-logo' />
-                    <div className='user-info'>
-                      <span>{comment.userName}</span>
-                      <span>{comment.date}</span>
+              {book.comments &&
+                book.comments.map((comment) => (
+                  <div className='comment-content' key={comment.id}>
+                    <div className='user-logo'>
+                      <img src={userLogo} alt='user-logo' />
+                      <div className='user-info'>
+                        <span>
+                          {comment.user.firstName}
+                          {comment.user.lastName}
+                        </span>
+                        <span>{comment.createdAt}</span>
+                      </div>
                     </div>
+                    <div className='user-rating'>
+                      <Raiting />
+                    </div>
+                    {comment && <div className='comment-text'>{comment.text}</div>}
                   </div>
-                  <div className='user-rating'>
-                    <Raiting />
-                  </div>
-                  <div className='comment-text'>{comment.comments !== null ? comment.comments[0].text : ''}</div>
-                </div>
-              ))}
+                ))}
             </div>
           </section>
           <section className='estimation-block'>

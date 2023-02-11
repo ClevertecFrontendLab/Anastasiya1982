@@ -11,6 +11,8 @@ import 'swiper/scss/pagination';
 
 import './book-preview.scss';
 
+export const BASE_URL = 'https://strapi.cleverland.by';
+
 export const BookPreview = ({ imageRoute }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const imagesCount = imageRoute ? imageRoute.length : 0;
@@ -36,7 +38,7 @@ export const BookPreview = ({ imageRoute }) => {
         {imageRoute &&
           imageRoute.map((image) => (
             <SwiperSlide key={image}>
-              <img src={image} alt='book cover' />
+              <img src={`${BASE_URL}${image.url}`} alt='book cover' />
             </SwiperSlide>
           ))}
       </Swiper>
@@ -51,8 +53,8 @@ export const BookPreview = ({ imageRoute }) => {
             imagesCount > 4
               ? {
                   draggable: true,
-                  clickable: true, 
-                  hide:true                 
+                  clickable: true,
+                  hide: true,
                 }
               : false
           }
@@ -63,7 +65,7 @@ export const BookPreview = ({ imageRoute }) => {
           {imageRoute &&
             imageRoute.map((image) => (
               <SwiperSlide key={image} data-test-id='slide-mini' className='pagination-image'>
-                <img src={image} alt='book cover' />
+                <img src={`${BASE_URL}${image.url}`} alt='book cover' />
               </SwiperSlide>
             ))}
         </Swiper>

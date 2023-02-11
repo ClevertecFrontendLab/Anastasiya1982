@@ -6,6 +6,8 @@ import defaultImg from '../../assets/default-card-image.png';
 
 import './card.scss';
 
+const BASE_URL = 'https://strapi.cleverland.by';
+
 export const Card = ({ card, currentView }) => {
   const navigate = useNavigate();
 
@@ -15,23 +17,25 @@ export const Card = ({ card, currentView }) => {
     }
   };
 
-  const buttonStatus =
-    !card.isBooked && card.bookedTill !== 'null'
-      ? `Занята до ${card.bookedTill}`
-      : card.isBooked && card.bookedTill === 'null'
-      ? 'Забронировано'
-      : 'Забронировать';
+  const buttonStatus = card.booking === null ? 'Забронировать' : `Занята до ${22.04}`;
+
+  //    const buttonStatus =
+  //      !card.booking && card.bookedTill !== 'null'
+  //        ? `Занята до ${card.booking.date}`
+  //        : card.isBooked && card.bookedTill === 'null'
+  //        ? 'Забронировано'
+  //        : 'Забронировать';
+ 
+const cardImageSrc=card.image ? `${BASE_URL}${card.image.url}` : defaultImg;
 
   return (
     <div
       className={`card-content-${currentView}`}
       data-test-id='card'
       onClick={() =>
-        navigate(`/books/categoty/:${card.id}`, {
+        navigate(`/books/${card.categories[0]}/${card.id}`, {
           state: {
-            image: card.image,
-            title: card.title,
-            category: 'Бизнес-книги',
+            id: card.id,
           },
         })
       }
@@ -39,8 +43,8 @@ export const Card = ({ card, currentView }) => {
       role='button'
       tabIndex='0'
     >
-      <div className='img-container' >
-        <img src={card.image === null ? defaultImg : cardImg} alt='card-img' />
+      <div className='img-container'>
+        <img src={cardImageSrc} alt='card-img' />
       </div>
       <div className='card-desciption'>
         <div className='raiting-block'>
@@ -54,9 +58,9 @@ export const Card = ({ card, currentView }) => {
         <div className='card-title'>
           <h4>{card.title}</h4>
         </div>
-        <div className='card-author'>{card.author}</div>
+        <div className='card-author'>{card.authors && card.authors[0]}</div>
         <div className='submit-block'>
-          <button type='button' className={card.bookedTill === 'null' && !card.isBooked ? 'primary' : 'secondary'}>
+          <button type='button' className={card.booking === null ? 'primary' : 'secondary'}>
             {buttonStatus}
           </button>
         </div>
