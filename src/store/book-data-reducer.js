@@ -35,8 +35,15 @@ export const getBookDataAsync = (id) => async (dispatch) => {
   try {
     const response = await axiosInstance.get(`books/${id}`);
     dispatch(setBookData(response.data));
+    dispatch(setIsBookDataLoading(false));
   } catch (error) {
-    dispatch(setBookDataError(error.response.data.error));
+    // handle error
+    if (error.response.status === 400) {
+      // handle bad request error...
+    } else if (error.response.status === 404) {
+      // handle not found error...
+      dispatch(setBookDataError({ name: 'not found error', status: 404 }));
+      dispatch(setIsBookDataLoading(false));
+    }
   }
-  dispatch(setIsBookDataLoading(false));
 };

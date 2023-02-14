@@ -24,6 +24,7 @@ export const BookPage = () => {
   const book = useSelector((store) => store.bookData.bookData);
   const isBookDataLoading = useSelector((store) => store.bookData.isBookDataLoading);
   const isBookDataLoadingError = useSelector((store) => store.bookData.bookDataError);
+ 
 
   useEffect(() => {
     dispatch(getBookDataAsync(booksId));
@@ -54,80 +55,79 @@ export const BookPage = () => {
           </div>
         </div>
       </header>
-      {isErrorPopupOpen  && (
+      {isErrorPopupOpen && (
         <ToastModal type='error' handleModal={handleModal} data-test-id='error' isPopupOpen={isErrorPopupOpen} />
-      ) }
-        <main className='main'>
-          <div className='container'>
-            <section className='book-status-container'>
-              <div className='img-container'>
-                <BookPreview imageRoute={book?.images} />
+      )}
+      <main className={!isBookDataLoadingError ? 'main' : 'main close'}>
+        <div className='container'>
+          <section className='book-status-container'>
+            <div className='img-container'>
+              <BookPreview imageRoute={book?.images} />
+            </div>
+            <div className='books-description'>
+              <h3 className='books-title'>{book?.title}</h3>
+              <div className='books-author'>{book?.authors[0]}</div>
+              <div className='booked-button-section'>
+                <button type='button'>Забронировать</button>
               </div>
-              <div className='books-description'>
-                <h3 className='books-title'>{book?.title}</h3>
-                <div className='books-author'>{book?.authors[0]}</div>
-                <div className='booked-button-section'>
-                  <button type='button'>Забронировать</button>
-                </div>
-              </div>
-              <div className='about-book'>
-                <div className='title'>О книге</div>
-                <p>{book?.description}</p>
-              </div>
-            </section>
-            <section className='rating-section'>
-              <div className='title'>Rating</div>
-              <div className='rating-container'>
-                <Raiting rating={book?.rating} />
-                <span className='rating-count'>{book?.rating}</span>
-              </div>
-            </section>
-            <section className='detailed-information'>
-              <div className='title'>Подробная информация</div>
-              <DetailedInfoBlock book={book} />
-            </section>
-            <section className='rewiews'>
-              <div className='title'>
-                <span>Отзывы</span> <span className='rewiews-count'>{book?.comments ? book.comments.length : ''}</span>
-                <span
-                  data-test-id='button-hide-reviews'
-                  className='switch-icon'
-                  onClick={() => setIsCommentsBlockOpen(!isCommentsBlockOpen)}
-                  role='presentation'
-                >
-                  {isCommentsBlockOpen ? <SwitchIconDown /> : <SwitchIconUp />}
-                </span>
-              </div>
-              <div className={classNames('rewiews-list', { closed: !isCommentsBlockOpen })}>
-                {book?.comments &&
-                  book.comments.map((comment) => (
-                    <div className='comment-content' key={comment.id}>
-                      <div className='user-logo'>
-                        <img src={userLogo} alt='user-logo' />
-                        <div className='user-info'>
-                          <span>
-                            {comment.user.firstName}
-                            {comment.user.lastName}
-                          </span>
-                          <span>{comment.createdAt}</span>
-                        </div>
+            </div>
+            <div className='about-book'>
+              <div className='title'>О книге</div>
+              <p>{book?.description}</p>
+            </div>
+          </section>
+          <section className='rating-section'>
+            <div className='title'>Rating</div>
+            <div className='rating-container'>
+              <Raiting rating={book?.rating} />
+              <span className='rating-count'>{book?.rating}</span>
+            </div>
+          </section>
+          <section className='detailed-information'>
+            <div className='title'>Подробная информация</div>
+            <DetailedInfoBlock book={book} />
+          </section>
+          <section className='rewiews'>
+            <div className='title'>
+              <span>Отзывы</span> <span className='rewiews-count'>{book?.comments ? book.comments.length : ''}</span>
+              <span
+                data-test-id='button-hide-reviews'
+                className='switch-icon'
+                onClick={() => setIsCommentsBlockOpen(!isCommentsBlockOpen)}
+                role='presentation'
+              >
+                {isCommentsBlockOpen ? <SwitchIconDown /> : <SwitchIconUp />}
+              </span>
+            </div>
+            <div className={classNames('rewiews-list', { closed: !isCommentsBlockOpen })}>
+              {book?.comments &&
+                book.comments.map((comment) => (
+                  <div className='comment-content' key={comment.id}>
+                    <div className='user-logo'>
+                      <img src={userLogo} alt='user-logo' />
+                      <div className='user-info'>
+                        <span>
+                          {comment.user.firstName}
+                          {comment.user.lastName}
+                        </span>
+                        <span>{comment.createdAt}</span>
                       </div>
-                      <div className='user-rating'>
-                        <Raiting />
-                      </div>
-                      {comment && <div className='comment-text'>{comment.text}</div>}
                     </div>
-                  ))}
-              </div>
-            </section>
-            <section className='estimation-block'>
-              <button data-test-id='button-rating' type='button' className='estimate-button'>
-                Оценить
-              </button>
-            </section>
-          </div>
-        </main>
-      
+                    <div className='user-rating'>
+                      <Raiting />
+                    </div>
+                    {comment && <div className='comment-text'>{comment.text}</div>}
+                  </div>
+                ))}
+            </div>
+          </section>
+          <section className='estimation-block'>
+            <button data-test-id='button-rating' type='button' className='estimate-button'>
+              Оценить
+            </button>
+          </section>
+        </div>
+      </main>
     </div>
   );
 };

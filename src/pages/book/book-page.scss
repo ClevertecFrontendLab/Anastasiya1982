@@ -75,6 +75,10 @@ $imgMainHeigt: 593px;
         width: 100%;
         display: flex;
         justify-content: center;
+
+     &.close{
+        visibility: hidden;
+     }   
     
         .container {
             max-width: 1110px;
@@ -96,6 +100,7 @@ $imgMainHeigt: 593px;
             }
         }
     }
+
 
     .book-status-container {
         width: 100%;
