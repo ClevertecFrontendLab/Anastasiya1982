@@ -3,19 +3,22 @@ import { useSelector } from 'react-redux';
 
 import { Outlet } from 'react-router-dom';
 import { Header } from '../../../components/header';
-import { ModalPopup } from '../../../components/modal-popup/modal-popup';
-import { ToastModal } from '../../../components/toast-modal/toast-modal';
 import { Footer } from '../../../components/footer';
 import { Loader } from '../../../components/loader/loader';
+// import { getBooksDataAsync, getCategoriesDataAsync } from '../../../store/books-reducer';
 
 import './layout.scss';
 
 export const Layout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+//   const dispatch = useDispatch();
 
   const isDataLoading = useSelector((store) => store.books.setIsDataLoading);
 
-  const categoriesLoadingError = useSelector((store) => store.books.categoriesDataError);
+//   useEffect(() => {
+//     // dispatch(getCategoriesDataAsync());
+//     dispatch(getBooksDataAsync());   
+//   }, [dispatch]);
 
   useEffect(() => {
     if (isMenuOpen) {

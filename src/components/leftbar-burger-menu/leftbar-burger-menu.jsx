@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
-import { categories } from '../../constants/categoreis';
 import { ReactComponent as IconDown } from '../../assets/Icon_Chevron.svg';
 import { ReactComponent as IconUp } from '../../assets/icon-up-leftbar.svg';
+import { getCategoriesDataAsync } from '../../store/books-reducer'; 
 
 import './leftbar-burger-menu.scss';
 
@@ -15,10 +15,17 @@ export const LeftBarBurgerMenu= ({ isMenuOpen, setIsMenuOpen }) => {
 
   const categories = useSelector((store) => store.books.categoriesData);
   const booksLoadingError = useSelector((store) => store.books.booksDataError);
+  const dispatch=useDispatch()
 
   const location = useLocation();
   const menuRef = useRef(null);
 
+  useEffect(()=>{
+    if (!categories) {
+      dispatch(getCategoriesDataAsync());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[categories]);
 
   useEffect(() => {
     if (location.pathname === '/books/terms' || location.pathname === '/books/contract') {
@@ -33,6 +40,12 @@ export const LeftBarBurgerMenu= ({ isMenuOpen, setIsMenuOpen }) => {
     e.stopPropagation();
     setIsMenuOpen(false) //
   };
+
+   useEffect(() => {
+     if (booksLoadingError) {
+       setIsShowcaseOfBooksOpen(false);
+     }
+   }, [booksLoadingError, isShowcaseOfBooksOpen]);
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
@@ -51,17 +64,15 @@ export const LeftBarBurgerMenu= ({ isMenuOpen, setIsMenuOpen }) => {
     };
   }, [isMenuOpen, setIsMenuOpen]);
 
-  useEffect(() => {
-    if (booksLoadingError) {
-      setIsShowcaseOfBooksOpen(false);
-    }
-  }, [booksLoadingError, isShowcaseOfBooksOpen]);
 
  
   return (
     <div
       data-test-id='burger-navigation'
-      className={classNames('leftbar-burger-menu', { visible: isMenuOpen, closeBookLsts: isMenuOpen && !isShowcaseOfBooksOpen })}
+      className={classNames('leftbar-burger-menu', {
+        visible: isMenuOpen,
+        closeBookLsts: isMenuOpen && !isShowcaseOfBooksOpen,
+      })}
       ref={menuRef}
       role='presentation'
     >
@@ -82,22 +93,23 @@ export const LeftBarBurgerMenu= ({ isMenuOpen, setIsMenuOpen }) => {
         </h5>
       </NavLink>
       <div className={isShowcaseOfBooksOpen ? 'categories-list' : 'categories-list closed'}>
-        {categories.map((category) => (
-          <NavLink
-            data-test-id='burger-books'
-            key={category.id}
-            to={`/books/${category.link}`}
-            className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
-            onClick={handleClick}
-          >
-            <div key={category.id} className='category-item'>
-              <div className='category-name'>
-                {category.category}
-                <span className='count'>{category.count}</span>
+        {categories &&
+          categories.map((category) => (
+            <NavLink
+              data-test-id='burger-books'
+              key={category?.id}
+              to={`/books/${category?.path}`}
+              className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
+              onClick={handleClick}
+            >
+              <div key={category?.id} className='category-item'>
+                <div className='category-name'>
+                  {category?.name}
+                  <span className='count'>{8}</span>
+                </div>
               </div>
-            </div>
-          </NavLink>
-        ))}
+            </NavLink>
+          ))}
       </div>
 
       <div className='terms-block'>

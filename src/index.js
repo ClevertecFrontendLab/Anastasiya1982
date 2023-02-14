@@ -10,13 +10,11 @@ import { MainPage } from './pages/main';
 import { TermsPage } from './pages/terms';
 import { ViewCardsContextProvider } from './context/view-cards-context';
 
-import {store} from './store';
-
+import { store } from './store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Provider store={store}>
-    <React.StrictMode>
+  <Provider store={store}>   
       <ViewCardsContextProvider>
         <HashRouter>
           <Routes>
@@ -32,7 +30,6 @@ root.render(
             </Route>
           </Routes>
         </HashRouter>
-      </ViewCardsContextProvider>
-    </React.StrictMode>
+      </ViewCardsContextProvider>   
   </Provider>
 );

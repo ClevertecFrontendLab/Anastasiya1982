@@ -6,6 +6,7 @@ $imgMainHeigt: 593px;
 
 .book-page {
     width: 100%;
+    
 
     .book-page-header {
         width: 100%;
@@ -16,6 +17,7 @@ $imgMainHeigt: 593px;
         display: flex;
         align-items: center;
         justify-content: center;
+        
 
         @include tablet {
             height: 88px;
@@ -43,6 +45,7 @@ $imgMainHeigt: 593px;
             line-height: 18px;
             letter-spacing: 0.1px;
             color: #a7a7a7;
+            position: relative;
 
             @include tablet {
                 max-width: 640px;
@@ -72,7 +75,7 @@ $imgMainHeigt: 593px;
         width: 100%;
         display: flex;
         justify-content: center;
-
+    
         .container {
             max-width: 1110px;
             width: 100%;
@@ -354,6 +357,7 @@ $imgMainHeigt: 593px;
     .rewiews {
         max-width: 750px;
         width: 100%;
+        margin-top: 50px;
 
         .title {
             @extend h5;

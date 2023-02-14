@@ -8,6 +8,7 @@ const initialState = {
   currentBook: null,
   categoriesData: [],
   categoriesDataError: null,
+  currentCategory: null,
 };
 
 export const booksSlice = createSlice({
@@ -32,38 +33,56 @@ export const booksSlice = createSlice({
     setCategoriesDataError: (state, action) => {
       state.categoriesDataError = action.payload;
     },
+    setCurrentCategory: (state, action) => {
+      state.currentCategory = action.payload;
+    },
   },
   /* eslint-enable no-param-reassign */
 });
 
-export const { setBooksData, setIsDataLoading, setBooksDataError, setCategoriesData, setCategoriesDataError } =
-  booksSlice.actions;
+export const {
+  setBooksData,
+  setIsDataLoading,
+  setBooksDataError,
+  setCategoriesData,
+  setCategoriesDataError,
+  setCurrentCategory,
+} = booksSlice.actions;
 export const booksReducer = booksSlice.reducer;
 
 // thunks
 
+// Get Categories
+
+export const getCategoriesDataAsync = () => async (dispatch) => {
+setIsDataLoading(true)
+  try {
+    const response = await axiosInstance.get('categories');
+    if (response) {
+      dispatch(setCategoriesData(response.data));
+    } else if (response.status === 404) {
+      dispatch(setBooksDataError({ name: 'error 404' }));
+    }
+  } catch (error) {
+    dispatch(setBooksDataError(error.response.data.error));
+  }
+  setIsDataLoading(false)
+};
+
+  
 export const getBooksDataAsync = () => async (dispatch) => {
   dispatch(setIsDataLoading(true));
   try {
     const response = await axiosInstance.get('books');
-    dispatch(setBooksData(response.data));
+    if (response) {
+      dispatch(setBooksData(response.data));
+    } else {
+      dispatch(setBooksDataError({ name: 'error 404' }));      
+    }
   } catch (error) {
     dispatch(setBooksDataError(error.response.data.error));
+    dispatch(setIsDataLoading(false));
   }
   dispatch(setIsDataLoading(false));
 };
 
-// Categories
-
-export const getCategoriesDataAsync = () => async (dispatch) => {
-  dispatch(setIsDataLoading(true));
-  try {
-    const response = await axiosInstance.get('categories');
-
-    dispatch(setCategoriesData(response.data));
-  } catch (error) {
-    dispatch(setCategoriesDataError(error.response.data.error))
-    
-  }
-  dispatch(setIsDataLoading(false));
-};

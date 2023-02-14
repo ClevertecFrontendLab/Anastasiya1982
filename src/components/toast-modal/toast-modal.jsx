@@ -10,7 +10,9 @@ export const messageType = {
   error: 'error',
 };
 
-export const ToastModal = ({ type, handleModal }) => {
+export const ToastModal = ({ type, handleModal, isPopupOpen}) => {
+//   if (isPopupOpen) return null;
+
   const notificationContent =
     type === messageType.success
       ? 'Изменения успешно сохранены!'
@@ -24,17 +26,18 @@ export const ToastModal = ({ type, handleModal }) => {
   });
 
   return (
-    <div className={toastClasses} onClick={(e) => e.stopPropagation()} role='presentation' data-test-id='error'>
-      <div className='modal-content'>
-        {type === messageType.error && <img className='icon-warning' src={IconWarning} alt='icon-warning' />}
-        {type === messageType.success && <img className='icon-warning' src={IconSuccess} alt='icon-warning' />}
+    <div className='popup-container' onClick={(e) => e.stopPropagation()} role='presentation' data-test-id='error'>
+      <div className={toastClasses} role='presentation' data-test-id='error'>
+        <div className='modal-content'>
+          {type === messageType.error && <img className='icon-warning' src={IconWarning} alt='icon-warning' />}
+          {type === messageType.success && <img className='icon-warning' src={IconSuccess} alt='icon-warning' />}
+          <p>{notificationContent}</p>
+        </div>
 
-        <p>{notificationContent}</p>
+        <button className='close-mobile-button' type='button' onClick={handleModal}>
+          <CloseIcon />
+        </button>
       </div>
-
-      <button className='close-mobile-button' type='button' onClick={handleModal}>
-        <CloseIcon />
-      </button>
     </div>
   );
 };
