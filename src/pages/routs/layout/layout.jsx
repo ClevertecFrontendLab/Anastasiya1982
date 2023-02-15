@@ -5,23 +5,13 @@ import { Outlet } from 'react-router-dom';
 import { Header } from '../../../components/header';
 import { Footer } from '../../../components/footer';
 import { Loader } from '../../../components/loader/loader';
-// import { getBooksDataAsync, getCategoriesDataAsync } from '../../../store/books-reducer';
 
 import './layout.scss';
 
 export const Layout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-//   const dispatch = useDispatch();
 
   const isDataLoading = useSelector((store) => store.books.isDataLoading);
-  console.log('====================================');
-  console.log(isDataLoading);
-  console.log('====================================');
-
-//   useEffect(() => {
-//     // dispatch(getCategoriesDataAsync());
-//     dispatch(getBooksDataAsync());   
-//   }, [dispatch]);
 
   useEffect(() => {
     if (isMenuOpen) {

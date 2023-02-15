@@ -6,7 +6,28 @@
     gap: 6px;
     margin-bottom: 8px;
 
-    .active {
-        fill: rgba(255, 188, 31, 1);
+    .empty-star {
+        background-color: transparent;
+        border: none;
+        outline: none;        
+        color: rgba(255, 188, 31, 1);        
+        svg{
+            fill:white ;
+        }
+
     }
+
+    .active-star {
+        background-color: transparent;
+        border: none;
+        outline: none;        
+        color: rgba(255, 188, 31, 1);
+
+        svg{
+            fill:rgba(255, 188, 31, 1) ;
+        }
+
+    }
+
+  
 }
