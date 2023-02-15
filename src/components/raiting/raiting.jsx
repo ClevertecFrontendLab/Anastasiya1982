@@ -6,6 +6,10 @@ import './raiting.scss';
 export const Raiting = ({ rating }) => {
  const [activeStar, setActiveStar] = useState(-1);
 
+ if(!rating){
+    return <div className='raiting-container'> еще нет оценок</div>;
+ }
+
  const handleClick = (index) => {
    setActiveStar(index);
  };
@@ -14,6 +18,7 @@ export const Raiting = ({ rating }) => {
 
   return (
     <div className='raiting-container'>
+        
       {starArray.map((star) => (
         <button
           type='button'
