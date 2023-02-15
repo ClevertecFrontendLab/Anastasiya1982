@@ -1,0 +1,102 @@
+@import "../../styles.scss";
+
+.navbar {
+    max-width: 825px;
+    width: 100%;
+
+    @include tablet {
+        max-width: 640px;
+    }
+
+    @include mobile {
+        max-width: 288px;
+    }
+
+    .content {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .search-filter-block {
+            display: flex;
+            align-items: center;
+        }
+
+        .sorting-button {
+            height: 38px;
+            background: inherit;
+            border: none;
+            box-shadow: inset 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18),
+                0px 1px 5px rgba(191, 196, 201, 0.24);
+            border-radius: 599px;
+            color: #a7a7a7;
+            display: flex;
+            align-items: center;
+
+            @include iPad-portrate {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+            }
+
+            .sorting-asc-icon {
+                margin-right: 8px;
+                margin-left: 16px;
+                width: 16px;
+                height: 16px;
+
+                @include iPad-portrate {
+                    margin: 8px;
+                }
+            }
+
+            span {
+                @include body-small;
+                color: #a7a7a7;
+                display: inline-block;
+                margin-right: 16px;
+                white-space: nowrap;
+                text-align: center;
+
+                @include iPad-portrate {
+                    display: none;
+                }
+            }
+        }
+
+         .sorting-button.hide{
+            display: none;
+        }
+
+        .view-and-menu-block {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            .change-view-books {
+                @include icon-button;
+                margin-left: 16px;
+
+                &.active {
+                    background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+                    background: -moz-linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+                    background: -webkit-linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+
+                    svg {
+                        path {
+                            fill: $main-white;
+                        }
+                    }
+                }
+            }
+        }
+        .hide {
+            display: none;
+
+            button {
+                display: none;
+            }
+        }
+    }
+}

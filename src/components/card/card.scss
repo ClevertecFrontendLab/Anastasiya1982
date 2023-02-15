@@ -1,0 +1,349 @@
+@import "../../styles.scss";
+
+.card-content-view-window {
+    width: 190px;
+    height: 470px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px;
+    box-shadow: 0px 1px 5px 0px rgba(191, 196, 201, 0.24), 0px 3px 4px 0px rgba(191, 196, 201, 0.18),
+        0px 2px 4px 0px rgba(191, 196, 201, 0.2);
+    border-radius: 10px;
+    border: none;
+
+    @include landscape {
+        width: 288px;
+        height: 470px;
+        padding: 8px 16px;
+    }
+
+    .img-container {
+        border: 1px solid rgba(167, 167, 167, 1);
+        height: 242px;
+        width: 174px;
+        border-radius: 10px;
+        background: #f9f9fa;
+        margin-bottom: 16px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        card-image {
+            display: block;
+        }
+
+        .card-image.close {
+            display: none;
+        }
+
+        .loader {
+            display: block;
+        }
+        .loader.hidden {
+            display: none;
+        }
+    }
+
+    .card-desciption {
+        width: 100%;
+    }
+
+    .raiting-block {
+        width: 100%;
+    }
+
+    .no-rating-content {
+        width: 100%;
+        height: 19px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 18px;
+        letter-spacing: 0.1px;
+        color: #a7a7a7;
+        margin-bottom: 19px;
+    }
+
+    .card-title {
+        width: 100%;
+        height: 54px;
+        margin-bottom: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        h4 {
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 18px;
+            color: $main-dark;
+            width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* number of lines to show */
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        @include mobile {
+            margin-bottom: 8px;
+        }
+    }
+
+    .card-author {
+        width: 100%;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 18px;
+        color: #727272;
+        margin-bottom: 28px;
+        text-align: start;
+    }
+
+    .submit-block {
+        width: 166px;
+        height: 40px;
+        background: transparent;
+
+        .primary {
+            @include button-primary;
+        }
+
+        .secondary {
+            @include button-secondary;
+            background: #f9f9fa;
+            border: 1px solid #bfc4c9;
+            border-radius: 30px;
+            color: rgba(167, 167, 167, 1);
+        }
+
+        @include mobile {
+            width: 256px;
+        }
+    }
+}
+
+/*----List View Card*----*/
+
+.card-content-view-list {
+    max-width: 825px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 24px 24px 24px 16px;
+    gap: 16px;
+    background: #ffffff;
+    box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18),
+        0px 1px 5px rgba(191, 196, 201, 0.24);
+    border-radius: 12px;
+
+    @include tablet {
+        max-width: 640px;
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        padding: 16px 24px 16px 16px;
+    }
+
+    @include iPad-portrate {
+        height: auto;
+        padding: 16px 16px 16px 8px;
+        border-radius: 10px;
+        gap: 8px;
+        padding: 12px 16px 16px 8px;
+    }
+
+    .img-container {
+        max-width: 120px;
+        min-width: 120px;
+        width: 100%;
+        height: 170px;
+        border: 1px solid #a7a7a7;
+        border-radius: 3px;
+
+        @include mobile {
+            max-width: 70px;
+            min-width: 70px;
+            width: 100%;
+            height: 100px;
+        }
+
+        img {
+            width: auto;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+    }
+
+    .card-desciption {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        justify-content: flex-start;
+
+        @include tablet {
+            position: relative;
+        }
+        @include iPad-portrate {
+            position: static;
+        }
+
+        @include mobile {
+            position: static;
+        }
+    }
+
+    .raiting-block {
+        width: 100%;
+        order: 3;
+        margin-top: 24px;
+        height: 40px;
+        position: absolute;
+        bottom: 0;
+
+        @include tablet {
+            bottom: 0%;
+        }
+
+        @include iPad-portrate {
+            margin: 0;
+            position: static;
+            height: 16px;
+            width: 104px;
+            margin-bottom: 20px;
+        }
+
+        .no-rating-content {
+            color: #a7a7a7;
+            font-size: 12px;
+
+            @mixin mobile {
+                font-weight: 400;
+                font-size: 12px;
+            }
+        }
+    }
+
+    .card-title {
+        order: 1;
+        max-width: 650px;
+        width: 100%;
+        margin-bottom: 8px;
+        color: $main-dark;
+
+        @include mobile {
+            height: auto;
+            margin-bottom: 3px;
+        }
+
+        h4 {
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 32px;
+
+            @include tablet {
+                line-height: 30px;
+            }
+
+            @include iPad-portrate {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 3; /* number of lines to show */
+                line-clamp: 3; /* количество строк */
+                -webkit-box-orient: vertical;
+                line-height: 25px;
+            }
+
+            @include landscape {
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 18px;
+                letter-spacing: 0.1px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 3; /* number of lines to show */
+                line-clamp: 3; /* количество строк */
+                -webkit-box-orient: vertical;
+                line-height: 18px;
+            }
+        }
+    }
+
+    .card-author {
+        order: 2;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.1px;
+        color: #727272;
+        margin-bottom: 40px;
+        word-wrap: wrap;
+
+        @include tablet {
+            margin-bottom: 50px;
+            overflow-wrap: break-word;
+        }
+
+        @include iPad-portrate {
+            margin-bottom: 4px;
+        }
+        @include mobile {
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 18px;
+            overflow-wrap: break-word;
+            margin-bottom: 4px;
+        }
+    }
+    .submit-block {
+        order: 4;
+        width: 174px;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+
+        @include tablet {
+            bottom: 0;
+        }
+
+        @include iPad-portrate {
+            position: static;
+        }
+
+        @include mobile {
+            position: static;
+            margin-top: 18px;
+        }
+
+        .primary {
+            @include button-primary;
+            width: 174px;
+        }
+
+        .secondary {
+            @include button-secondary;
+            width: 174px;
+            background: #f9f9fa;
+            border: 1px solid #bfc4c9;
+            border-radius: 30px;
+            color: rgba(167, 167, 167, 1);
+        }
+
+        @include mobile {
+            width: 186px;
+            .primary {
+                width: 100%;
+            }
+        }
+    }
+}

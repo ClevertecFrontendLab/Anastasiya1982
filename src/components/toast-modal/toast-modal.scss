@@ -1,0 +1,91 @@
+@import "../../styles.scss";
+
+.popup-container {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: transparent;
+    display: flex;
+    justify-content: center;   
+}
+
+.modal {
+    max-width: 1110px;
+    width: 91%;
+    min-height: 80px;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 36px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.1px;
+    color: #363636;
+    z-index: 50;
+
+    @include tablet {
+        max-width: 640px;
+    }
+
+    @include iPad-portrate {
+       min-height: 78px;
+       padding: 12px;
+    }
+
+    .close-mobile-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        margin-right: 5px;
+        color: #363636;
+    }
+
+    &.error {
+        background: #feebea;
+        border: 1.5px solid #f42c4f;
+        border-radius: 5px;
+
+        .close-mobile-button {
+            &:hover {
+                -webkit-transition: color 1s;
+                transition: color 1s;
+                color: #f42c4f;
+            }
+        }
+    }
+
+    &.success {
+        background: #ebf9f1;
+        border: 1.5px solid #00ca71;
+        border-radius: 5px;
+
+        .close-mobile-button {
+            &:hover {
+                -webkit-transition: color 1s;
+                transition: color 1s;
+                color: #00ca71;
+            }
+        }
+    }
+
+    .modal-content {
+        width: 80%;
+        display: flex;
+        align-items: center;
+    }
+
+    .icon-warning {
+        width: 24px;
+        height: 24px;
+        margin-right: 28px;
+    }
+}

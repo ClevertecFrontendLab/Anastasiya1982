@@ -1,0 +1,102 @@
+@import "../../styles.scss";
+
+.search-input {
+    width: 350px;
+    height: 38px;
+    margin-right: 16px;
+    display: inline-flex;
+    position: relative;
+
+    @include tablet {
+        width: 280px;
+    }
+
+    @include iPad-portrate {
+        display: none;
+
+        &.open {
+            display: inline-flex;
+            width: 280px;
+        }
+    }
+
+    .search-icon {
+        position: absolute;
+        top: 12px;
+        left: 14px;
+        order: -1;
+    }
+
+    .clear-icon {
+        display: none;
+        position: absolute;
+        top: 12px;
+        right: 12px;
+
+        &.visible {
+            display: block;
+        }
+    }
+
+    .search-block-input {
+        @include search-input;
+        width: 100%;
+
+        @include tablet {
+            width: 274px;
+        }
+
+        @include iPad-portrate {
+            width: 280px;
+
+            &::placeholder {
+                color: transparent;
+            }
+            &::-webkit-input-placeholder {
+                color: transparent;
+            }
+
+            &::-moz-placeholder {
+                /* Firefox 18- */
+                color: transparent;
+            }
+
+            &::-moz-placeholder {
+                /* Firefox 19+ */
+                color: transparent;
+            }
+        }
+
+        &:focus {
+            padding-left: 16px;
+        }
+    }
+
+    .search-block-input:focus + .search-icon {
+        /* стили для иконки при фокусе поля */
+        display: none;
+    }
+}
+
+.search-input-mobile-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 599px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0px 2px 4px rgb(191 196 201 / 20%), 0px 3px 4px rgb(191 196 201 / 18%),
+        0px 1px 5px rgb(191 196 201 / 24%);
+    border: none;
+    background: #ffffff;
+    display: none;
+    margin-right: 16px;
+
+    @include iPad-portrate {
+        display: flex;
+
+        &.close {
+            display: none;
+        }
+    }
+}

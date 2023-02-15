@@ -1,0 +1,1 @@
+import {DetailedInfoBlock} from './detailed-info';

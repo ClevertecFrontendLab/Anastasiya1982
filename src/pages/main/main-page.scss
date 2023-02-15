@@ -1,0 +1,58 @@
+@import "../../styles.scss";
+
+.main-page {
+    max-width: 825px;
+    width: 100%;
+    margin-bottom: 62px;
+
+    @include tablet {
+        max-width: 640px;
+    }
+
+    @include mobile {
+        max-width: 288px;
+        width: 100%;
+    }
+
+    .cards-container-window {
+        width: 100%;
+        margin-top: 32px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 21.5px;
+
+        @include tablet {
+            margin-top: 20px;
+            gap: 35px;
+        }
+
+        @include mobile {
+            flex-direction: column;
+            gap: 16px;
+        }
+    }
+
+    .cards-container-list {
+        width: 100%;
+        margin-top: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        @include tablet {
+            max-width: 640px;
+            width: 100%;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        @include mobile {
+            max-width: 288px;
+            flex-direction: column;
+            column-gap: 16px;
+        }
+    }
+}

@@ -1,0 +1,16 @@
+@import "../../../styles.scss";
+
+.layout-main-page {
+    display: flex;
+    margin: 0 50px;
+    max-width: 1110px;
+    width: 100%;
+
+    @include tablet {
+        max-width: 640px;
+    }
+
+    @include mobile {
+        max-width: 288px;
+    }
+}

@@ -1,0 +1,33 @@
+.raiting-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    margin-bottom: 8px;
+
+    .empty-star {
+        background-color: transparent;
+        border: none;
+        outline: none;        
+        color: rgba(255, 188, 31, 1);        
+        svg{
+            fill:white ;
+        }
+
+    }
+
+    .active-star {
+        background-color: transparent;
+        border: none;
+        outline: none;        
+        color: rgba(255, 188, 31, 1);
+
+        svg{
+            fill:rgba(255, 188, 31, 1) ;
+        }
+
+    }
+
+  
+}

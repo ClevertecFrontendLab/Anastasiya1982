@@ -1,0 +1,58 @@
+@import '../../styles.scss';
+
+.terms-page {  
+     h3 {
+    @include mobile {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 28px;
+      letter-spacing: 0.1px;
+      color: #363636;
+    }
+  }
+   
+  .terms-content {
+    margin:32px 0 62px;
+    width: 100%;
+     
+     @include tablet{
+        margin-top: 30px;
+    }
+    
+     @include mobile{
+        margin: 24px 0px;
+    }
+  }
+
+  .terms-article {
+    .article-title {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0.1px;
+      color: $main-dark;
+
+      .subtitle {
+        @include body-large;
+        margin:16px 0px 32px 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 16px;
+
+        li {
+          @include body-large;
+          display: block;
+          text-align: justify;
+        }
+        .subtitle-list{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 16px;
+        margin-left: 30px;
+        }
+      }
+    }
+  }
+}
