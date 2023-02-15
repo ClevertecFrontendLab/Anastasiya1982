@@ -39,7 +39,8 @@ export const getBookDataAsync = (id) => async (dispatch) => {
   } catch (error) {
     // handle error
     if (error.response.status === 400) {
-      // handle bad request error...
+      dispatch(setBookDataError({ name: 'bad request', status: 400 }));
+      dispatch(setIsBookDataLoading(false));
     } else if (error.response.status === 404) {
       // handle not found error...
       dispatch(setBookDataError({ name: 'not found error', status: 404 }));

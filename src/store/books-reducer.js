@@ -55,34 +55,39 @@ export const booksReducer = booksSlice.reducer;
 // Get Categories
 
 export const getCategoriesDataAsync = () => async (dispatch) => {
-setIsDataLoading(true)
+  setIsDataLoading(true);
   try {
     const response = await axiosInstance.get('categories');
-    if (response) {
-      dispatch(setCategoriesData(response.data));
-    } else if (response.status === 404) {
-      dispatch(setBooksDataError({ name: 'error 404' }));
-    }
+    dispatch(setCategoriesData(response.data));
+    dispatch(setIsDataLoading(false));
   } catch (error) {
-    dispatch(setBooksDataError(error.response.data.error));
+    // handle error
+    if (error.response.status === 400) {
+      dispatch(setBooksDataError({ name: 'bad request', status: 400 }));
+      dispatch(setIsDataLoading(false));
+    } else if (error.response.status === 404) {
+      // handle not found error...
+      dispatch(setBooksDataError({ name: 'not found error', status: 404 }));
+      dispatch(setIsDataLoading(false));
+    }
   }
-  setIsDataLoading(false)
 };
 
-  
 export const getBooksDataAsync = () => async (dispatch) => {
   dispatch(setIsDataLoading(true));
   try {
     const response = await axiosInstance.get('books');
-    if (response) {
-      dispatch(setBooksData(response.data));
-    } else {
-      dispatch(setBooksDataError({ name: 'error 404' }));      
-    }
-  } catch (error) {
-    dispatch(setBooksDataError(error.response.data.error));
+    dispatch(setBooksData(response.data));
     dispatch(setIsDataLoading(false));
+  } catch (error) {
+    // handle error
+    if (error.response.status === 400) {
+      dispatch(setBooksDataError({ name: 'bad request', status: 400 }));
+      dispatch(setIsDataLoading(false));
+    } else if (error.response.status === 404) {
+      // handle not found error...
+      dispatch(setBooksDataError({ name: 'not found error', status: 404 }));
+      dispatch(setIsDataLoading(false));
+    }
   }
-  dispatch(setIsDataLoading(false));
 };
-

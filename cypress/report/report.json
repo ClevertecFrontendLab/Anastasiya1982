@@ -2,14 +2,14 @@
   "stats": {
     "suites": 5,
     "tests": 4,
-    "passes": 3,
+    "passes": 4,
     "pending": 0,
-    "failures": 1,
-    "start": "2023-02-14T20:13:31.312Z",
-    "end": "2023-02-14T20:13:53.695Z",
-    "duration": 22383,
+    "failures": 0,
+    "start": "2023-02-15T05:53:28.488Z",
+    "end": "2023-02-15T05:53:46.798Z",
+    "duration": 18310,
     "testsRegistered": 4,
-    "passPercent": 75,
+    "passPercent": 100,
     "pendingPercent": 0,
     "other": 0,
     "hasOther": false,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "64488528-f7bb-4663-926d-3ebc2c3997a4",
+      "uuid": "bc3c10e5-cd7e-4a1c-b283-90ea6efb61fb",
       "title": "",
       "fullFile": "cypress\\e2e\\sprint3.cy.js",
       "file": "cypress\\e2e\\sprint3.cy.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "ac4a732f-01e7-4aef-a0b5-132d03782531",
+          "uuid": "a09cbdd2-6ce7-4425-af8c-5c464e981438",
           "title": "Get books test",
           "fullFile": "",
           "file": "",
@@ -36,7 +36,7 @@
           "tests": [],
           "suites": [
             {
-              "uuid": "8e075b7b-8c4f-4736-94ae-8c571adf7a36",
+              "uuid": "39460a8e-fd38-45c7-97db-66ae9ee15272",
               "title": "getCategoriesAndBooks",
               "fullFile": "",
               "file": "",
@@ -47,7 +47,7 @@
                   "title": "categories-loading",
                   "fullTitle": "Get books test getCategoriesAndBooks categories-loading",
                   "timedOut": null,
-                  "duration": 11474,
+                  "duration": 10602,
                   "state": "passed",
                   "speed": "slow",
                   "pass": true,
@@ -56,26 +56,26 @@
                   "context": null,
                   "code": "cy.visit(`http://localhost:3000`);\ncy.get('[data-test-id=loader]').should('be.exist');\ncy.get('[data-test-id=app]').wait(60).screenshot('main-loading');\ncy.wait('@get-categories-success');\ncy.wait('@get-books-success');\ncy.get('[data-test-id=card]').eq(137).should('be.exist');\ncy.get('[data-test-id=app]').screenshot('app-sucess', {\n  clip: {\n    x: 0,\n    y: 0,\n    width: 1440,\n    height: 950\n  }\n});",
                   "err": {},
-                  "uuid": "3968d008-7269-4c84-aec9-aa8391ff3685",
-                  "parentUUID": "8e075b7b-8c4f-4736-94ae-8c571adf7a36",
+                  "uuid": "c3d4a3f3-37e9-4448-9d8d-eed977a45475",
+                  "parentUUID": "39460a8e-fd38-45c7-97db-66ae9ee15272",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "3968d008-7269-4c84-aec9-aa8391ff3685"
+                "c3d4a3f3-37e9-4448-9d8d-eed977a45475"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 11474,
+              "duration": 10602,
               "root": false,
               "rootEmpty": false,
               "_timeout": 2000
             },
             {
-              "uuid": "a1001548-0024-49fb-b9f5-2eb15ab5dab1",
+              "uuid": "755fc5ec-3b29-4c62-8c69-a95437c32a92",
               "title": "getSuccessBookId",
               "fullFile": "",
               "file": "",
@@ -86,7 +86,7 @@
                   "title": "bookId-success",
                   "fullTitle": "Get books test getSuccessBookId bookId-success",
                   "timedOut": null,
-                  "duration": 3169,
+                  "duration": 1929,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -95,26 +95,26 @@
                   "context": null,
                   "code": "cy.visit(`http://localhost:3000/#/books/all/2`);\ncy.get('[data-test-id=loader]').should('be.exist');\ncy.get('[data-test-id=app]').wait(60).screenshot('bookId-loading');\ncy.wait('@get-books-success-id');\ncy.get('[data-test-id=app]').screenshot('bookId-sucess');",
                   "err": {},
-                  "uuid": "e96db537-1065-451a-9074-9593f6ebb084",
-                  "parentUUID": "a1001548-0024-49fb-b9f5-2eb15ab5dab1",
+                  "uuid": "1918c9a3-e874-4630-b156-30e5814858df",
+                  "parentUUID": "755fc5ec-3b29-4c62-8c69-a95437c32a92",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "e96db537-1065-451a-9074-9593f6ebb084"
+                "1918c9a3-e874-4630-b156-30e5814858df"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 3169,
+              "duration": 1929,
               "root": false,
               "rootEmpty": false,
               "_timeout": 2000
             },
             {
-              "uuid": "2432c44a-d054-4a8c-9239-8a22925c2aa4",
+              "uuid": "7ff95bd2-9927-4551-9bb4-d9e26d6a925d",
               "title": "ErrorMain",
               "fullFile": "",
               "file": "",
@@ -125,39 +125,35 @@
                   "title": "main-error",
                   "fullTitle": "Get books test ErrorMain main-error",
                   "timedOut": null,
-                  "duration": 4690,
-                  "state": "failed",
-                  "speed": null,
-                  "pass": false,
-                  "fail": true,
+                  "duration": 1056,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
                   "pending": false,
                   "context": null,
                   "code": "cy.visit(`http://localhost:3000`);\ncy.wait('@get-categories-error');\ncy.wait('@get-books-error');\ncy.get('[data-test-id=error]').should('be.exist');\ncy.get('[data-test-id=app]').screenshot('categories-error');",
-                  "err": {
-                    "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-test-id=error]`, but never found it.",
-                    "estack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-test-id=error]`, but never found it.\n    at Context.eval (webpack:///./cypress/e2e/sprint3.cy.js:60:41)",
-                    "diff": null
-                  },
-                  "uuid": "91e58d53-6157-40e8-9216-f5fc0ae6f55f",
-                  "parentUUID": "2432c44a-d054-4a8c-9239-8a22925c2aa4",
+                  "err": {},
+                  "uuid": "a0b20ca4-c4f8-4649-93b0-91fbab6f972b",
+                  "parentUUID": "7ff95bd2-9927-4551-9bb4-d9e26d6a925d",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
-              "passes": [],
-              "failures": [
-                "91e58d53-6157-40e8-9216-f5fc0ae6f55f"
+              "passes": [
+                "a0b20ca4-c4f8-4649-93b0-91fbab6f972b"
               ],
+              "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 4690,
+              "duration": 1056,
               "root": false,
               "rootEmpty": false,
               "_timeout": 2000
             },
             {
-              "uuid": "8979c474-5dd6-46d6-a4f6-ff622232bdc7",
+              "uuid": "8f14f430-54ad-4d2d-8e38-1e3ee7c4359e",
               "title": "ErrorBookId",
               "fullFile": "",
               "file": "",
@@ -168,7 +164,7 @@
                   "title": "bookId-error",
                   "fullTitle": "Get books test ErrorBookId bookId-error",
                   "timedOut": null,
-                  "duration": 640,
+                  "duration": 1040,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -177,20 +173,20 @@
                   "context": null,
                   "code": "cy.visit(`http://localhost:3000/#/books/all/2`);\ncy.wait('@get-bookId-error');\ncy.get('[data-test-id=error]').should('be.exist');\ncy.get('[data-test-id=app]').screenshot('bookId-error');",
                   "err": {},
-                  "uuid": "a5159150-afba-4a65-bbb4-38604b1313e3",
-                  "parentUUID": "8979c474-5dd6-46d6-a4f6-ff622232bdc7",
+                  "uuid": "85ca5a15-848f-4c8f-ab26-eaea93dcaebe",
+                  "parentUUID": "8f14f430-54ad-4d2d-8e38-1e3ee7c4359e",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "a5159150-afba-4a65-bbb4-38604b1313e3"
+                "85ca5a15-848f-4c8f-ab26-eaea93dcaebe"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 640,
+              "duration": 1040,
               "root": false,
               "rootEmpty": false,
               "_timeout": 2000

@@ -11,7 +11,6 @@
 
 /*------BURGER MENU-----*/
 
-
 .leftbar-burger-menu {
     @extend .leftbar;
     display: flex;
@@ -21,7 +20,7 @@
     top: 90px;
     z-index: 10;
     max-width: 502px;
-    width: 100%;   
+    width: 100%;
     background: #f9f9fa;
     box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18),
         0px 1px 5px rgba(191, 196, 201, 0.24);
@@ -33,17 +32,21 @@
     max-height: 100vh;
     overflow-y: auto;
 
+    .burger-showcase {
+        margin: 32px 5px 0 32px;
+    }
+
     &.visible {
-        transform: translateX(0);  
-        visibility: visible; 
-        opacity: 1;    
+        transform: translateX(0);
+        visibility: visible;
+        opacity: 1;
     }
-    
-    &.closeBookLsts{
-       height: 400px;   
-       overflow: hidden;    
+
+    &.closeBookLsts {
+        height: 400px;
+        overflow: hidden;
     }
-    
+
     .header-of-leftbar {
         margin-bottom: 0px;
         padding-right: 10px;
@@ -121,12 +124,12 @@
         }
 
         .categories-list.closed {
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0s, visibility 0s linear 0.3s;
-        z-index: -1;
-        height: 0px;
-    }
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0s, visibility 0s linear 0.3s;
+            z-index: -1;
+            height: 0px;
+        }
 
         .category-item {
             width: 100%;

@@ -76,7 +76,7 @@ export const LeftBarBurgerMenu= ({ isMenuOpen, setIsMenuOpen }) => {
       ref={menuRef}
       role='presentation'
     >
-      <NavLink to='/books/all' data-test-id='burger-showcase'>
+    <div className='burger-showcase' data-test-id='burger-showcase'>
         <h5 className={isHeaderActive ? 'header-of-leftbar' : 'header-of-leftbar simple'}>
           <span className='title'>Витрина книг</span>
           {isShowcaseOfBooksOpen ? (
@@ -91,7 +91,7 @@ export const LeftBarBurgerMenu= ({ isMenuOpen, setIsMenuOpen }) => {
             />
           )}
         </h5>
-      </NavLink>
+      </div>
       <div className={isShowcaseOfBooksOpen ? 'categories-list' : 'categories-list closed'}>
         {categories &&
           categories.map((category) => (
