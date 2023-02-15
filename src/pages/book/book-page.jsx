@@ -24,12 +24,10 @@ export const BookPage = () => {
   const book = useSelector((store) => store.bookData.bookData);
   const isBookDataLoading = useSelector((store) => store.bookData.isBookDataLoading);
   const isBookDataLoadingError = useSelector((store) => store.bookData.bookDataError);
- 
 
   useEffect(() => {
     dispatch(getBookDataAsync(booksId));
   }, [dispatch, booksId]);
- 
 
   useEffect(() => {
     if (isBookDataLoadingError) {

@@ -1,36 +1,39 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import { ReactComponent as IconDown } from '../../assets/Icon_Chevron.svg';
 import { ReactComponent as IconUp } from '../../assets/icon-up-leftbar.svg';
-import { getCategoriesDataAsync } from '../../store/books-reducer'; 
+import { getCategoriesDataAsync } from '../../store/books-reducer';
 
 import './leftbar-burger-menu.scss';
 
-
-export const LeftBarBurgerMenu= ({ isMenuOpen, setIsMenuOpen }) => {
+export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
   const [isHeaderActive, setIsHeaderActive] = useState(true);
   const [isShowcaseOfBooksOpen, setIsShowcaseOfBooksOpen] = useState(true);
 
   const categories = useSelector((store) => store.books.categoriesData);
   const booksLoadingError = useSelector((store) => store.books.booksDataError);
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
   const location = useLocation();
   const menuRef = useRef(null);
 
-  useEffect(()=>{
-    if (!categories) {
-      dispatch(getCategoriesDataAsync());
+  const fetchCategoruesList = useCallback(() => {
+    dispatch(getCategoriesDataAsync());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!categories.length) {
+      fetchCategoruesList();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[categories]);
+  }, []);
 
   useEffect(() => {
     if (location.pathname === '/books/terms' || location.pathname === '/books/contract') {
       setIsHeaderActive(false);
-      setIsShowcaseOfBooksOpen(false)
+      setIsShowcaseOfBooksOpen(false);
     } else {
       setIsHeaderActive(true);
     }
@@ -38,14 +41,14 @@ export const LeftBarBurgerMenu= ({ isMenuOpen, setIsMenuOpen }) => {
 
   const handleClick = (e) => {
     e.stopPropagation();
-    setIsMenuOpen(false) //
+    setIsMenuOpen(false); //
   };
 
-   useEffect(() => {
-     if (booksLoadingError) {
-       setIsShowcaseOfBooksOpen(false);
-     }
-   }, [booksLoadingError, isShowcaseOfBooksOpen]);
+  useEffect(() => {
+    if (booksLoadingError) {
+      setIsShowcaseOfBooksOpen(false);
+    }
+  }, [booksLoadingError, isShowcaseOfBooksOpen]);
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
@@ -64,8 +67,6 @@ export const LeftBarBurgerMenu= ({ isMenuOpen, setIsMenuOpen }) => {
     };
   }, [isMenuOpen, setIsMenuOpen]);
 
-
- 
   return (
     <div
       data-test-id='burger-navigation'
@@ -76,7 +77,7 @@ export const LeftBarBurgerMenu= ({ isMenuOpen, setIsMenuOpen }) => {
       ref={menuRef}
       role='presentation'
     >
-    <div className='burger-showcase' data-test-id='burger-showcase'>
+      <div className='burger-showcase' data-test-id='burger-showcase'>
         <h5 className={isHeaderActive ? 'header-of-leftbar' : 'header-of-leftbar simple'}>
           <span className='title'>Витрина книг</span>
           {isShowcaseOfBooksOpen ? (

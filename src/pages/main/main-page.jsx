@@ -15,7 +15,6 @@ export const MainPage = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const books = useSelector((store) => store.books.booksData);
   const booksLoadingError = useSelector((store) => store.books.booksDataError);
-  const categoriesLoadingError = useSelector((store) => store.books.categoriesDataError);
 
   const handleModal = () => {
     setIsPopupOpen(!isPopupOpen);
@@ -24,7 +23,6 @@ export const MainPage = () => {
   if (booksLoadingError) {
     return <ToastModal type='error' isPopupOpen={true} handleModal={handleModal} />;
   }
-
 
   return (
     <section className='main-page'>

@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-
+import { useState } from 'react';
+import classNames from 'classnames';
 import { Raiting } from '../raiting/raiting';
-import cardImg from '../../assets/card-image.png';
+import loaderImg from '../../assets/loader-image.gif';
 import defaultImg from '../../assets/default-card-image.png';
 
 import './card.scss';
@@ -10,6 +11,7 @@ const BASE_URL = 'https://strapi.cleverland.by';
 
 export const Card = ({ card, currentView }) => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleKeyDown = (ev) => {
     if (ev.keyCode === 13) {
@@ -17,17 +19,13 @@ export const Card = ({ card, currentView }) => {
     }
   };
 
-  const buttonStatus = card.booking === null ? 'Забронировать' : `Занята до ${22.04}`;
+  const buttonStatus = !card.booking ? 'Забронировать' : `Занята до ${22.04}`;
 
-  //    const buttonStatus =
-  //      !card.booking && card.bookedTill !== 'null'
-  //        ? `Занята до ${card.booking.date}`
-  //        : card.isBooked && card.bookedTill === 'null'
-  //        ? 'Забронировано'
-  //        : 'Забронировать';
- 
-const cardImageSrc=card.image ? `${BASE_URL}${card.image.url}` : defaultImg;
+  const cardImageSrc = card.image ? `${BASE_URL}${card.image.url}` : defaultImg;
 
+  console.log('====================================');
+  console.log(isLoading);
+  console.log('====================================');
   return (
     <div
       className={`card-content-${currentView}`}
@@ -44,7 +42,15 @@ const cardImageSrc=card.image ? `${BASE_URL}${card.image.url}` : defaultImg;
       tabIndex='0'
     >
       <div className='img-container'>
-        <img src={cardImageSrc} alt='card-img' />
+        <img
+          src={cardImageSrc}
+          alt='card-img'
+          onLoad={(e) => {
+            setIsLoading(false);
+          }}
+          className={classNames('card-image',{close:isLoading})}
+        />
+        <img src={loaderImg} alt='loader' className={classNames('loader',{hidden:!isLoading})} />
       </div>
       <div className='card-desciption'>
         <div className='raiting-block'>
@@ -60,7 +66,7 @@ const cardImageSrc=card.image ? `${BASE_URL}${card.image.url}` : defaultImg;
         </div>
         <div className='card-author'>{card.authors && card.authors[0]}</div>
         <div className='submit-block'>
-          <button type='button' className={card.booking === null ? 'primary' : 'secondary'}>
+          <button type='button' className={!card.booking ? 'primary' : 'secondary'}>
             {buttonStatus}
           </button>
         </div>
