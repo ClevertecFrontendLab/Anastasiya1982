@@ -13,7 +13,10 @@ export const Layout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 //   const dispatch = useDispatch();
 
-  const isDataLoading = useSelector((store) => store.books.setIsDataLoading);
+  const isDataLoading = useSelector((store) => store.books.isDataLoading);
+  console.log('====================================');
+  console.log(isDataLoading);
+  console.log('====================================');
 
 //   useEffect(() => {
 //     // dispatch(getCategoriesDataAsync());

@@ -1,5 +1,7 @@
+
 import { createSlice } from '@reduxjs/toolkit';
 import { axiosInstance } from '../shared/api/http-common';
+
 
 const initialState = {
   booksData: [],
@@ -9,6 +11,7 @@ const initialState = {
   categoriesData: [],
   categoriesDataError: null,
   currentCategory: null,
+  isCategoriesDataLoading: false,
 };
 
 export const booksSlice = createSlice({
@@ -20,7 +23,10 @@ export const booksSlice = createSlice({
       state.booksData = [...action.payload];
     },
     setIsDataLoading: (state, action) => {
-      state.setIsDataLoading = action.payload;
+      state.isDataLoading = action.payload;
+    },
+    setIsCategoriesDataLoading: (state, action) => {
+      state.isCategoriesDataLoading = action.payload;
     },
 
     setBooksDataError: (state, action) => {
@@ -47,6 +53,7 @@ export const {
   setCategoriesData,
   setCategoriesDataError,
   setCurrentCategory,
+  setIsCategoriesDataLoading,
 } = booksSlice.actions;
 export const booksReducer = booksSlice.reducer;
 
@@ -55,22 +62,22 @@ export const booksReducer = booksSlice.reducer;
 // Get Categories
 
 export const getCategoriesDataAsync = () => async (dispatch) => {
-  setIsDataLoading(true);
+  dispatch(setIsDataLoading(true));
   try {
     const response = await axiosInstance.get('categories');
     dispatch(setCategoriesData(response.data));
     dispatch(setIsDataLoading(false));
   } catch (error) {
     // handle error
-    if (error.response.status === 400) {
-      dispatch(setBooksDataError({ name: 'bad request', status: 400 }));
-      dispatch(setIsDataLoading(false));
+    if (error.response.status === 502) {
+      dispatch(setBooksDataError({ name: 'bad request', status: 502 }));
     } else if (error.response.status === 404) {
       // handle not found error...
       dispatch(setBooksDataError({ name: 'not found error', status: 404 }));
       dispatch(setIsDataLoading(false));
     }
   }
+  //    dispatch(setIsDataLoading(false));
 };
 
 export const getBooksDataAsync = () => async (dispatch) => {
@@ -81,8 +88,8 @@ export const getBooksDataAsync = () => async (dispatch) => {
     dispatch(setIsDataLoading(false));
   } catch (error) {
     // handle error
-    if (error.response.status === 400) {
-      dispatch(setBooksDataError({ name: 'bad request', status: 400 }));
+    if (error.response.status === 502) {
+      dispatch(setBooksDataError({ name: 'bad request', status: 502 }));
       dispatch(setIsDataLoading(false));
     } else if (error.response.status === 404) {
       // handle not found error...

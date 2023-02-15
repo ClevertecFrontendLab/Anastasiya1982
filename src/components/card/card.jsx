@@ -23,9 +23,6 @@ export const Card = ({ card, currentView }) => {
 
   const cardImageSrc = card.image ? `${BASE_URL}${card.image.url}` : defaultImg;
 
-  console.log('====================================');
-  console.log(isLoading);
-  console.log('====================================');
   return (
     <div
       className={`card-content-${currentView}`}
@@ -48,9 +45,9 @@ export const Card = ({ card, currentView }) => {
           onLoad={(e) => {
             setIsLoading(false);
           }}
-          className={classNames('card-image',{close:isLoading})}
+          className={classNames('card-image', { close: isLoading })}
         />
-        <img src={loaderImg} alt='loader' className={classNames('loader',{hidden:!isLoading})} />
+        <img src={loaderImg} alt='loader' className={classNames('loader', { hidden: !isLoading })} />
       </div>
       <div className='card-desciption'>
         <div className='raiting-block'>

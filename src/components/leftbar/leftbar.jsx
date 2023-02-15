@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Loader } from '../loader/loader';
-
-// import { categories } from '../../constants/categoreis';
 import { ReactComponent as IconDown } from '../../assets/Icon_Chevron.svg';
 import { ReactComponent as IconUp } from '../../assets/icon-up-leftbar.svg';
 
@@ -55,7 +52,7 @@ export const LeftBar = () => {
           className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
         >
           <div className='category-item'>
-            <div className='category-name'>Все книги</div>
+            <div className='category-name'> Все книги</div>
           </div>
         </NavLink>
         {categories &&
