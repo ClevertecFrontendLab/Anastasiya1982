@@ -49,6 +49,15 @@ export const LeftBar = () => {
         </h5>
       </NavLink>
       <div className={isShowcaseOfBooksOpen ? 'categories-list' : 'categories-list closed'}>
+        <NavLink
+          data-test-id='navigation-books'
+          to='/books/all'
+          className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
+        >
+          <div className='category-item'>
+            <div className='category-name'>Все книги</div>
+          </div>
+        </NavLink>
         {categories &&
           categories.map((category) => (
             <NavLink

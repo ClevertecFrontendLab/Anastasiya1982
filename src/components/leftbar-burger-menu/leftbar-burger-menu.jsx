@@ -24,7 +24,7 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!categories.length) {
+    if (!categories.length && !isMenuOpen) {
       fetchCategoruesList();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -94,6 +94,16 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
         </h5>
       </div>
       <div className={isShowcaseOfBooksOpen ? 'categories-list' : 'categories-list closed'}>
+        <NavLink
+          data-test-id='navigation-books'
+          to='/books/all'
+          className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
+          onClick={handleClick}
+        >
+          <div className='category-item'>
+            <div className='category-name'>Все книги</div>
+          </div>
+        </NavLink>
         {categories &&
           categories.map((category) => (
             <NavLink
