@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import classNames from 'classnames';
 
@@ -7,6 +8,7 @@ import { ReactComponent as SortDescIcon } from '../../assets/filter-up-button.sv
 import { ReactComponent as SortAscIcon } from '../../assets/filter-down-button.svg';
 import { ReactComponent as ViewListIcon } from '../../assets/view-list-books.svg';
 import { ReactComponent as MenuIcon } from '../../assets/menu-books-page.svg';
+import { setSortOrderType } from '../../store/books-reducer';
 
 import SearchIcon from '../../assets/search-icon.svg';
 import { SearchInput } from '../search-filter/search-input';
@@ -15,11 +17,17 @@ import './navbar-main-page.scss';
 
 export const VIEW_WINDOW = 'view-window';
 export const VIEW_LIST = 'view-list';
+export const ASC_ORDER='asc';
+export const DESC_ORDER='desc';
 
 export function NavbarMainPage() {
   const { initialView, changeView } = useContext(ViewCardsContext);
   const [activeView, setActiveView] = useState(initialView);
   const [isSearchInputMobileOpen, setIsSearchInputMobileOpen] = useState(false);
+  
+ const sortOrder = useSelector((store) => store.books.sortOrderType);
+ const dispatch=useDispatch();
+
 
   const changeViewBooksWindow = () => {
     setActiveView(VIEW_WINDOW);
@@ -34,6 +42,15 @@ export function NavbarMainPage() {
   const toggleOpenSearchInput = (p) => {
     setIsSearchInputMobileOpen(p);
   };
+
+  const setOrderRatindType=()=>{
+    if(sortOrder=== ASC_ORDER){
+        dispatch(setSortOrderType(DESC_ORDER));
+    }
+    else if(sortOrder === DESC_ORDER){
+        dispatch(setSortOrderType(ASC_ORDER));
+    }
+  }
 
   return (
     <div className='navbar'>
@@ -53,8 +70,17 @@ export function NavbarMainPage() {
           >
             <img alt='loop' src={SearchIcon} className='search-icon' role='presentation' />
           </button>
-          <button type='button' className={classNames('sorting-button', { hide: isSearchInputMobileOpen })}>
-            <SortAscIcon className='sorting-asc-icon' />
+          <button
+            type='button'
+            className={classNames('sorting-button', { hide: isSearchInputMobileOpen })}
+            data-test-id='sort-rating-button'
+            onClick={setOrderRatindType}
+          >
+            {sortOrder === 'asc' ? (
+              <SortAscIcon className='sorting-asc-icon' />
+            ) : (
+              <SortDescIcon className='sorting-asc-icon' />
+            )}
             <span>По рейтингу</span>
           </button>
         </div>

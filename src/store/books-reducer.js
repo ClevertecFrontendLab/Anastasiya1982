@@ -12,6 +12,7 @@ const initialState = {
   categoriesDataError: null,
   currentCategory: null,
   isCategoriesDataLoading: false,
+  sortOrderType:'asc'
 };
 
 export const booksSlice = createSlice({
@@ -27,6 +28,9 @@ export const booksSlice = createSlice({
     },
     setIsCategoriesDataLoading: (state, action) => {
       state.isCategoriesDataLoading = action.payload;
+    },
+    setSortOrderType: (state, action) => {
+      state.sortOrderType = action.payload;
     },
 
     setBooksDataError: (state, action) => {
@@ -54,6 +58,7 @@ export const {
   setCategoriesDataError,
   setCurrentCategory,
   setIsCategoriesDataLoading,
+  setSortOrderType,
 } = booksSlice.actions;
 export const booksReducer = booksSlice.reducer;
 
