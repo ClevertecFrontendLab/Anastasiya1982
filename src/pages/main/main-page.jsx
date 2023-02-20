@@ -14,27 +14,45 @@ export const MainPage = () => {
   const { initialView } = useContext(ViewCardsContext);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const books = useSelector((store) => store.books.booksData);
-  const [sortedBooks, setSortedBooks] = useState(books);
+  const [filteredByCategoryBooks, setFilteredByCategoryBooks] = useState(books);
+  const [sortedBooks, setSortedBooks] = useState(filteredByCategoryBooks);
+  const [isFilteredBooksArrayEmpty, setIsFileredBooksArrayEmpty] = useState(false);
   const sortOrder = useSelector((store) => store.books.sortOrderType);
+  const currentCategory = useSelector((store) => store.books.currentCategory);
   const booksLoadingError = useSelector((store) => store.books.booksDataError);
+
+  const filteredBooksByCategory = useCallback(() => {
+    if (currentCategory !== 'all') {
+      const newBooksArray = books.filter((book) =>
+        book.categories[0].toLowerCase().includes(currentCategory.toLowerCase())
+      );
+      setFilteredByCategoryBooks(newBooksArray);
+    } else {
+      setFilteredByCategoryBooks(books);
+    }
+  }, [currentCategory, books]);
 
   const sortBooks = useCallback(() => {
     if (sortOrder === ASC_ORDER) {
-      const sortArray = [...books].sort((a, b) => b.rating - a.rating);
+      const sortArray = [...filteredByCategoryBooks].sort((a, b) => b.rating - a.rating);
       setSortedBooks(sortArray);
     } else {
-      const sortArray = [...books].sort((a, b) => a.rating - b.rating);
+      const sortArray = [...filteredByCategoryBooks].sort((a, b) => a.rating - b.rating);
       setSortedBooks(sortArray);
     }
-  }, [books, sortOrder]);
+  }, [sortOrder, filteredByCategoryBooks]);
 
   const handleModal = () => {
     setIsPopupOpen(!isPopupOpen);
-  };  
+  };
 
   useEffect(() => {
     sortBooks();
   }, [sortOrder, sortBooks]);
+
+  useEffect(() => {
+    filteredBooksByCategory();
+  }, [currentCategory, filteredBooksByCategory]);
 
   if (booksLoadingError) {
     return <ToastModal type='error' isPopupOpen={true} handleModal={handleModal} />;
@@ -44,9 +62,15 @@ export const MainPage = () => {
     <section className='main-page'>
       <div className='content'>
         <NavbarMainPage />
-        <div className={initialView === VIEW_WINDOW ? 'cards-container-window' : 'cards-container-list'}>
-          {sortedBooks && sortedBooks.map((card) => <Card card={card} key={card.id} currentView={initialView} />)}
-        </div>
+        {!filteredByCategoryBooks.length ? (
+          <div className='empty-category-container' data-test-id='empty-category'>
+            <h3>В этой категории книг ещё нет</h3>
+          </div>
+        ) : (
+          <div className={initialView === VIEW_WINDOW ? 'cards-container-window' : 'cards-container-list'}>
+            {sortedBooks && sortedBooks.map((card) => <Card card={card} key={card.id} currentView={initialView} />)}
+          </div>
+        )}
       </div>
     </section>
   );

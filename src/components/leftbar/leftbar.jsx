@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as IconDown } from '../../assets/Icon_Chevron.svg';
 import { ReactComponent as IconUp } from '../../assets/icon-up-leftbar.svg';
+import { setCurrentCategory } from '../../store/books-reducer';
 
 import './leftbar.scss';
 
@@ -11,8 +12,10 @@ export const LeftBar = () => {
   const [isShowcaseOfBooksOpen, setIsShowcaseOfBooksOpen] = useState(true);
   const categories = useSelector((store) => store.books.categoriesData);
   const booksLoadingError = useSelector((store) => store.books.booksDataError);
+  const books = useSelector((store) => store.books.booksData);
 
   const location = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (location.pathname === '/books/terms' || location.pathname === '/books/contract') {
@@ -28,6 +31,15 @@ export const LeftBar = () => {
       setIsShowcaseOfBooksOpen(false);
     }
   }, [booksLoadingError, isShowcaseOfBooksOpen]);
+
+  const countNumberOfBooksWithCategory = (name) => {
+    let i;
+    let count = 0;
+    for (i = 0; i < books.length; i++) {
+      count += books[i].categories[0] === name ? 1 : 0;
+    }
+    return count;
+  };
 
   return (
     <div className='leftbar' role='presentation'>
@@ -50,6 +62,9 @@ export const LeftBar = () => {
           data-test-id='navigation-books'
           to='/books/all'
           className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
+          onClick={() => {
+                dispatch(setCurrentCategory('all'));
+              }}
         >
           <div className='category-item'>
             <div className='category-name'> Все книги</div>
@@ -57,16 +72,20 @@ export const LeftBar = () => {
         </NavLink>
         {categories &&
           categories.map((category) => (
-            <NavLink
-              data-test-id='navigation-books'
+            <NavLink         
+            data-test-id={`navigation-${category}`}
               key={category.id}
               to={`/books/${category.path}`}
               className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
+              onClick={() => {
+                dispatch(setCurrentCategory(category.name));
+              }}
             >
               <div key={category.id} className='category-item'>
                 <div className='category-name'>
                   {category.name}
-                  <span className='count'>{8}</span>
+                  <span className='count'
+                  data-test-id={`navigation-book-count-for-${category}`}>{countNumberOfBooksWithCategory(category.name)}</span>
                 </div>
               </div>
             </NavLink>

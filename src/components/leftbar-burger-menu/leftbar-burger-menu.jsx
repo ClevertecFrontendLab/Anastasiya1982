@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import { ReactComponent as IconDown } from '../../assets/Icon_Chevron.svg';
 import { ReactComponent as IconUp } from '../../assets/icon-up-leftbar.svg';
-import { getCategoriesDataAsync } from '../../store/books-reducer';
+import { getCategoriesDataAsync, setCurrentCategory } from '../../store/books-reducer';
 
 import './leftbar-burger-menu.scss';
 
@@ -12,6 +12,7 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
   const [isHeaderActive, setIsHeaderActive] = useState(true);
   const [isShowcaseOfBooksOpen, setIsShowcaseOfBooksOpen] = useState(true);
 
+  const books = useSelector((store) => store.books.booksData);
   const categories = useSelector((store) => store.books.categoriesData);
   const booksLoadingError = useSelector((store) => store.books.booksDataError);
   const dispatch = useDispatch();
@@ -39,8 +40,8 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
     }
   }, [location.pathname]);
 
-  const handleClick = (e) => {
-    e.stopPropagation();
+  const handleClick = (value) => {   
+    dispatch(setCurrentCategory(value));
     setIsMenuOpen(false); //
   };
 
@@ -66,6 +67,15 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
       document.removeEventListener('mousedown', checkIfClickedOutside);
     };
   }, [isMenuOpen, setIsMenuOpen]);
+
+  const countNumberOfBooksWithCategory = (name) => {
+    let i;
+    let count = 0;
+    for (i = 0; i < books.length; i++) {
+      count += books[i].categories[0] === name ? 1 : 0;
+    }
+    return count;
+  };
 
   return (
     <div
@@ -95,10 +105,12 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
       </div>
       <div className={isShowcaseOfBooksOpen ? 'categories-list' : 'categories-list closed'}>
         <NavLink
-          data-test-id='navigation-books'
+          data-test-id='burger-books'
           to='/books/all'
           className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
-          onClick={handleClick}
+          onClick={() => {
+            handleClick('all');
+          }}
         >
           <div className='category-item'>
             <div className='category-name'>Все книги</div>
@@ -107,16 +119,20 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
         {categories &&
           categories.map((category) => (
             <NavLink
-              data-test-id='burger-books'
+              data-test-id={`burger-${category}`}
               key={category?.id}
               to={`/books/${category?.path}`}
               className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
-              onClick={handleClick}
+              onClick={() => {
+                handleClick(category.name);
+              }}
             >
               <div key={category?.id} className='category-item'>
                 <div className='category-name'>
                   {category?.name}
-                  <span className='count'>{8}</span>
+                  <span className='count'
+                   data-test-id={`burger-book-count-for-${category}`}
+                  >{countNumberOfBooksWithCategory(category.name)}</span>
                 </div>
               </div>
             </NavLink>

@@ -10,7 +10,7 @@ const initialState = {
   currentBook: null,
   categoriesData: [],
   categoriesDataError: null,
-  currentCategory: null,
+  currentCategory: 'all',
   isCategoriesDataLoading: false,
   sortOrderType:'asc'
 };
@@ -59,6 +59,7 @@ export const {
   setCurrentCategory,
   setIsCategoriesDataLoading,
   setSortOrderType,
+  
 } = booksSlice.actions;
 export const booksReducer = booksSlice.reducer;
 

@@ -21,7 +21,6 @@
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
-        justify-content: center;
         gap: 21.5px;
 
         @include tablet {
@@ -53,6 +52,27 @@
             max-width: 288px;
             flex-direction: column;
             column-gap: 16px;
+        }
+    }
+    .empty-category-container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        margin-top: 200px;
+
+        h3 {
+            font-size: 32px;
+            line-height: 40px;
+            text-align: center;
+            letter-spacing: 0.1px;
+            color: #a7a7a7;
+
+            @include iPad-portrate {
+                font-weight: 700;
+                font-size: 18px;
+                line-height: 28px;
+            }
         }
     }
 }
