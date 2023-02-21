@@ -36,7 +36,11 @@ export const LeftBar = () => {
     let i;
     let count = 0;
     for (i = 0; i < books.length; i++) {
-      count += books[i].categories[0] === name ? 1 : 0;
+      let j;
+      const arr = books[i].categories;
+      for (j = 0; j < arr.length; j++) {
+        count += arr[j] === name ? 1 : 0;
+      }
     }
     return count;
   };
@@ -61,10 +65,10 @@ export const LeftBar = () => {
         <NavLink
           data-test-id='navigation-books'
           to='/books/all'
-          className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
+          className={({ isActive }) => (isActive ? 'all-category-item-link-active' : 'all-category-item-link')}
           onClick={() => {
-                dispatch(setCurrentCategory('all'));
-              }}
+            dispatch(setCurrentCategory('all'));
+          }}
         >
           <div className='category-item'>
             <div className='category-name'> Все книги</div>
@@ -72,23 +76,23 @@ export const LeftBar = () => {
         </NavLink>
         {categories &&
           categories.map((category) => (
-            <NavLink         
-            data-test-id={`navigation-${category}`}
-              key={category.id}
-              to={`/books/${category.path}`}
-              className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
-              onClick={() => {
-                dispatch(setCurrentCategory(category.name));
-              }}
-            >
-              <div key={category.id} className='category-item'>
-                <div className='category-name'>
-                  {category.name}
-                  <span className='count'
-                  data-test-id={`navigation-book-count-for-${category}`}>{countNumberOfBooksWithCategory(category.name)}</span>
+            <div className='category-item-wrapper' key={category.id}>
+              <NavLink
+                data-test-id={`navigation-${category.path}`}
+                to={`/books/${category.path}`}
+                className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
+                onClick={() => {
+                  dispatch(setCurrentCategory(category.name));
+                }}
+              >
+                <div key={category.id} className='category-item'>
+                  <div className='category-name'>{category.name}</div>
                 </div>
-              </div>
-            </NavLink>
+              </NavLink>
+              <span className='count' data-test-id={`navigation-book-count-for-${category.path}`}>
+                {countNumberOfBooksWithCategory(category.name)}
+              </span>
+            </div>
           ))}
       </div>
 
