@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as IconDown } from '../../assets/Icon_Chevron.svg';
 import { ReactComponent as IconUp } from '../../assets/icon-up-leftbar.svg';
-import { setCurrentCategory } from '../../store/books-reducer';
+import { defaultAllCategories, setCurrentCategory } from '../../store/books-reducer';
 
 import './leftbar.scss';
 
@@ -45,6 +45,7 @@ export const LeftBar = () => {
     return count;
   };
 
+
   return (
     <div className='leftbar' role='presentation'>
       <NavLink to='/books/all' data-test-id='navigation-showcase'>
@@ -67,11 +68,11 @@ export const LeftBar = () => {
           to='/books/all'
           className={({ isActive }) => (isActive ? 'all-category-item-link-active' : 'all-category-item-link')}
           onClick={() => {
-            dispatch(setCurrentCategory('all'));
+            dispatch(setCurrentCategory(defaultAllCategories));
           }}
         >
           <div className='category-item'>
-            <div className='category-name'> Все книги</div>
+            <div className='category-name'>Все книги</div>
           </div>
         </NavLink>
         {categories &&
@@ -82,7 +83,7 @@ export const LeftBar = () => {
                 to={`/books/${category.path}`}
                 className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
                 onClick={() => {
-                  dispatch(setCurrentCategory(category.name));
+                  dispatch(setCurrentCategory(category));
                 }}
               >
                 <div key={category.id} className='category-item'>

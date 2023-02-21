@@ -2,6 +2,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { axiosInstance } from '../shared/api/http-common';
 
+export const defaultAllCategories = {
+  id: 123456,
+  name:'Все книги',
+  path: 'all',
+};
 
 const initialState = {
   booksData: [],
@@ -10,7 +15,7 @@ const initialState = {
   currentBook: null,
   categoriesData: [],
   categoriesDataError: null,
-  currentCategory: 'all',
+  currentCategory: defaultAllCategories,
   isCategoriesDataLoading: false,
   sortOrderType:'asc'
 };
@@ -44,7 +49,7 @@ export const booksSlice = createSlice({
       state.categoriesDataError = action.payload;
     },
     setCurrentCategory: (state, action) => {
-      state.currentCategory = action.payload;
+      state.currentCategory = {...action.payload};
     },
   },
   /* eslint-enable no-param-reassign */
@@ -68,7 +73,7 @@ export const booksReducer = booksSlice.reducer;
 // Get Categories
 
 export const getCategoriesDataAsync = () => async (dispatch) => {
-  dispatch(setIsDataLoading(true));
+    dispatch(setIsDataLoading(true));
   try {
     const response = await axiosInstance.get('categories');
     dispatch(setCategoriesData(response.data));

@@ -118,89 +118,89 @@ describe('search and sort', () => {
 //     });
 // });
 
-// describe('bread crumbs', () => {
-//     beforeEach(() => {
-//         cy.intercept('/api/categories').as('categories');
-//         cy.intercept('/api/books').as('books');
-//         cy.intercept('/api/books/127').as('bookId127');
-//         cy.intercept('/api/books/69').as('bookId69');
-//         cy.visit('http://localhost:3000');
-//         cy.wait(['@categories', '@books']);
-//     });
+describe('bread crumbs', () => {
+    beforeEach(() => {
+        cy.intercept('/api/categories').as('categories');
+        cy.intercept('/api/books').as('books');
+        cy.intercept('/api/books/127').as('bookId127');
+        cy.intercept('/api/books/69').as('bookId69');
+        cy.visit('http://localhost:3000');
+        cy.wait(['@categories', '@books']);
+    });
 
-//     describe('desktop', () => {
-//         beforeEach(() => {
-//             cy.viewport(1440, 900);
-//         });
+    describe('desktop', () => {
+        beforeEach(() => {
+            cy.viewport(1440, 900);
+        });
 
-//         it('transfer from programming category to book page', () => {
-//             cy.get('[data-test-id=navigation-programming]').should('have.text', 'Программирование').click();
-//             cy.get('[data-test-id=card]').first().click();
-//             cy.wait('@bookId127');
-//             cy.hash().should('match', /programming\/127/);
-//             cy.get('[data-test-id=breadcrumbs-link]').should('have.text', 'Программирование');
-//             cy.get('[data-test-id=book-name]').invoke('text').then(bookName => {
-//                 cy.get('[data-test-id=book-title]').should('have.text', bookName);
-//             });
-//             cy.get('[data-test-id=breadcrumbs-link]').click();
-//             cy.wait('@books');
-//             cy.hash().should('match', /programming/);
-//             cy.get('[data-test-id=navigation-book-count-for-programming]').invoke('text').then(parseFloat).then(item => {
-//                 cy.get('[data-test-id=card]').should('have.length', item);
-//             });
-//         });
+        it('transfer from programming category to book page', () => {
+            cy.get('[data-test-id=navigation-programming]').should('have.text', 'Программирование').click();
+            cy.get('[data-test-id=card]').first().click();
+            cy.wait('@bookId127');
+            cy.hash().should('match', /programming\/127/);
+            cy.get('[data-test-id=breadcrumbs-link]').should('have.text', 'Программирование');
+            cy.get('[data-test-id=book-name]').invoke('text').then(bookName => {
+                cy.get('[data-test-id=book-title]').should('have.text', bookName);
+            });
+            cy.get('[data-test-id=breadcrumbs-link]').click();
+            cy.wait('@books');
+            cy.hash().should('match', /programming/);
+            cy.get('[data-test-id=navigation-book-count-for-programming]').invoke('text').then(parseFloat).then(item => {
+                cy.get('[data-test-id=card]').should('have.length', item);
+            });
+        });
 
-//         it('transfer from all books category to book page', () => {
-//             cy.get('[data-test-id=navigation-books]').should('have.text', 'Все книги').click();
-//             cy.get('[data-test-id=card]').first().click();
-//             cy.wait('@bookId69');
-//             cy.hash().should('match', /all\/69/);
-//             cy.get('[data-test-id=breadcrumbs-link]').should('have.text', 'Все книги');
-//             cy.get('[data-test-id=book-name]').invoke('text').then(bookName => {
-//                 cy.get('[data-test-id=book-title]').should('have.text', bookName);
-//             });
-//             cy.get('[data-test-id=breadcrumbs-link]').click();
-//             cy.wait('@books');
-//             cy.hash().should('match', /all/);
-//             cy.get('[data-test-id=card]').should('have.length', 138);
-//         });
-//     });
+        it('transfer from all books category to book page', () => {
+            cy.get('[data-test-id=navigation-books]').should('have.text', 'Все книги').click();
+            cy.get('[data-test-id=card]').first().click();
+            cy.wait('@bookId69');
+            cy.hash().should('match', /all\/69/);
+            cy.get('[data-test-id=breadcrumbs-link]').should('have.text', 'Все книги');
+            cy.get('[data-test-id=book-name]').invoke('text').then(bookName => {
+                cy.get('[data-test-id=book-title]').should('have.text', bookName);
+            });
+            cy.get('[data-test-id=breadcrumbs-link]').click();
+            cy.wait('@books');
+            cy.hash().should('match', /all/);
+            cy.get('[data-test-id=card]').should('have.length', 138);
+        });
+    });
 
-//     // describe('tablet', () => {
-//     //     beforeEach(() => {
-//     //         cy.viewport(768, 800);
-//     //     });
+    describe('tablet', () => {
+        beforeEach(() => {
+            cy.viewport(768, 800);
+        });
 
-//     //     it('transfer from programming category to book page', () => {
-//     //         cy.get('[data-test-id=button-burger]').should('be.exist').click();
-//     //         cy.get('[data-test-id=burger-programming]').should('have.text', 'Программирование').click();
-//     //         cy.get('[data-test-id=card]').first().click();
-//     //         cy.wait('@bookId127');
-//     //         cy.get('[data-test-id=breadcrumbs-link]').should('have.text', 'Программирование');
-//     //         cy.get('[data-test-id=book-name]').invoke('text').then(bookName => {
-//     //             cy.get('[data-test-id=book-title]').should('have.text', bookName);
-//     //         });
-//     //         cy.get('[data-test-id=breadcrumbs-link]').click();
-//     //         cy.wait('@books');
-//     //         cy.get('[data-test-id=button-burger]').should('be.exist').click().should('be.visible');
-//     //         cy.get('[data-test-id=burger-book-count-for-programming]').invoke('text').then(parseFloat).then(item => {
-//     //             cy.get('[data-test-id=card]').should('have.length', item);
-//     //         });
-//     //     });
+        it('transfer from programming category to book page', () => {
+            cy.get('[data-test-id=button-burger]').should('be.exist').click();
+            cy.get('[data-test-id=burger-programming]').should('have.text', 'Программирование').click();
+            cy.get('[data-test-id=card]').first().click();
+            cy.wait('@bookId127');
+            cy.get('[data-test-id=breadcrumbs-link]').should('have.text', 'Программирование');
+            cy.get('[data-test-id=book-name]').invoke('text').then(bookName => {
+                cy.get('[data-test-id=book-title]').should('have.text', bookName);
+            });
+            cy.get('[data-test-id=breadcrumbs-link]').click();
+            cy.wait('@books');
+            cy.get('[data-test-id=button-burger]').should('be.exist').click().should('be.visible');
+            cy.get('[data-test-id=burger-book-count-for-programming]').invoke('text').then(parseFloat).then(item => {
+                cy.get('[data-test-id=card]').should('have.length', item);
+            });
+        });
 
-//     //     it('transfer from all books category to book page', () => {
-//     //         cy.get('[data-test-id=button-burger]').should('be.exist').click();
-//     //         cy.get('[data-test-id=burger-books]').should('have.text', 'Все книги').click();
-//     //         cy.get('[data-test-id=card]').first().click();
-//     //         cy.wait('@bookId69');
-//     //         cy.get('[data-test-id=breadcrumbs-link]').should('have.text', 'Все книги');
-//     //         cy.get('[data-test-id=book-name]').invoke('text').then(bookName => {
-//     //             cy.get('[data-test-id=book-title]').should('have.text', bookName);
-//     //         });
-//     //         cy.get('[data-test-id=breadcrumbs-link]').click();
-//     //         cy.wait('@books');
-//     //         cy.get('[data-test-id=button-burger]').should('be.exist').click().should('be.visible');
-//     //         cy.get('[data-test-id=card]').should('have.length', 138);
-//     //     });
-//     // });
-// });
+        it('transfer from all books category to book page', () => {
+            cy.get('[data-test-id=button-burger]').should('be.exist').click();
+            cy.get('[data-test-id=burger-books]').should('have.text', 'Все книги').click();
+            cy.get('[data-test-id=card]').first().click();
+            cy.wait('@bookId69');
+            cy.get('[data-test-id=breadcrumbs-link]').should('have.text', 'Все книги');
+            cy.get('[data-test-id=book-name]').invoke('text').then(bookName => {
+                cy.get('[data-test-id=book-title]').should('have.text', bookName);
+            });
+            cy.get('[data-test-id=breadcrumbs-link]').click();
+            cy.wait('@books');
+            cy.get('[data-test-id=button-burger]').should('be.exist').click().should('be.visible');
+            cy.get('[data-test-id=card]').should('have.length', 138);
+        });
+    });
+});

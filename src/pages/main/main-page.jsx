@@ -1,10 +1,12 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useResolvedPath } from 'react-router-dom';
 
 import { ViewCardsContext } from '../../context/view-cards-context';
 import { NavbarMainPage } from '../../components/navbar';
 import { Card } from '../../components/card/card';
 import { ToastModal } from '../../components/toast-modal/toast-modal';
+import { getBooksDataAsync } from '../../store/books-reducer';
 
 import { ASC_ORDER, VIEW_WINDOW } from '../../components/navbar/navbar-main-page';
 
@@ -21,10 +23,19 @@ export const MainPage = () => {
   const currentCategory = useSelector((store) => store.books.currentCategory);
   const booksLoadingError = useSelector((store) => store.books.booksDataError);
 
+  const location = useLocation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if ( location?.state) {
+      dispatch(getBooksDataAsync());
+    }
+  }, [location, dispatch]);
+
   const filteredBooksByCategory = useCallback(() => {
-    if (currentCategory !== 'all') {
+    if (currentCategory.path !== 'all') {
       const newBooksArray = books.filter((book) =>
-        book.categories[0].toLowerCase().includes(currentCategory.toLowerCase())
+        book.categories[0].toLowerCase().includes(currentCategory?.name.toLowerCase())
       );
       setFilteredByCategoryBooks(newBooksArray);
     } else {
@@ -68,7 +79,10 @@ export const MainPage = () => {
           </div>
         ) : (
           <div className={initialView === VIEW_WINDOW ? 'cards-container-window' : 'cards-container-list'}>
-            {sortedBooks && sortedBooks.map((card) => <Card card={card} key={card.id} currentView={initialView} />)}
+            {sortedBooks &&
+              sortedBooks.map((card) => (
+                <Card card={card} key={card.id} currentView={initialView} currentCategory={currentCategory} />
+              ))}
           </div>
         )}
       </div>

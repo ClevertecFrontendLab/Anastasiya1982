@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import { ReactComponent as IconDown } from '../../assets/Icon_Chevron.svg';
 import { ReactComponent as IconUp } from '../../assets/icon-up-leftbar.svg';
-import { getCategoriesDataAsync, setCurrentCategory } from '../../store/books-reducer';
+import { getCategoriesDataAsync, setCurrentCategory, defaultAllCategories } from '../../store/books-reducer';
 
 import './leftbar-burger-menu.scss';
 
@@ -25,7 +25,7 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!categories.length && isMenuOpen) {
+    if (!categories.length) {
       fetchCategoruesList();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -40,8 +40,8 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
     }
   }, [location.pathname]);
 
-  const handleClick = (value) => {
-    dispatch(setCurrentCategory(value));
+  const handleClick = (category) => {   
+    dispatch(setCurrentCategory(category));
     setIsMenuOpen(false); 
   };
 
@@ -114,7 +114,7 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
           key='all'
           className={({ isActive }) => (isActive ? 'all-category-item-link-active' : 'all-category-item-link')}
           onClick={() => {
-            handleClick('all');
+            handleClick(defaultAllCategories);
           }}
         >
           <div className='category-item'>
@@ -129,7 +129,7 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
                 to={`/books/${category?.path}`}
                 className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
                 onClick={() => {
-                  handleClick(category.name);
+                  handleClick(category);
                 }}
               >
                 <div className='category-item'>

@@ -9,13 +9,13 @@ import './card.scss';
 
 const BASE_URL = 'https://strapi.cleverland.by';
 
-export const Card = ({ card, currentView }) => {
+export const Card = ({ card, currentView, currentCategory }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
   const handleKeyDown = (ev) => {
     if (ev.keyCode === 13) {
-      navigate(`/books/categoty/:${card.id}`);
+      navigate(`/books/${currentCategory.path}/${card.id}`);
     }
   };
 
@@ -28,7 +28,7 @@ export const Card = ({ card, currentView }) => {
       className={`card-content-${currentView}`}
       data-test-id='card'
       onClick={() =>
-        navigate(`/books/${card.categories[0]}/${card.id}`, {
+        navigate(`/books/${currentCategory.path}/${card.id}`, {
           state: {
             id: card.id,
           },
