@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useResolvedPath } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { ViewCardsContext } from '../../context/view-cards-context';
 import { NavbarMainPage } from '../../components/navbar';
@@ -18,7 +18,8 @@ export const MainPage = () => {
   const books = useSelector((store) => store.books.booksData);
   const [filteredByCategoryBooks, setFilteredByCategoryBooks] = useState(books);
   const [sortedBooks, setSortedBooks] = useState(filteredByCategoryBooks);
-  const [isFilteredBooksArrayEmpty, setIsFileredBooksArrayEmpty] = useState(false);
+  const [searchTitleValue, setSearchTitleValue] = useState('');
+  const [searchedBooksArray, setSearchedBooksArray] = useState(sortedBooks);
   const sortOrder = useSelector((store) => store.books.sortOrderType);
   const currentCategory = useSelector((store) => store.books.currentCategory);
   const booksLoadingError = useSelector((store) => store.books.booksDataError);
@@ -27,7 +28,7 @@ export const MainPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if ( location?.state) {
+    if (location?.state) {
       dispatch(getBooksDataAsync());
     }
   }, [location, dispatch]);
@@ -65,6 +66,17 @@ export const MainPage = () => {
     filteredBooksByCategory();
   }, [currentCategory, filteredBooksByCategory]);
 
+  useEffect(() => {
+    if (searchTitleValue) {
+      const searchedBooks = sortedBooks.filter((book) =>
+        book.title.toLowerCase().includes(searchTitleValue.toLowerCase())
+      );        
+     setSearchedBooksArray(searchedBooks);
+    } else {
+      setSearchedBooksArray(sortedBooks);
+    }
+  }, [searchTitleValue, sortedBooks]);
+
   if (booksLoadingError) {
     return <ToastModal type='error' isPopupOpen={true} handleModal={handleModal} />;
   }
@@ -72,17 +84,22 @@ export const MainPage = () => {
   return (
     <section className='main-page'>
       <div className='content'>
-        <NavbarMainPage />
+        <NavbarMainPage searchTitleValue={searchTitleValue} setSearchTitleValue={setSearchTitleValue} />
         {!filteredByCategoryBooks.length ? (
           <div className='empty-category-container' data-test-id='empty-category'>
             <h3>В этой категории книг ещё нет</h3>
           </div>
         ) : (
           <div className={initialView === VIEW_WINDOW ? 'cards-container-window' : 'cards-container-list'}>
-            {sortedBooks &&
-              sortedBooks.map((card) => (
+            {!searchedBooksArray.length ? (
+              <div className='empty-category-container'>
+                <h3 data-test-id='search-result-not-found'>По запросу ничего не найдено</h3>
+              </div>
+            ) : (
+              searchedBooksArray.map((card) => (
                 <Card card={card} key={card.id} currentView={initialView} currentCategory={currentCategory} />
-              ))}
+              ))
+            )}
           </div>
         )}
       </div>

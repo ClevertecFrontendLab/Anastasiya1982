@@ -16,7 +16,6 @@ body {
     letter-spacing: 0.1px;
 }
 
-
 *,
 *:before,
 *:after {
@@ -192,54 +191,57 @@ $main-gray: #a7a7a7;
         color: rgba(167, 167, 167, 1);
     }
 }
-@mixin search-input(){
-               
-                width: 100%;
-                height: 38px;       
-              
-                padding-left: 40px;
-                padding-right: 30px;
-                box-shadow: inset 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18),
-                    0px 1px 5px rgba(191, 196, 201, 0.24);
-                border-radius: 599px;
-                -webkit-border-radius: 599px;
-                -moz-border-radius: 599px;
-                border: none;
-                color: #a7a7a7;
+@mixin search-input() {
+    width: 100%;
+    height: 38px;
 
-                &:focus,
-                &:hover {
-                    outline: none;
-                    color: #f83600;
-                    background: none;                    
-                }
-                &:focus-visible {
-                    color: #f83600;
-                }
+    padding-left: 40px;
+    padding-right: 30px;
+    box-shadow: inset 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18),
+        0px 1px 5px rgba(191, 196, 201, 0.24);
+    border-radius: 599px;
+    -webkit-border-radius: 599px;
+    -moz-border-radius: 599px;
+    border: none;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.1px;
+    color: #363636;
+    caret-color: rgba(248, 54, 0, 1);
+    &:focus,
+    &:hover {
+        outline: none;
+        background: none;
+        color: #363636;
+        caret-color: rgba(248, 54, 0, 1);
+    }
+    &:focus-visible {
+        color: #363636;
+        caret-color: rgba(248, 54, 0, 1);
+    }
 
-                &::-webkit-search-cancel-button {
-                  display: none;
-                }
+    &::-webkit-search-cancel-button {
+        display: none;
+    }
 
-                &::-webkit-input-placeholder {
-                    color: #a7a7a7;
-                    
-                }
+    &::-webkit-input-placeholder {
+        color: #a7a7a7;
+    }
 
-                &::-moz-placeholder {
-                    /* Firefox 18- */
-                    color: #a7a7a7;
-                }
+    &::-moz-placeholder {
+        /* Firefox 18- */
+        color: #a7a7a7;
+    }
 
-                &::-moz-placeholder {
-                    /* Firefox 19+ */
-                    color: #a7a7a7;
-                }
+    &::-moz-placeholder {
+        /* Firefox 19+ */
+        color: #a7a7a7;
+    }
 
-                &::-ms-input-placeholder {
-                    color: #a7a7a7;
-                }
-
+    &::-ms-input-placeholder {
+        color: #a7a7a7;
+    }
 }
 
 @mixin Subtitle-Large() {

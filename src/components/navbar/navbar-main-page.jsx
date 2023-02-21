@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import classNames from 'classnames';
@@ -20,7 +20,7 @@ export const VIEW_LIST = 'view-list';
 export const ASC_ORDER='asc';
 export const DESC_ORDER='desc';
 
-export function NavbarMainPage() {
+export function NavbarMainPage({searchTitleValue,setSearchTitleValue}) {
   const { initialView, changeView } = useContext(ViewCardsContext);
   const [activeView, setActiveView] = useState(initialView);
   const [isSearchInputMobileOpen, setIsSearchInputMobileOpen] = useState(false);
@@ -59,6 +59,8 @@ export function NavbarMainPage() {
           <SearchInput
             setIsSearchInputMobileOpen={toggleOpenSearchInput}
             isSearchInputMobileOpen={isSearchInputMobileOpen}
+            searchTitleValue={searchTitleValue}
+            setSearchTitleValue={setSearchTitleValue}
           />
           <button
             className={classNames('search-input-mobile-button', { close: isSearchInputMobileOpen })}

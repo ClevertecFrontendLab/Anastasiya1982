@@ -6,16 +6,19 @@ import SearchIcon from '../../assets/search-icon.svg';
 
 import './search-input.scss';
 
-export const SearchInput = ({ setIsSearchInputMobileOpen, isSearchInputMobileOpen }) => {
+export const SearchInput = ({
+  setIsSearchInputMobileOpen,
+  isSearchInputMobileOpen,
+  searchTitleValue,
+  setSearchTitleValue,
+}) => {
   const [isClearButtonIsVisible, setIsClearButtonVisible] = useState(false);
 
-  const [searchValue, setSearchValue] = useState('');
-
-  const inputRef = useRef(null);
+ const inputRef = useRef(null);
 
   const clearInput = () => {
     setIsSearchInputMobileOpen(false);
-    setSearchValue('');
+    setSearchTitleValue('');
     setIsClearButtonVisible(false);
   };
 
@@ -36,9 +39,9 @@ export const SearchInput = ({ setIsSearchInputMobileOpen, isSearchInputMobileOpe
         onFocus={() => {
           setIsClearButtonVisible(true);
         }}
-        value={searchValue}
+        value={searchTitleValue}
         onChange={(e) => {
-          setSearchValue(e.target.value);
+          setSearchTitleValue(e.target.value);
         }}
       />
 
