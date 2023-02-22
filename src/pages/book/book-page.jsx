@@ -24,7 +24,7 @@ export const BookPage = () => {
   const currentCategory = useSelector((store) => store.books.currentCategory);
   const isBookDataLoading = useSelector((store) => store.bookData.isBookDataLoading);
   const isBookDataLoadingError = useSelector((store) => store.bookData.bookDataError);
-  const location=useLocation()
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(getBookDataAsync(booksId));
@@ -38,7 +38,7 @@ export const BookPage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isBookDataLoadingError]);
-  
+
   const handleModal = () => {
     setIsErrorPopupOpen(!isErrorPopupOpen);
   };
@@ -49,7 +49,11 @@ export const BookPage = () => {
       <header className='book-page-header'>
         <div className='header-container'>
           <div className='book-navigation-panel'>
-            <Link to={`/books/${category}`}  state={{prevLocation:`${location.pathname}`}} data-test-id='breadcrumbs-link'>
+            <Link
+              to={`/books/${category}`}
+              state={{ prevLocation: `${location.pathname}` }}
+              data-test-id='breadcrumbs-link'
+            >
               <span>{currentCategory?.name}</span>
             </Link>
             <span>&#8260;</span>

@@ -45,7 +45,6 @@ export const LeftBar = () => {
     return count;
   };
 
-
   return (
     <div className='leftbar' role='presentation'>
       <NavLink to='/books/all' data-test-id='navigation-showcase'>

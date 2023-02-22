@@ -12,48 +12,48 @@ describe('search and sort', () => {
         cy.viewport(1440, 900);
     });
 
-    // describe('search', () => {
-    //     it('caret color should be rgb(248, 54, 0)', () => {
-    //         cy.get('[data-test-id=input-search]').focus().should('have.css', 'caret-color', 'rgb(248, 54, 0)');
-    //     });
+    describe('search', () => {
+        it('caret color should be rgb(248, 54, 0)', () => {
+            cy.get('[data-test-id=input-search]').focus().should('have.css', 'caret-color', 'rgb(248, 54, 0)');
+        });
 
-    //     it('placeholder value should be "Поиск книги или автора…"', () => {
-    //         cy.get('[data-test-id=input-search]').invoke('attr', 'placeholder').should('contain', 'Поиск книги или автора…');
-    //     });
+        it('placeholder value should be "Поиск книги или автора…"', () => {
+            cy.get('[data-test-id=input-search]').invoke('attr', 'placeholder').should('contain', 'Поиск книги или автора…');
+        });
 
-    //     it('find book', () => {
-    //         cy.get('[data-test-id=input-search]').type('грокаем аЛгОрИ').should('have.value', 'грокаем аЛгОрИ');
-    //         cy.get('[data-test-id=card]').should('have.length', 1);
-    //         cy.get('[data-test-id=highlight-matches]').should('have.text', 'Грокаем алгори');
-    //         cy.get('[data-test-id=highlight-matches]').should('have.css', 'color', 'rgb(255, 82, 83)');
-    //     });
+        it('find book', () => {
+            cy.get('[data-test-id=input-search]').type('грокаем аЛгОрИ').should('have.value', 'грокаем аЛгОрИ');
+            cy.get('[data-test-id=card]').should('have.length', 1);
+            cy.get('[data-test-id=highlight-matches]').should('have.text', 'Грокаем алгори');
+            cy.get('[data-test-id=highlight-matches]').should('have.css', 'color', 'rgb(255, 82, 83)');
+        });
 
-    //     it('find books', () => {
-    //         cy.get('[data-test-id=input-search]').clear().should('have.value', '');
-    //         cy.get('[data-test-id=input-search]').type('сТрАтЕг').should('have.value', 'сТрАтЕг');
-    //         cy.get('[data-test-id=card]').should('have.length', 2);
-    //         cy.get('[data-test-id=highlight-matches]').each(item => {
-    //             expect(item.text()).equal('стратег');
-    //         });
-    //         cy.get('[data-test-id=highlight-matches]').each(item => {
-    //             expect(item).to.have.css('color', 'rgb(255, 82, 83)');
-    //         });
-    //         cy.get('[data-test-id=app]').screenshot('find-books');
-    //     });
+        it('find books', () => {
+            cy.get('[data-test-id=input-search]').clear().should('have.value', '');
+            cy.get('[data-test-id=input-search]').type('сТрАтЕг').should('have.value', 'сТрАтЕг');
+            cy.get('[data-test-id=card]').should('have.length', 2);
+            cy.get('[data-test-id=highlight-matches]').each(item => {
+                expect(item.text()).equal('стратег');
+            });
+            cy.get('[data-test-id=highlight-matches]').each(item => {
+                expect(item).to.have.css('color', 'rgb(255, 82, 83)');
+            });
+            cy.get('[data-test-id=app]').screenshot('find-books');
+        });
 
-    //     it('search result not found', () => {
-    //         cy.get('[data-test-id=input-search]').clear().should('have.value', '');
-    //         cy.get('[data-test-id=input-search]').type('ggdsbsdbd').should('have.value', 'ggdsbsdbd');
-    //         cy.get('[data-test-id=search-result-not-found]').should('have.text', 'По запросу ничего не найдено');
-    //         cy.get('[data-test-id=app]').screenshot('search-result-not-found');
-    //     });
+        it('search result not found', () => {
+            cy.get('[data-test-id=input-search]').clear().should('have.value', '');
+            cy.get('[data-test-id=input-search]').type('ggdsbsdbd').should('have.value', 'ggdsbsdbd');
+            cy.get('[data-test-id=search-result-not-found]').should('have.text', 'По запросу ничего не найдено');
+            cy.get('[data-test-id=app]').screenshot('search-result-not-found');
+        });
 
-    //     it('clearing search input', () => {
-    //         cy.get('[data-test-id=input-search]').clear().should('have.value', '');
-    //         cy.get('[data-test-id=card]').should('have.length', 138);
-    //         cy.get('[data-test-id=app]').screenshot('clearing-search-input', { clip: { x: 0, y: 0, width: 1440, height: 900 }});
-    //     });
-    // });
+        it('clearing search input', () => {
+            cy.get('[data-test-id=input-search]').clear().should('have.value', '');
+            cy.get('[data-test-id=card]').should('have.length', 138);
+            cy.get('[data-test-id=app]').screenshot('clearing-search-input', { clip: { x: 0, y: 0, width: 1440, height: 900 }});
+        });
+    });
 
     describe('sort', () => {
         it('sort should be desc', () => {
@@ -93,30 +93,30 @@ describe('search and sort', () => {
     });
 });
 
-// describe('search on mobile', () => {
-//     before(() => {
-//         cy.intercept('/api/categories').as('categories');
-//         cy.intercept('/api/books').as('books');
-//         cy.visit('http://localhost:3000');
-//         cy.viewport(320, 600);
-//         cy.wait(['@categories', '@books']);
-//     });
+describe('search on mobile', () => {
+    before(() => {
+        cy.intercept('/api/categories').as('categories');
+        cy.intercept('/api/books').as('books');
+        cy.visit('http://localhost:3000');
+        cy.viewport(320, 600);
+        cy.wait(['@categories', '@books']);
+    });
 
-//     it('open/close input', () => {
-//         cy.get('[data-test-id=button-search-open]').click();
-//         cy.get('[data-test-id=input-search]').type('грокаем аЛгОрИт').should('have.value', 'грокаем аЛгОрИт');
-//         cy.get('[data-test-id=button-search-close]').click();
-//         cy.get('[data-test-id=input-search]').should('have.value', 'грокаем аЛгОрИт');
-//         cy.get('[data-test-id=card]').should('have.length', 1);
-//         cy.get('[data-test-id=highlight-matches]').should('have.text', 'Грокаем алгорит');
-//         cy.get('[data-test-id=highlight-matches]').should('have.css', 'color', 'rgb(255, 82, 83)');
-//         cy.get('[data-test-id=button-search-open]').click();
-//         cy.get('[data-test-id=input-search]').clear().should('have.value', '');
-//         cy.get('[data-test-id=card]').should('have.length', 138);
-//         cy.get('[data-test-id=input-search]').type('ggdsbsdbd').should('have.value', 'ggdsbsdbd');
-//         cy.get('[data-test-id=search-result-not-found]').should('have.text', 'По запросу ничего не найдено');
-//     });
-// });
+    it('open/close input', () => {
+        cy.get('[data-test-id=button-search-open]').click();
+        cy.get('[data-test-id=input-search]').type('грокаем аЛгОрИт').should('have.value', 'грокаем аЛгОрИт');
+        cy.get('[data-test-id=button-search-close]').click();
+        cy.get('[data-test-id=input-search]').should('have.value', 'грокаем аЛгОрИт');
+        cy.get('[data-test-id=card]').should('have.length', 1);
+        cy.get('[data-test-id=highlight-matches]').should('have.text', 'Грокаем алгорит');
+        cy.get('[data-test-id=highlight-matches]').should('have.css', 'color', 'rgb(255, 82, 83)');
+        cy.get('[data-test-id=button-search-open]').click();
+        cy.get('[data-test-id=input-search]').clear().should('have.value', '');
+        cy.get('[data-test-id=card]').should('have.length', 138);
+        cy.get('[data-test-id=input-search]').type('ggdsbsdbd').should('have.value', 'ggdsbsdbd');
+        cy.get('[data-test-id=search-result-not-found]').should('have.text', 'По запросу ничего не найдено');
+    });
+});
 
 describe('bread crumbs', () => {
     beforeEach(() => {

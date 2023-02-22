@@ -25,7 +25,7 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!categories.length) {
+    if (!categories.length && isMenuOpen) {
       fetchCategoruesList();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

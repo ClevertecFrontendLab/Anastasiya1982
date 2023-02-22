@@ -35,9 +35,7 @@ export const MainPage = () => {
 
   const filteredBooksByCategory = useCallback(() => {
     if (currentCategory.path !== 'all') {
-      const newBooksArray = books.filter((book) =>
-        book.categories[0].toLowerCase().includes(currentCategory?.name.toLowerCase())
-      );
+      const newBooksArray = books.filter((book) => book?.categories.includes(currentCategory?.name));
       setFilteredByCategoryBooks(newBooksArray);
     } else {
       setFilteredByCategoryBooks(books);
@@ -70,8 +68,8 @@ export const MainPage = () => {
     if (searchTitleValue) {
       const searchedBooks = sortedBooks.filter((book) =>
         book.title.toLowerCase().includes(searchTitleValue.toLowerCase())
-      );        
-     setSearchedBooksArray(searchedBooks);
+      );
+      setSearchedBooksArray(searchedBooks);
     } else {
       setSearchedBooksArray(sortedBooks);
     }
@@ -91,13 +89,19 @@ export const MainPage = () => {
           </div>
         ) : (
           <div className={initialView === VIEW_WINDOW ? 'cards-container-window' : 'cards-container-list'}>
-            {!searchedBooksArray.length ? (
+            {!searchedBooksArray.length && searchTitleValue ? (
               <div className='empty-category-container'>
                 <h3 data-test-id='search-result-not-found'>По запросу ничего не найдено</h3>
               </div>
             ) : (
               searchedBooksArray.map((card) => (
-                <Card card={card} key={card.id} currentView={initialView} currentCategory={currentCategory} />
+                <Card
+                  card={card}
+                  key={card.id}
+                  currentView={initialView}
+                  currentCategory={currentCategory}
+                  searchTitleValue={searchTitleValue}
+                />
               ))
             )}
           </div>

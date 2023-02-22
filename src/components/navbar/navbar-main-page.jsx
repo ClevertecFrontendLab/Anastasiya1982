@@ -10,24 +10,23 @@ import { ReactComponent as ViewListIcon } from '../../assets/view-list-books.svg
 import { ReactComponent as MenuIcon } from '../../assets/menu-books-page.svg';
 import { setSortOrderType } from '../../store/books-reducer';
 
-import SearchIcon from '../../assets/search-icon.svg';
+import { ReactComponent as SearchIcon } from '../../assets/search-icon.svg';
 import { SearchInput } from '../search-filter/search-input';
 
 import './navbar-main-page.scss';
 
 export const VIEW_WINDOW = 'view-window';
 export const VIEW_LIST = 'view-list';
-export const ASC_ORDER='asc';
-export const DESC_ORDER='desc';
+export const ASC_ORDER = 'asc';
+export const DESC_ORDER = 'desc';
 
-export function NavbarMainPage({searchTitleValue,setSearchTitleValue}) {
+export function NavbarMainPage({ searchTitleValue, setSearchTitleValue }) {
   const { initialView, changeView } = useContext(ViewCardsContext);
   const [activeView, setActiveView] = useState(initialView);
   const [isSearchInputMobileOpen, setIsSearchInputMobileOpen] = useState(false);
-  
- const sortOrder = useSelector((store) => store.books.sortOrderType);
- const dispatch=useDispatch();
 
+  const sortOrder = useSelector((store) => store.books.sortOrderType);
+  const dispatch = useDispatch();
 
   const changeViewBooksWindow = () => {
     setActiveView(VIEW_WINDOW);
@@ -43,14 +42,13 @@ export function NavbarMainPage({searchTitleValue,setSearchTitleValue}) {
     setIsSearchInputMobileOpen(p);
   };
 
-  const setOrderRatindType=()=>{
-    if(sortOrder=== ASC_ORDER){
-        dispatch(setSortOrderType(DESC_ORDER));
+  const setOrderRatindType = () => {
+    if (sortOrder === ASC_ORDER) {
+      dispatch(setSortOrderType(DESC_ORDER));
+    } else if (sortOrder === DESC_ORDER) {
+      dispatch(setSortOrderType(ASC_ORDER));
     }
-    else if(sortOrder === DESC_ORDER){
-        dispatch(setSortOrderType(ASC_ORDER));
-    }
-  }
+  };
 
   return (
     <div className='navbar'>
@@ -70,7 +68,7 @@ export function NavbarMainPage({searchTitleValue,setSearchTitleValue}) {
               setIsSearchInputMobileOpen(true);
             }}
           >
-            <img alt='loop' src={SearchIcon} className='search-icon' role='presentation' />
+            <SearchIcon className='search-icon' role='presentation' />
           </button>
           <button
             type='button'
