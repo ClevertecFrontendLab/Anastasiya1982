@@ -89,6 +89,8 @@ export const getCategoriesDataAsync = () => async (dispatch) => {
   //    dispatch(setIsDataLoading(false));
 };
 
+// Get all books
+
 export const getBooksDataAsync = () => async (dispatch) => {
   dispatch(setIsDataLoading(true));
   try {
@@ -107,3 +109,5 @@ export const getBooksDataAsync = () => async (dispatch) => {
     }
   }
 };
+
+
