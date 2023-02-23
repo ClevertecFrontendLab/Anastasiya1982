@@ -10,8 +10,6 @@ import './card.scss';
 
 const BASE_URL = 'https://strapi.cleverland.by';
 
-
-
 export const Card = ({ card, currentView, currentCategory, searchTitleValue }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);

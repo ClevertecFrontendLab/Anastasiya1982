@@ -1,6 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { axiosInstance } from '../shared/api/http-common';
 
+const countNumberOfBooksWithCategory = (name, books) => {
+  let i;
+  let count = 0;
+  for (i = 0; i < books.length; i++) {
+    let j;
+    const arr = books[i].categories;
+    for (j = 0; j < arr.length; j++) {
+      count += arr[j] === name ? 1 : 0;
+    }
+  }
+  return count;
+};
+
 export const defaultAllCategories = {
   id: 123456,
   name: 'Все книги',
@@ -50,6 +63,9 @@ export const booksSlice = createSlice({
     setCurrentCategory: (state, action) => {
       state.currentCategory = { ...action.payload };
     },
+    setCategoriesWithCount: (state, action) => {
+      state.categoriesData = [...action.payload];
+    },
   },
   /* eslint-enable no-param-reassign */
 });
@@ -63,6 +79,7 @@ export const {
   setCurrentCategory,
   setIsCategoriesDataLoading,
   setSortOrderType,
+  setCategoriesWithCount,
 } = booksSlice.actions;
 export const booksReducer = booksSlice.reducer;
 
@@ -86,7 +103,6 @@ export const getCategoriesDataAsync = () => async (dispatch) => {
       dispatch(setIsDataLoading(false));
     }
   }
-  //    dispatch(setIsDataLoading(false));
 };
 
 // Get all books
@@ -110,4 +126,10 @@ export const getBooksDataAsync = () => async (dispatch) => {
   }
 };
 
-
+export const setCountToAllCategories = (books, categories) => async (dispatch) => {
+  const newCategoriesArr = categories.map((category) => ({
+    ...category,
+    count: countNumberOfBooksWithCategory(category.name, books),
+  }));
+  dispatch(setCategoriesWithCount(newCategoriesArr));
+};

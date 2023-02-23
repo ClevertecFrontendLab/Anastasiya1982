@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as IconDown } from '../../assets/Icon_Chevron.svg';
 import { ReactComponent as IconUp } from '../../assets/icon-up-leftbar.svg';
-import { defaultAllCategories, setCurrentCategory } from '../../store/books-reducer';
+import { defaultAllCategories, setCurrentCategory, setCountToAllCategories } from '../../store/books-reducer';
 
 import './leftbar.scss';
 
@@ -32,18 +32,12 @@ export const LeftBar = () => {
     }
   }, [booksLoadingError, isShowcaseOfBooksOpen]);
 
-  const countNumberOfBooksWithCategory = (name) => {
-    let i;
-    let count = 0;
-    for (i = 0; i < books.length; i++) {
-      let j;
-      const arr = books[i].categories;
-      for (j = 0; j < arr.length; j++) {
-        count += arr[j] === name ? 1 : 0;
-      }
-    }
-    return count;
-  };
+  const toggleClickOnCategory = useCallback(
+    (category) => {
+      dispatch(setCurrentCategory(category));
+    },
+    [dispatch]
+  );
 
   return (
     <div className='leftbar' role='presentation'>
@@ -66,9 +60,7 @@ export const LeftBar = () => {
           data-test-id='navigation-books'
           to='/books/all'
           className={({ isActive }) => (isActive ? 'all-category-item-link-active' : 'all-category-item-link')}
-          onClick={() => {
-            dispatch(setCurrentCategory(defaultAllCategories));
-          }}
+          onClick={() => toggleClickOnCategory(defaultAllCategories)}
         >
           <div className='category-item'>
             <div className='category-name'>Все книги</div>
@@ -81,16 +73,14 @@ export const LeftBar = () => {
                 data-test-id={`navigation-${category.path}`}
                 to={`/books/${category.path}`}
                 className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
-                onClick={() => {
-                  dispatch(setCurrentCategory(category));
-                }}
+                onClick={() => toggleClickOnCategory(category)}
               >
                 <div key={category.id} className='category-item'>
                   <div className='category-name'>{category.name}</div>
                 </div>
               </NavLink>
               <span className='count' data-test-id={`navigation-book-count-for-${category.path}`}>
-                {countNumberOfBooksWithCategory(category.name)}
+                {category?.count}
               </span>
             </div>
           ))}

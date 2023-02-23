@@ -8,6 +8,7 @@ import { getCategoriesDataAsync, setCurrentCategory, defaultAllCategories } from
 
 import './leftbar-burger-menu.scss';
 
+
 export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
   const [isHeaderActive, setIsHeaderActive] = useState(true);
   const [isShowcaseOfBooksOpen, setIsShowcaseOfBooksOpen] = useState(true);
@@ -40,8 +41,7 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
     }
   }, [location.pathname]);
 
-  const handleClick = (category) => {   
-    dispatch(setCurrentCategory(category));
+  const handleClick = () => {   
     setIsMenuOpen(false); 
   };
 
@@ -68,18 +68,13 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
     };
   }, [isMenuOpen, setIsMenuOpen]);
 
-  const countNumberOfBooksWithCategory = (name) => {
-    let i;
-    let count = 0;
-    for (i = 0; i < books.length; i++) {
-      let j;
-      const arr = books[i].categories;
-      for (j = 0; j < arr.length; j++) {
-        count += arr[j] === name ? 1 : 0;
-      }
-    }
-    return count;
-  };
+const toggleClickOnCategory = useCallback(
+  (category) => {
+    dispatch(setCurrentCategory(category));
+    setIsMenuOpen(false);
+  },
+  [dispatch,setIsMenuOpen]
+);
 
   return (
     <div
@@ -91,21 +86,23 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
       ref={menuRef}
       role='presentation'
     >
-      <div className='burger-showcase' data-test-id='burger-showcase'>
-        <h5 className={isHeaderActive ? 'header-of-leftbar' : 'header-of-leftbar simple'}>
-          <span className='title'>Витрина книг</span>
-          {isShowcaseOfBooksOpen ? (
-            <IconUp
-              onClick={() => setIsShowcaseOfBooksOpen(!isShowcaseOfBooksOpen)}
-              className='icon-open-close-allbooksMenu'
-            />
-          ) : (
-            <IconDown
-              onClick={() => setIsShowcaseOfBooksOpen(!isShowcaseOfBooksOpen)}
-              className='icon-open-close-allbooksMenu'
-            />
-          )}
-        </h5>
+      <div className='burger-showcase' >
+        <NavLink to='/books/all' data-test-id='burger-showcase'>          
+          <h5 className={isHeaderActive ? 'header-of-leftbar' : 'header-of-leftbar simple'}>
+            <span className='title'>Витрина книг</span>
+            {isShowcaseOfBooksOpen ? (
+              <IconUp
+                onClick={() => setIsShowcaseOfBooksOpen(!isShowcaseOfBooksOpen)}
+                className='icon-open-close-allbooksMenu'
+              />
+            ) : (
+              <IconDown
+                onClick={() => setIsShowcaseOfBooksOpen(!isShowcaseOfBooksOpen)}
+                className='icon-open-close-allbooksMenu'
+              />
+            )}
+          </h5>
+        </NavLink>
       </div>
       <div className={isShowcaseOfBooksOpen ? 'categories-list' : 'categories-list closed'}>
         <NavLink
@@ -113,9 +110,7 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
           to='/books/all'
           key='all'
           className={({ isActive }) => (isActive ? 'all-category-item-link-active' : 'all-category-item-link')}
-          onClick={() => {
-            handleClick(defaultAllCategories);
-          }}
+          onClick={() => toggleClickOnCategory(defaultAllCategories)}
         >
           <div className='category-item'>
             <div className='category-name'>Все книги</div>
@@ -128,16 +123,14 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
                 data-test-id={`burger-${category.path}`}
                 to={`/books/${category?.path}`}
                 className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
-                onClick={() => {
-                  handleClick(category);
-                }}
+                onClick={() => toggleClickOnCategory(category)}
               >
                 <div className='category-item'>
                   <div className='category-name'>{category?.name}</div>
                 </div>
               </NavLink>
-              <span className='count' data-test-id={`burger-book-count-for-${category.path}`}>
-                {countNumberOfBooksWithCategory(category.name)}
+              <span className='count' data-test-id={`burger-book-count-for-${category.path}`}>               
+                {category?.count}
               </span>
             </div>
           ))}

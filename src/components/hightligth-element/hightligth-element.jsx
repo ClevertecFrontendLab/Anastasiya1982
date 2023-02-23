@@ -1,3 +1,4 @@
+import React from 'react';
 import './hightligth-element.scss';
 
 export const Highlight = (props) => {
@@ -10,12 +11,12 @@ export const Highlight = (props) => {
       if (index < array.length - 1) {
         const matchEl = matchValue.shift();
         return (
-          <>
+          <React.Fragment key={s}>
             {s}
             <span className='highligth-element' key={s} data-test-id='highlight-matches'>
               {matchEl}
             </span>
-          </>
+          </React.Fragment>
         );
       }
       return s;
