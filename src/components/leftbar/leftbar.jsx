@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as IconDown } from '../../assets/Icon_Chevron.svg';
 import { ReactComponent as IconUp } from '../../assets/icon-up-leftbar.svg';
+import { defaultAllCategories, setCurrentCategory, setCountToAllCategories } from '../../store/books-reducer';
 
 import './leftbar.scss';
 
@@ -11,8 +12,10 @@ export const LeftBar = () => {
   const [isShowcaseOfBooksOpen, setIsShowcaseOfBooksOpen] = useState(true);
   const categories = useSelector((store) => store.books.categoriesData);
   const booksLoadingError = useSelector((store) => store.books.booksDataError);
+  const books = useSelector((store) => store.books.booksData);
 
   const location = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (location.pathname === '/books/terms' || location.pathname === '/books/contract') {
@@ -28,6 +31,13 @@ export const LeftBar = () => {
       setIsShowcaseOfBooksOpen(false);
     }
   }, [booksLoadingError, isShowcaseOfBooksOpen]);
+
+  const toggleClickOnCategory = useCallback(
+    (category) => {
+      dispatch(setCurrentCategory(category));
+    },
+    [dispatch]
+  );
 
   return (
     <div className='leftbar' role='presentation'>
@@ -49,27 +59,30 @@ export const LeftBar = () => {
         <NavLink
           data-test-id='navigation-books'
           to='/books/all'
-          className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
+          className={({ isActive }) => (isActive ? 'all-category-item-link-active' : 'all-category-item-link')}
+          onClick={() => toggleClickOnCategory(defaultAllCategories)}
         >
           <div className='category-item'>
-            <div className='category-name'> Все книги</div>
+            <div className='category-name'>Все книги</div>
           </div>
         </NavLink>
         {categories &&
           categories.map((category) => (
-            <NavLink
-              data-test-id='navigation-books'
-              key={category.id}
-              to={`/books/${category.path}`}
-              className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
-            >
-              <div key={category.id} className='category-item'>
-                <div className='category-name'>
-                  {category.name}
-                  <span className='count'>{8}</span>
+            <div className='category-item-wrapper' key={category.id}>
+              <NavLink
+                data-test-id={`navigation-${category.path}`}
+                to={`/books/${category.path}`}
+                className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
+                onClick={() => toggleClickOnCategory(category)}
+              >
+                <div key={category.id} className='category-item'>
+                  <div className='category-name'>{category.name}</div>
                 </div>
-              </div>
-            </NavLink>
+              </NavLink>
+              <span className='count' data-test-id={`navigation-book-count-for-${category.path}`}>
+                {category?.count}
+              </span>
+            </div>
           ))}
       </div>
 

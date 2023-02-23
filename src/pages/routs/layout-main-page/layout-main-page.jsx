@@ -2,7 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import { LeftBar } from '../../../components/leftbar/leftbar';
-import { getBooksDataAsync, getCategoriesDataAsync } from '../../../store/books-reducer';
+import { getBooksDataAsync, getCategoriesDataAsync, setCountToAllCategories } from '../../../store/books-reducer';
 
 import './layout-main-page.scss';
 
@@ -30,6 +30,13 @@ export const LayoutMainPage = () => {
       fetchAllCategoryiesInLibrary();
     }
   }, [fetchAllCategoryiesInLibrary, allCategoriesInLibrary]);
+
+  useEffect(() => {
+    if (allCategoriesInLibrary.length > 0) {
+      dispatch(setCountToAllCategories(allBooksInLibrary, allCategoriesInLibrary));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, allBooksInLibrary]);
 
   return (
     <div className='layout-main-page'>

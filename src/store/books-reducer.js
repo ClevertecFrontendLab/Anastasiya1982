@@ -1,7 +1,24 @@
-
 import { createSlice } from '@reduxjs/toolkit';
 import { axiosInstance } from '../shared/api/http-common';
 
+const countNumberOfBooksWithCategory = (name, books) => {
+  let i;
+  let count = 0;
+  for (i = 0; i < books.length; i++) {
+    let j;
+    const arr = books[i].categories;
+    for (j = 0; j < arr.length; j++) {
+      count += arr[j] === name ? 1 : 0;
+    }
+  }
+  return count;
+};
+
+export const defaultAllCategories = {
+  id: 123456,
+  name: 'Все книги',
+  path: 'all',
+};
 
 const initialState = {
   booksData: [],
@@ -10,8 +27,9 @@ const initialState = {
   currentBook: null,
   categoriesData: [],
   categoriesDataError: null,
-  currentCategory: null,
+  currentCategory: defaultAllCategories,
   isCategoriesDataLoading: false,
+  sortOrderType: 'asc',
 };
 
 export const booksSlice = createSlice({
@@ -28,6 +46,9 @@ export const booksSlice = createSlice({
     setIsCategoriesDataLoading: (state, action) => {
       state.isCategoriesDataLoading = action.payload;
     },
+    setSortOrderType: (state, action) => {
+      state.sortOrderType = action.payload;
+    },
 
     setBooksDataError: (state, action) => {
       state.booksDataError = action.payload;
@@ -40,7 +61,10 @@ export const booksSlice = createSlice({
       state.categoriesDataError = action.payload;
     },
     setCurrentCategory: (state, action) => {
-      state.currentCategory = action.payload;
+      state.currentCategory = { ...action.payload };
+    },
+    setCategoriesWithCount: (state, action) => {
+      state.categoriesData = [...action.payload];
     },
   },
   /* eslint-enable no-param-reassign */
@@ -54,6 +78,8 @@ export const {
   setCategoriesDataError,
   setCurrentCategory,
   setIsCategoriesDataLoading,
+  setSortOrderType,
+  setCategoriesWithCount,
 } = booksSlice.actions;
 export const booksReducer = booksSlice.reducer;
 
@@ -77,8 +103,9 @@ export const getCategoriesDataAsync = () => async (dispatch) => {
       dispatch(setIsDataLoading(false));
     }
   }
-  //    dispatch(setIsDataLoading(false));
 };
+
+// Get all books
 
 export const getBooksDataAsync = () => async (dispatch) => {
   dispatch(setIsDataLoading(true));
@@ -97,4 +124,12 @@ export const getBooksDataAsync = () => async (dispatch) => {
       dispatch(setIsDataLoading(false));
     }
   }
+};
+
+export const setCountToAllCategories = (books, categories) => async (dispatch) => {
+  const newCategoriesArr = categories.map((category) => ({
+    ...category,
+    count: countNumberOfBooksWithCategory(category.name, books),
+  }));
+  dispatch(setCategoriesWithCount(newCategoriesArr));
 };

@@ -4,14 +4,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import { ReactComponent as IconDown } from '../../assets/Icon_Chevron.svg';
 import { ReactComponent as IconUp } from '../../assets/icon-up-leftbar.svg';
-import { getCategoriesDataAsync } from '../../store/books-reducer';
+import { getCategoriesDataAsync, setCurrentCategory, defaultAllCategories } from '../../store/books-reducer';
 
 import './leftbar-burger-menu.scss';
+
 
 export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
   const [isHeaderActive, setIsHeaderActive] = useState(true);
   const [isShowcaseOfBooksOpen, setIsShowcaseOfBooksOpen] = useState(true);
 
+  const books = useSelector((store) => store.books.booksData);
   const categories = useSelector((store) => store.books.categoriesData);
   const booksLoadingError = useSelector((store) => store.books.booksDataError);
   const dispatch = useDispatch();
@@ -39,9 +41,8 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
     }
   }, [location.pathname]);
 
-  const handleClick = (e) => {
-    e.stopPropagation();
-    setIsMenuOpen(false); //
+  const handleClick = () => {   
+    setIsMenuOpen(false); 
   };
 
   useEffect(() => {
@@ -67,6 +68,14 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
     };
   }, [isMenuOpen, setIsMenuOpen]);
 
+const toggleClickOnCategory = useCallback(
+  (category) => {
+    dispatch(setCurrentCategory(category));
+    setIsMenuOpen(false);
+  },
+  [dispatch,setIsMenuOpen]
+);
+
   return (
     <div
       data-test-id='burger-navigation'
@@ -77,28 +86,31 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
       ref={menuRef}
       role='presentation'
     >
-      <div className='burger-showcase' data-test-id='burger-showcase'>
-        <h5 className={isHeaderActive ? 'header-of-leftbar' : 'header-of-leftbar simple'}>
-          <span className='title'>Витрина книг</span>
-          {isShowcaseOfBooksOpen ? (
-            <IconUp
-              onClick={() => setIsShowcaseOfBooksOpen(!isShowcaseOfBooksOpen)}
-              className='icon-open-close-allbooksMenu'
-            />
-          ) : (
-            <IconDown
-              onClick={() => setIsShowcaseOfBooksOpen(!isShowcaseOfBooksOpen)}
-              className='icon-open-close-allbooksMenu'
-            />
-          )}
-        </h5>
+      <div className='burger-showcase' >
+        <NavLink to='/books/all' data-test-id='burger-showcase'>          
+          <h5 className={isHeaderActive ? 'header-of-leftbar' : 'header-of-leftbar simple'}>
+            <span className='title'>Витрина книг</span>
+            {isShowcaseOfBooksOpen ? (
+              <IconUp
+                onClick={() => setIsShowcaseOfBooksOpen(!isShowcaseOfBooksOpen)}
+                className='icon-open-close-allbooksMenu'
+              />
+            ) : (
+              <IconDown
+                onClick={() => setIsShowcaseOfBooksOpen(!isShowcaseOfBooksOpen)}
+                className='icon-open-close-allbooksMenu'
+              />
+            )}
+          </h5>
+        </NavLink>
       </div>
       <div className={isShowcaseOfBooksOpen ? 'categories-list' : 'categories-list closed'}>
         <NavLink
-          data-test-id='navigation-books'
+          data-test-id='burger-books'
           to='/books/all'
-          className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
-          onClick={handleClick}
+          key='all'
+          className={({ isActive }) => (isActive ? 'all-category-item-link-active' : 'all-category-item-link')}
+          onClick={() => toggleClickOnCategory(defaultAllCategories)}
         >
           <div className='category-item'>
             <div className='category-name'>Все книги</div>
@@ -106,20 +118,21 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
         </NavLink>
         {categories &&
           categories.map((category) => (
-            <NavLink
-              data-test-id='burger-books'
-              key={category?.id}
-              to={`/books/${category?.path}`}
-              className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
-              onClick={handleClick}
-            >
-              <div key={category?.id} className='category-item'>
-                <div className='category-name'>
-                  {category?.name}
-                  <span className='count'>{8}</span>
+            <div className='category-item-wrapper' key={category?.id}>
+              <NavLink
+                data-test-id={`burger-${category.path}`}
+                to={`/books/${category?.path}`}
+                className={({ isActive }) => (isActive ? 'category-item-link-active' : 'category-item-link')}
+                onClick={() => toggleClickOnCategory(category)}
+              >
+                <div className='category-item'>
+                  <div className='category-name'>{category?.name}</div>
                 </div>
-              </div>
-            </NavLink>
+              </NavLink>
+              <span className='count' data-test-id={`burger-book-count-for-${category.path}`}>               
+                {category?.count}
+              </span>
+            </div>
           ))}
       </div>
 

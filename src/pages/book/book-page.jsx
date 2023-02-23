@@ -1,11 +1,10 @@
-import { useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { getBookDataAsync } from '../../store/book-data-reducer';
 import { Loader } from '../../components/loader/loader';
 import { Raiting } from '../../components/raiting/raiting';
-import { usersRewiews } from '../../users-rewiews';
 import { DetailedInfoBlock } from '../../components/detailed-information/detailed-info';
 import { ToastModal } from '../../components/toast-modal/toast-modal';
 import userLogo from '../../assets/user-logo-default.png';
@@ -22,8 +21,10 @@ export const BookPage = () => {
   const { category, booksId } = useParams();
 
   const book = useSelector((store) => store.bookData.bookData);
+  const currentCategory = useSelector((store) => store.books.currentCategory);
   const isBookDataLoading = useSelector((store) => store.bookData.isBookDataLoading);
   const isBookDataLoadingError = useSelector((store) => store.bookData.bookDataError);
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(getBookDataAsync(booksId));
@@ -47,9 +48,16 @@ export const BookPage = () => {
       {isBookDataLoading && <Loader />}
       <header className='book-page-header'>
         <div className='header-container'>
-          <div className='book-category-name'>
-            {category}
-            <span>&#8260;</span> {book?.title}
+          <div className='book-navigation-panel'>
+            <Link
+              to={`/books/${category}`}
+              state={{ prevLocation: `${location.pathname}` }}
+              data-test-id='breadcrumbs-link'
+            >
+              <span>{currentCategory?.name}</span>
+            </Link>
+            <span>&#8260;</span>
+            <span data-test-id='book-name'>{book?.title}</span>
           </div>
         </div>
       </header>
@@ -63,7 +71,9 @@ export const BookPage = () => {
               <BookPreview imageRoute={book?.images} />
             </div>
             <div className='books-description'>
-              <h3 className='books-title'>{book?.title}</h3>
+              <h3 className='books-title' data-test-id='book-title'>
+                {book?.title}
+              </h3>
               <div className='books-author'>{book?.authors[0]}</div>
               <div className='booked-button-section'>
                 <button type='button'>Забронировать</button>

@@ -17,6 +17,7 @@
         &.open {
             display: inline-flex;
             width: 280px;
+            padding-left:16px ;
         }
     }
 
@@ -25,6 +26,7 @@
         top: 12px;
         left: 14px;
         order: -1;
+       fill: #A7A7A7;
     }
 
     .clear-icon {
@@ -48,6 +50,7 @@
 
         @include iPad-portrate {
             width: 280px;
+            padding-left: 16px;
 
             &::placeholder {
                 color: transparent;
@@ -68,13 +71,19 @@
         }
 
         &:focus {
-            padding-left: 16px;
+            padding-left: 40px;
+
+            @include iPad-portrate{
+                 padding-left: 16px;
+            }
         }
+       
     }
 
     .search-block-input:focus + .search-icon {
         /* стили для иконки при фокусе поля */
-        display: none;
+      fill: linear-gradient(233.73deg, #F83600 -16.08%, #F9D423 327.37%);;
+      
     }
 }
 

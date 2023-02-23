@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import classNames from 'classnames';
 import IconWarning from '../../assets/Icon-warning-loading.png';
 import IconSuccess from '../../assets/Icon-success.png';
 import { ReactComponent as CloseIcon } from '../../assets/close-button-icon.svg';
@@ -10,9 +10,7 @@ export const messageType = {
   error: 'error',
 };
 
-export const ToastModal = ({ type, handleModal, isPopupOpen}) => {
-//   if (isPopupOpen) return null;
-
+export const ToastModal = ({ type, handleModal }) => {
   const notificationContent =
     type === messageType.success
       ? 'Изменения успешно сохранены!'

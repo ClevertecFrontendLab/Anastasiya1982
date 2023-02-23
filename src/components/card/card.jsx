@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import classNames from 'classnames';
 import { Raiting } from '../raiting/raiting';
+import { Highlight } from '../hightligth-element/hightligth-element';
 import loaderImg from '../../assets/loader-image.gif';
 import defaultImg from '../../assets/default-card-image.png';
 
@@ -9,13 +10,17 @@ import './card.scss';
 
 const BASE_URL = 'https://strapi.cleverland.by';
 
-export const Card = ({ card, currentView }) => {
+export const Card = ({ card, currentView, currentCategory, searchTitleValue }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
+  const ligthElementWhileFilter = useCallback(
+    (str) => <Highlight filter={searchTitleValue} str={str} />,
+    [searchTitleValue]
+  );
 
   const handleKeyDown = (ev) => {
     if (ev.keyCode === 13) {
-      navigate(`/books/categoty/:${card.id}`);
+      navigate(`/books/${currentCategory.path}/${card.id}`);
     }
   };
 
@@ -28,7 +33,7 @@ export const Card = ({ card, currentView }) => {
       className={`card-content-${currentView}`}
       data-test-id='card'
       onClick={() =>
-        navigate(`/books/${card.categories[0]}/${card.id}`, {
+        navigate(`/books/${currentCategory.path}/${card.id}`, {
           state: {
             id: card.id,
           },
@@ -59,7 +64,7 @@ export const Card = ({ card, currentView }) => {
         </div>
 
         <div className='card-title'>
-          <h4>{card.title}</h4>
+          <h4>{ligthElementWhileFilter(card.title)}</h4>
         </div>
         <div className='card-author'>{card.authors && card.authors[0]}</div>
         <div className='submit-block'>

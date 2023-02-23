@@ -1,54 +1,54 @@
 import classNames from 'classnames';
 import { useState, useRef, useEffect } from 'react';
 import DeleteIcon from '../../assets/delete-search-icon.svg';
-
-import SearchIcon from '../../assets/search-icon.svg';
+import { ReactComponent as SearchIcon } from '../../assets/search-icon.svg';
 
 import './search-input.scss';
 
-export const SearchInput = ({ setIsSearchInputMobileOpen, isSearchInputMobileOpen }) => {
+export const SearchInput = ({
+  setIsSearchInputMobileOpen,
+  isSearchInputMobileOpen,
+  searchTitleValue,
+  setSearchTitleValue,
+}) => {
   const [isClearButtonIsVisible, setIsClearButtonVisible] = useState(false);
-
-  const [searchValue, setSearchValue] = useState('');
 
   const inputRef = useRef(null);
 
   const clearInput = () => {
     setIsSearchInputMobileOpen(false);
-    setSearchValue('');
     setIsClearButtonVisible(false);
   };
 
   useEffect(() => {
     if (isSearchInputMobileOpen) {
       inputRef.current.focus();
+      setIsClearButtonVisible(true);
     }
   }, [isSearchInputMobileOpen]);
 
   return (
-    <div className={classNames('search-input', { open: isSearchInputMobileOpen })} data-test-id='input-search'>
+    <div className={classNames('search-input', { open: isSearchInputMobileOpen })}>
       <input
+        data-test-id='input-search'
         ref={inputRef}
         className='search-block-input'
         type='text'
         id='search'
         placeholder='Поиск книги или автора…'
-        onFocus={() => {
-          setIsClearButtonVisible(true);
-        }}
-        value={searchValue}
+        value={searchTitleValue}
         onChange={(e) => {
-          setSearchValue(e.target.value);
+          setSearchTitleValue(e.target.value);
         }}
       />
 
-      <img alt='loop' src={SearchIcon} className='search-icon' role='presentation' />
+      <SearchIcon className={classNames('search-icon', { hide: isSearchInputMobileOpen })} role='presentation' />
       <img
         data-test-id='button-search-close'
         alt='delete-icon'
         src={DeleteIcon}
         role='presentation'
-        className={!isClearButtonIsVisible ? 'clear-icon' : 'clear-icon visible'}
+        className={isClearButtonIsVisible ? 'clear-icon visible' : 'clear-icon'}
         onClick={clearInput}
       />
     </div>

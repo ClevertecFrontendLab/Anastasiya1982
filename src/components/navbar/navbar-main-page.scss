@@ -33,6 +33,15 @@
             color: #a7a7a7;
             display: flex;
             align-items: center;
+            cursor: pointer;
+
+            &:hover {
+                box-shadow: 0px 3px 4px rgba(222, 125, 11, 0.2), 0px 1px 10px rgba(249, 89, 8, 0.2);
+            }
+            &:active {
+                box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18),
+                    0px 1px 5px rgba(191, 196, 201, 0.24);
+            }
 
             @include iPad-portrate {
                 width: 32px;
@@ -45,6 +54,7 @@
                 margin-left: 16px;
                 width: 16px;
                 height: 16px;
+                cursor: pointer;
 
                 @include iPad-portrate {
                     margin: 8px;
@@ -65,8 +75,35 @@
             }
         }
 
-         .sorting-button.hide{
+        .sorting-button.hide {
             display: none;
+        }
+
+        .search-input-mobile-button {
+            width: 32px;
+            height: 32px;
+            border-radius: 599px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0px 2px 4px rgb(191 196 201 / 20%), 0px 3px 4px rgb(191 196 201 / 18%),
+                0px 1px 5px rgb(191 196 201 / 24%);
+            border: none;
+            background: #ffffff;
+            display: none;
+            margin-right: 16px;
+
+            .search-icon {
+                fill: #a7a7a7;
+            }
+
+            @include iPad-portrate {
+                display: flex;
+
+                &.close {
+                    display: none;
+                }
+            }
         }
 
         .view-and-menu-block {
