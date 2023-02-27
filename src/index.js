@@ -7,6 +7,7 @@ import { Layout } from './pages/routs/layout/layout';
 import { LayoutMainPage } from './pages/routs/layout-main-page/layout-main-page';
 import { MainPage } from './pages/main';
 import { TermsPage } from './pages/terms';
+import {RegistrationPage} from './pages/registration/registration';
 import { ViewCardsContextProvider } from './context/view-cards-context';
 
 import { store } from './store';
@@ -27,6 +28,7 @@ root.render(
             </Route>
             <Route path='books/:category/:booksId' element={<BookPage />} />
           </Route>
+          <Route path='/registration' element={<RegistrationPage />} />
         </Routes>
       </HashRouter>
     </ViewCardsContextProvider>

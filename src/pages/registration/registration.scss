@@ -1,0 +1,96 @@
+@import "../../styles.scss";
+
+.register-page {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+
+    .register-page-header {
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 40px;
+        letter-spacing: 0.1px;
+        color: #ffffff;
+        margin-top: 180px;
+        margin-bottom: 46px;
+    }
+
+    .register-form-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 48px 56px;
+        max-width: 528px;
+        width: 100%;
+        min-height: 492px;
+        background: #ffffff;
+        border-radius: 16px;
+
+        .form-title {
+            margin-bottom: 8px;
+        }
+
+        .step-number-block {
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 18px;
+            letter-spacing: 0.1px;
+            color: #363636;
+            flex: none;
+            margin-bottom: 32px;
+        }
+
+        .form-container{
+           width: 100%;           
+        }
+
+        .enter-block {
+            width: 100%;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 16px;
+
+            .enter-block-title {
+                display: inline-block;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 24px;
+                text-align: center;
+                letter-spacing: 0.1px;
+                color: #727272;
+                margin-right: 16px;
+            }
+
+            .enter-block-button {
+                width: 161px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                cursor: pointer;
+                background-color: transparent;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 18px;
+                letter-spacing: 0.2px;
+                text-transform: uppercase;
+                color: #363636;
+                border: none;
+
+                &:focus {
+                    border: none;
+                }
+
+                &:active {
+                    border: none;
+                }
+            }
+        }
+    }
+}
