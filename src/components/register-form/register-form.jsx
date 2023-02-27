@@ -1,5 +1,11 @@
 import { useForm } from 'react-hook-form';
 
+import { AccountForm } from './account-form';
+import { UserForm } from './user-form';
+import { AddressForm } from './address-form';
+import { useMultistepForm } from '../../pages/registration/use-multiply-step';
+
+
 import './register-form.scss';
 
 const defaultRegisterValues = {
@@ -11,8 +17,8 @@ const defaultRegisterValues = {
   phone: '',
 };
 
-
-export const RegistrationForm = () => {
+export const RegistrationForm = () => { 
+    
   const {
     register,
     control,
@@ -23,15 +29,33 @@ export const RegistrationForm = () => {
     defaultValues: defaultRegisterValues,
   });
 
- console.log('====================================');
- console.log(watch());
- console.log('====================================');
+   const { steps, currentStepIndex, step, isFirstStep, isSecondStep, isLastStep, back, next } = useMultistepForm([
+      <UserForm  />,
+      <AddressForm  />,
+     <AccountForm />,
+   ]);
 
-  const onSubmit = (data) => console.log(data);
+ 
+
+  const onSubmit = (data) => {
+    if(!isLastStep) {
+       next();
+    }   
+    console.log('====================================');
+    console.log(data);
+    console.log('====================================');
+  };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input type='submit' value='следующий шаг' className='submit-form-button' />
+    <form onSubmit={handleSubmit(onSubmit)} className='register-form'>
+      {step === 1 && <AccountForm username='username' password='password' register={register}  />}
+      {step === 2 && <UserForm firstName='firstName' lastName='lastName' register={register}  />}
+      {step === 3 && <AddressForm phone='phone' email='email' register={register}  />}
+      <input
+        type='submit'
+        value={isSecondStep ? 'последний шаг' : isLastStep ? 'зарегистрироваться' : 'следующий шаг'}
+        className='submit-form-button'
+      />
     </form>
   );
 };

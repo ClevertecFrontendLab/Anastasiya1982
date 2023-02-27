@@ -12,7 +12,7 @@ export const registrationSlice = createSlice({
   initialState,
   reducers: {
     setCurrentStepIndex: (state, action) => {
-      state.step = action.payload;
+      state.currentStepIndex = action.payload;
     },
   },
   /* eslint-enable no-param-reassign */
@@ -22,4 +22,9 @@ export const { setCurrentStepIndex } = registrationSlice.actions;
 export const registrationReducer = registrationSlice.reducer;
 
 // thunks
+
+// export const setCurrentStepIndexAsync = (index) => async (dispatch) => {
+//   dispatch(setCurrentStepIndex(index));
+ 
+// };
 
