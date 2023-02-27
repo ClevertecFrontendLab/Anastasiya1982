@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { axiosInstance } from '../shared/api/http-common';
+
 
 const initialState = {
     steps:[1,2,3],
@@ -23,8 +23,5 @@ export const registrationReducer = registrationSlice.reducer;
 
 // thunks
 
-// export const setCurrentStepIndexAsync = (index) => async (dispatch) => {
-//   dispatch(setCurrentStepIndex(index));
- 
-// };
+
 

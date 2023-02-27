@@ -48,9 +48,25 @@ export const RegistrationForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='register-form'>
-      {step === 1 && <AccountForm username='username' password='password' register={register}  />}
-      {step === 2 && <UserForm firstName='firstName' lastName='lastName' register={register}  />}
-      {step === 3 && <AddressForm phone='phone' email='email' register={register}  />}
+      {step === 1 && (
+        <AccountForm
+          username='username'
+          password='password'
+          register={register}
+          errorName={errors?.username}
+          errorPassword={errors?.password}
+        />
+      )}
+      {step === 2 && (
+        <UserForm
+          firstName='firstName'
+          lastName='lastName'
+          register={register}
+          errorFirstName={errors?.firstName}
+          errorLastName={errors?.lastName}
+        />
+      )}
+      {step === 3 && <AddressForm phone='phone' email='email' register={register} errorPhone={errors?.phone}  errorEmail={errors?.email}/>}
       <input
         type='submit'
         value={isSecondStep ? 'последний шаг' : isLastStep ? 'зарегистрироваться' : 'следующий шаг'}
