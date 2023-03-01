@@ -1,9 +1,10 @@
 import { useForm } from 'react-hook-form';
-
+import { useDispatch } from 'react-redux';
 import { AccountForm } from './account-form';
 import { UserForm } from './user-form';
 import { AddressForm } from './address-form';
 import { useMultistepForm } from '../../pages/registration/use-multiply-step';
+import { registration } from '../../store/user-reducer';
 
 
 import './register-form.scss';
@@ -17,7 +18,8 @@ const defaultRegisterValues = {
   phone: '',
 };
 
-export const RegistrationForm = () => { 
+export const RegistrationForm = () => {
+    const dispatch=useDispatch() ;
     
   const {
     register,
@@ -33,17 +35,13 @@ export const RegistrationForm = () => {
       <UserForm  />,
       <AddressForm  />,
      <AccountForm />,
-   ]);
-
- 
+   ]); 
 
   const onSubmit = (data) => {
     if(!isLastStep) {
        next();
     }   
-    console.log('====================================');
-    console.log(data);
-    console.log('====================================');
+    else if(!isFirstStep && !isSecondStep && isLastStep && data)dispatch(registration(data))
   };
 
   return (

@@ -8,7 +8,9 @@ import { LayoutMainPage } from './pages/routs/layout-main-page/layout-main-page'
 import { MainPage } from './pages/main';
 import { TermsPage } from './pages/terms';
 import {RegistrationPage} from './pages/registration/registration';
+import {AuthPage} from './pages/auth/auth';
 import { ViewCardsContextProvider } from './context/view-cards-context';
+import { RequireAuth } from './pages/routs/require-auth';
 
 import { store } from './store';
 
@@ -18,7 +20,9 @@ root.render(
     <ViewCardsContextProvider>
       <HashRouter>
         <Routes>
-          <Route path='/' element={<Layout />}>
+          <Route path='/' element={
+            <RequireAuth> <Layout /></RequireAuth>
+          }>
             <Route element={<LayoutMainPage />}>
               <Route path='/' element={<Navigate to='books/all' />} />
               <Route path='/books/' element={<Navigate to='all' />} />
@@ -29,6 +33,7 @@ root.render(
             <Route path='books/:category/:booksId' element={<BookPage />} />
           </Route>
           <Route path='/registration' element={<RegistrationPage />} />
+          <Route path='/auth' element={<AuthPage />} />
         </Routes>
       </HashRouter>
     </ViewCardsContextProvider>

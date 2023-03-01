@@ -21,7 +21,6 @@ export const registrationSlice = createSlice({
 export const { setCurrentStepIndex } = registrationSlice.actions;
 export const registrationReducer = registrationSlice.reducer;
 
-// thunks
 
 
 
