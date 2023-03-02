@@ -6,10 +6,6 @@ export function useMultistepForm() {
   const currentStepIndex = useSelector((store) => store.registration.currentStepIndex);
   const dispatch = useDispatch();
 
-  console.log('====================================');
-  console.log(currentStepIndex);
-  console.log('====================================');
-
   function next() {
     if (currentStepIndex >= steps.length - 1) return;
     dispatch(setCurrentStepIndex(currentStepIndex + 1));

@@ -3,9 +3,10 @@
     vertical-align: top;
     position: relative;
     width: 100%;
+    background: #f9f9fa;
 
     .form-input {
-        width: 90%;
+        width: 100%;
         background: #f9f9fa;
         border-radius: 4px;
         min-height: 56px;
@@ -19,7 +20,7 @@
         background: #f9f9fa;
         border-radius: 4px;
         min-height: 56px;
-        border-bottom: 1px solid F42C4F;
+        border-bottom: 1px solid #F42C4F;
         padding: 19px 12px;
         outline: none;
     }
@@ -42,7 +43,8 @@
     }
 
     .form-input:focus + .form-label,
-    .form-input:not(:placeholder-shown) + .form-label
+    .form-input:not(:placeholder-shown) + .form-label,
+    .form-input:not(:focus):invalid~.form-label
      {
         top: 2px;
         font-size: 10px;
@@ -51,7 +53,7 @@
     .show-password-icon {
         position: absolute;
         top: 30%;
-        right: 13%;
+        right: 5%;
         z-index: 1;
     }
 
@@ -60,7 +62,23 @@
         font-size: 12px;
         line-height: 16px;
         letter-spacing: 0.2px;
-        color: #f42c4f;
+        color: #F42C4F;
         padding-left: 5px;
+        background: white;
+    }
+
+    .error-message-text-matched{
+         font-weight: 500;
+        font-size: 12px;
+        line-height: 16px;
+        letter-spacing: 0.2px;
+        color: #363636;
+        padding-left: 5px;
+        background: white;
+
+        &.full{
+            color: #F42C4F;
+            background: white;
+        }
     }
 }
