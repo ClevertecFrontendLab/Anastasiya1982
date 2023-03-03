@@ -20,11 +20,16 @@ root.render(
     <ViewCardsContextProvider>
       <HashRouter>
         <Routes>
-          <Route path='/' element={
-            <RequireAuth> <Layout /></RequireAuth>
-          }>
+          <Route
+            path='/'
+            element={
+              <RequireAuth>              
+                <Layout />
+              </RequireAuth>
+            }
+          >
             <Route element={<LayoutMainPage />}>
-              {/* <Route path='/' element={<Navigate to='books/all' />} /> */}
+              <Route path='/' element={<Navigate to='/books/all' />} />
               <Route path='/books/' element={<Navigate to='books/all' />} />
               <Route path='books/:category' element={<MainPage />} />
               <Route path='/books/terms' element={<TermsPage contentView='terms' />} />

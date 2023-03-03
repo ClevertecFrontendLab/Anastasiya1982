@@ -1,7 +1,9 @@
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { Loader } from '../../components/loader/loader';
 import { RegistrationForm } from '../../components/register-form/register-form';
+import { setUserRegisterDataError } from '../../store/user-reducer'; 
+
 
 import './registration.scss';
 
@@ -28,21 +30,28 @@ export const ModalWithRegisterForm = () => {
   );
 };
 
-export const ModalSuccessRegistrationForm = () =>  (
-     <div className='register-form-wrapper'>
+export const ModalSuccessRegistrationForm = () =>  {
+    const navigate=useNavigate();
+    return(
+   <div className='register-form-wrapper'>
        <h4 className='form-title'>Регистрация успешна</h4>
        <div className='form-content'>
          Регистрация прошла успешно. Зайдите в личный кабинет, используя свои логин и пароль
        </div>
        <div className='enter-block'>        
-         <button type='button' className='enter-block-button'>
+         <button type='button' className='enter-block-button' onClick={()=>navigate('/auth')}>
            Вход
          </button>
        </div>
      </div>
-   );
+    )
+}
+
+  
+   
 
    export const ModalErrorRegistrationForm = () => {
+    const dispatch=useDispatch()
      const error = useSelector((store) => store.userData.userDataError);
      return (
        <div className='register-form-wrapper'>
@@ -54,12 +63,20 @@ export const ModalSuccessRegistrationForm = () =>  (
          </div>
          <div className='enter-block'>
            {error.status === 400 && (
-             <button type='button' className='enter-block-button'>
+             <button
+               type='button'
+               onClick={() => dispatch(setUserRegisterDataError(null))}
+               className='enter-block-button'
+             >
                Назад к регистрации
              </button>
            )}
            {error.status === 500 && (
-             <button type='button' className='enter-block-button'>
+             <button
+               type='button'
+               onClick={() => dispatch(setUserRegisterDataError(null))}
+               className='enter-block-button'
+             >
                Повторить
              </button>
            )}

@@ -1,3 +1,5 @@
+@import "../../styles.scss";
+
 .auth-page {
     width: 100%;
     height: 100vh;
@@ -17,6 +19,14 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+
+        @include iPad-portrate {
+            font-size: 18px;
+            line-height: 28px;
+            letter-spacing: 0.1px;
+            margin-top: 16px;
+            margin-bottom: 12px;
+        }
     }
 
     .form-container {
@@ -28,23 +38,40 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        margin-bottom: 52px;
+
+        @include iPad-portrate {
+            width: 288px;
+            // height: 456px;
+            left: 16px;
+            top: 56px;
+            border-radius: 16px;
+            padding: 24px 16px 27px 16px;
+        }
 
         .form-container-title {
+            width: 100%;
             font-weight: 700;
             font-size: 24px;
             line-height: 30px;
             letter-spacing: 0.1px;
             color: #363636;
             margin-bottom: 32px;
+
         }
 
         .enter-block {
-            width: 100%;
-            height: 24px;
+            width: 100%;           
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            margin-top: 16px;
+            justify-content: flex-start;           
+
+            @include iPad-portrate{
+                flex-direction: column;
+                align-items: flex-start;
+                margin-top: 0;
+                gap: 7px;
+            }
 
             .enter-block-title {
                 display: inline-block;
@@ -58,8 +85,7 @@
             }
 
             .enter-block-button {
-                width: 161px;
-                height: 24px;
+                width: 161px;               
                 display: flex;
                 align-items: center;
                 justify-content: flex-start;
@@ -72,6 +98,11 @@
                 text-transform: uppercase;
                 color: #363636;
                 border: none;
+                 
+                .enter-button-value{
+                    display: inline-block;
+                    margin-right: 15px;
+                }
 
                 &:focus {
                     border: none;

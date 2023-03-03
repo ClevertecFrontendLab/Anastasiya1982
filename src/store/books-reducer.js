@@ -95,13 +95,14 @@ export const getCategoriesDataAsync = () => async (dispatch) => {
     dispatch(setIsDataLoading(false));
   } catch (error) {
     // handle error
-    if (error.response.status === 502) {
+    if (error?.response?.status === 502) {
       dispatch(setBooksDataError({ name: 'bad request', status: 502 }));
-    } else if (error.response.status === 404) {
+    } else if (error?.response?.status === 404) {
       // handle not found error...
-      dispatch(setBooksDataError({ name: 'not found error', status: 404 }));
+      dispatch(setBooksDataError({ name: 'not found error', status: 404 }));      
       dispatch(setIsDataLoading(false));
     }
+    dispatch(setBooksDataError({ name: 'error', status: 500 }));
   }
 };
 
@@ -115,10 +116,10 @@ export const getBooksDataAsync = () => async (dispatch) => {
     dispatch(setIsDataLoading(false));
   } catch (error) {
     // handle error
-    if (error.response.status === 502) {
+    if (error?.response?.status === 502) {
       dispatch(setBooksDataError({ name: 'bad request', status: 502 }));
       dispatch(setIsDataLoading(false));
-    } else if (error.response.status === 404) {
+    } else if (error?.response?.status === 404) {
       // handle not found error...
       dispatch(setBooksDataError({ name: 'not found error', status: 404 }));
       dispatch(setIsDataLoading(false));

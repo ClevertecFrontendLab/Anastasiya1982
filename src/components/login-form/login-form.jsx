@@ -1,23 +1,38 @@
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { Input } from '../input-in-form/input-in-form';
+import { login } from '../../store/user-reducer'; 
 
 import './login-form.scss';
 
 export const LoginForm = () => {
+    const dispatch=useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
+    watch,
+    clearError,
   } = useForm({
     defaultValues: {
       username: '',
       password: '',
     },
-    mode: 'onBlur',
+    mode: 'all',
   });
-  const onSubmit = (data) => console.log(data);
+
+
+  const onSubmit = (data) => {
+dispatch(login(data))
+
+  };
+
+
+//   const onPasswordChange=watch('password')
+
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='login-form'>

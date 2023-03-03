@@ -1,37 +1,43 @@
 import axios from 'axios';
 
-const config = {
+const axiosInstance = axios.create({
   baseURL: 'https://strapi.cleverland.by/api/',
   withCredentials: true,
-  headers: {
-    'Content-type': 'application/json',
-  },
-};
-
-// api.interceptors.request.use((config) => {
-//   config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
-//   return config;
-// });
-
-// api.interceptors.response.use(
-//   (config) => {
-//     return config;
+//   headers: {
+//     'Content-Type': 'application/json',
 //   },
-//   async (error) => {
-//     const originalRequest = error.config;
-//     if (error.response.status === 401 && error.config && !error.config._isRetry) {
-//       originalRequest._isRetry = true;
-//       try {
-//         const response = await axios.get('http://localhost:5000/api/refresh', { withCredentials: true });
-//         localStorage.setItem('token', response.data.accessToken);
-//         return api.request(originalRequest);
-//       } catch (e) {
-//         console.log(e);
-//       }
+});
+
+// axiosInstance.interceptors.request.use(() => {
+//    const token = localStorage.getItem('token');
+//    if (token) {
+//          axios.defaults.headers.common.Authorization= `Bearer ${token}`;
+//      } else {
+//          axios.defaults.headers.common.Authorization = null;
+//      }
+// //   res.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+// //   return res;
+// });
+// export function jwtInterceptor() {
+//   axiosInstance.interceptors.request.use((request) => {
+//     // add auth header with jwt if account is logged in and request is to the api url
+//     const account = accountService.accountValue;
+//     const isLoggedIn = account?.token;
+//     const isApiUrl = request.url.startsWith(process.env.REACT_APP_API_URL);
+
+//     if (isLoggedIn && isApiUrl) {
+//       request.headers.common.Authorization = `Bearer ${account.token}`;
 //     }
-//     throw error;
-//   }
-// );
 
-export const axiosInstance = axios.create(config);
+//     return request;
+//   });
+// }
 
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  const req = config;
+  req.headers.Authorization = token? `Bearer ${token}`:'';
+  return req;
+});
+
+export { axiosInstance };
