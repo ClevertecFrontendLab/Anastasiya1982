@@ -9,6 +9,7 @@ import { MainPage } from './pages/main';
 import { TermsPage } from './pages/terms';
 import {RegistrationPage} from './pages/registration/registration';
 import {AuthPage} from './pages/auth/auth';
+import { ForgotPassPage } from './pages/forgot-pass/forgot-pass';
 import { ViewCardsContextProvider } from './context/view-cards-context';
 import { RequireAuth } from './pages/routs/require-auth';
 
@@ -23,7 +24,7 @@ root.render(
           <Route
             path='/'
             element={
-              <RequireAuth>              
+              <RequireAuth>
                 <Layout />
               </RequireAuth>
             }
@@ -39,6 +40,7 @@ root.render(
           </Route>
           <Route path='/registration' element={<RegistrationPage />} />
           <Route path='/auth' element={<AuthPage />} />
+          <Route path='/forgot-pass' element={<ForgotPassPage />} />
         </Routes>
       </HashRouter>
     </ViewCardsContextProvider>

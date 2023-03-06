@@ -3,22 +3,26 @@
 .auth-page {
     width: 100%;
     height: 100vh;
-    display: flex;
-    flex-direction: column;
+    display: flex;   
     align-items: center;
+    justify-content: center;
     background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+
+    .auth-page-wrapper{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap:46px;
+    }
 
     .auth-page-header {
         font-weight: 700;
         font-size: 32px;
         line-height: 40px;
         letter-spacing: 0.1px;
-        color: #ffffff;
-        margin-top: 180px;
-        margin-bottom: 46px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        color: #ffffff;    
+       
 
         @include iPad-portrate {
             font-size: 18px;
@@ -30,15 +34,13 @@
     }
 
     .form-container {
-        width: 528px;
-        min-height: 466px;
+        width: 528px;       
         background: #ffffff;
         border-radius: 16px;
         padding: 48px 56px;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        margin-bottom: 52px;
+        align-items: flex-start;       
 
         @include iPad-portrate {
             width: 288px;
@@ -47,6 +49,10 @@
             top: 56px;
             border-radius: 16px;
             padding: 24px 16px 27px 16px;
+        }
+        
+        .form-container-wrapper{
+            width: 100%;
         }
 
         .form-container-title {
@@ -115,16 +121,14 @@
     }
 
     .error-login-message-container {
-        width: 600px;
-        height: 266px;
+        width: 100%;        
         left: 456px;
         top: 379px;
         background: #ffffff;
         border-radius: 16px;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        padding: 48px 95px;
+        align-items: center;        
         gap: 32px;
 
         .error-title{             

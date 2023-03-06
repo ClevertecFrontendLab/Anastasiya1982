@@ -14,6 +14,14 @@
         color: #a7a7a7;
         margin-left: 12px;
         margin-top: -12px;
+        background-color: transparent;
+        border: none;
+        text-align: start;
+        width: 60%;
+    }
+
+    .forgot-password-link.hidden {
+        display: none;
     }
 
     .error-block {
@@ -28,7 +36,7 @@
             font-size: 12px;
             line-height: 16px;
             letter-spacing: 0.2px;
-            color: #f42c4f;
+            color: rgb(244, 44, 79);
         }
         .restore-pass-link {
             font-weight: 500;
@@ -46,11 +54,6 @@
         position: relative;
         width: 100%;
         background: #f9f9fa;
-        
-
-        // &.error {
-        //     border-bottom: 1px solid #f42c4f;
-        // }
 
         .form-input {
             width: 100%;
@@ -61,14 +64,10 @@
             outline: 0;
             border: 0;
             border-bottom: 1px solid #bfc4c9;
-
-
         }
-        .form-input.error{
-             border-bottom: 1px solid #f42c4f;
+        .form-input.error {
+            border-bottom: 1px solid #f42c4f;
         }
-
-
 
         .form-label {
             position: absolute;
@@ -104,9 +103,9 @@
             font-weight: 500;
             font-size: 12px;
             line-height: 16px;
-            letter-spacing: 0.2px;         
-             color: #f42c4f;
-             background-color: #ffffff;
+            letter-spacing: 0.2px;
+            color: #f42c4f;
+            background-color: #ffffff;
         }
     }
 
@@ -136,4 +135,3 @@
         }
     }
 }
-
