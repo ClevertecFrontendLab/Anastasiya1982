@@ -95,7 +95,7 @@ export const registration = (userData) => async (dispatch) => {
 export const login = (data) => async (dispatch) => {
   dispatch(setIsUserDataLoading(true));
   try {
-    const responce = await axiosInstance.post('auth/local', { identifier: data.username, password: data.password });
+    const responce = await axiosInstance.post('auth/local', { identifier: data.identifier, password: data.password });
     localStorage.setItem('token', responce.data.jwt);
     localStorage.setItem('isAuth',true);
     dispatch(setUser(responce.data.user));

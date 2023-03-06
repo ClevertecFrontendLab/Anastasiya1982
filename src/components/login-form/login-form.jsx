@@ -3,9 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../store/user-reducer';
-import { InputLogin } from './input-login';
-import { InputPassword } from './input-password';
-
+import { InputLoginForm } from './input-login-form';
 
 import './login-form.scss';
 
@@ -18,7 +16,8 @@ export const LoginForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-    clearErrors   
+    watch,
+    clearErrors,
   } = useForm({
     defaultValues: {
       identifier: '',
@@ -27,14 +26,16 @@ export const LoginForm = () => {
     mode: 'all',
   });
 
+  const watchPassword = watch('password', '');
+
   const onSubmit = (data) => {
     dispatch(login(data));
-    navigate('/books/all')
+    navigate('/books/all');
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='login-form' data-test-id='auth-form'>
-      <InputLogin
+      <InputLoginForm
         label='identifier'
         register={register}
         loginError={error}
@@ -42,15 +43,18 @@ export const LoginForm = () => {
         placeholder=' '
         validateErrors={errors?.identifier}
         clearErrors={clearErrors}
+        inputType='text'
       />
 
-      <InputPassword
+      <InputLoginForm
         label='password'
         register={register}
         loginError={error}
         required={true}
         placeholder=' '
         validateErrors={errors?.password}
+        inputType='password'
+        watchPassword={watchPassword}
       />
       <button
         type='button'
