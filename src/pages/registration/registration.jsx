@@ -1,3 +1,4 @@
+import { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Loader } from '../../components/loader/loader';
@@ -89,11 +90,18 @@ export const ModalSuccessRegistrationForm = () =>  {
 
 
 export const RegistrationPage = () => {
-  const steps = useSelector((store) => store.registration.steps);
-  const currentStepIndex = useSelector((store) => store.registration.currentStepIndex);
   const user = useSelector((store) => store.userData.userData);
   const isUserDataLoading = useSelector((store) => store.userData.isUserDataLoading);
   const error = useSelector((store) => store.userData.userDataError);
+const isAuth = localStorage.getItem('isAuth');
+const navigate=useNavigate();
+
+   useEffect(() => {
+     if (isAuth) {
+       navigate('/books/all');
+     } 
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [isAuth]);
 
   return (
     <div className='register-page'>

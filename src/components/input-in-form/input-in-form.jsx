@@ -26,7 +26,7 @@ export const Input = ({ label, register, type = 'text', placeholder, errors,  er
         onBlur={onBlur}
         onFocus={onFocus}
       />
-      {/* <label className='form-label'>{placeholder}</label>
+      <label className='form-label'>{placeholder}</label>
       {errors?.type === 'required' && errors?.message && <p className='error-message-text'>{errors?.message}</p>}
       {errors?.type !== 'required' && errors?.message && (
         <p className={isValidOnBlur ? 'error-message-text-matched full' : 'error-message-text-matched'}>
@@ -39,7 +39,7 @@ export const Input = ({ label, register, type = 'text', placeholder, errors,  er
       )}
       {type === 'password' && !passwordShown && (
         <CloseEye className='show-password-icon' onClick={togglePasswordVisiblity} />
-      )} */}
+      )}
     </div>
   );
 };

@@ -53,7 +53,7 @@ export const {
   setIsUserDataLoading,
   setUserDataError,
   setUserRegisterDataError,
-  setUserAuthDat,
+  setUserAuthData,
   setUser,
   setUserAuthError,
 } = userSlice.actions;
@@ -126,18 +126,12 @@ export const login = (data) => async (dispatch) => {
   }
 };
 
-// export const logout = () => (dispatch) => {
-//   api
-//     .post('http://localhost:5000/api/logout')
-//     .then(() => {
-//       localStorage.removeItem('token');
-//       dispatch(setUser({}));
-//       dispatch(setIsUserLogin(false));
-//       toast.warn('you are out of the game... to start playing again, you need to log in', {
-//         autoClose: TIME_FOR_CLOSE,
-//       });
-//     })
-//     .catch((err) => {
-//       dispatch(setError(err.message));
-//     });
-// };
+export const logout = () => async(dispatch) => {   
+     localStorage.removeItem('token');
+     localStorage.removeItem('isAuth');
+      dispatch(setIsUserDataLoading(true));
+      dispatch(setUser(null));
+      dispatch(setIsUserAuth(false));
+      dispatch(setUserAuthError(null));
+     dispatch(setIsUserDataLoading(false));
+};
