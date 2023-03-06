@@ -4,17 +4,6 @@
     display: flex;
     flex-direction: column;
     gap: 32px;
-   
-
-    .form-input {
-        width: 100%;
-        background: #f9f9fa;
-        border-radius: 4px;
-        min-height: 56px;
-        border: none;
-        padding: 19px 12px;
-       
-    }
 
     .forgot-password-link {
         cursor: pointer;
@@ -26,30 +15,125 @@
         margin-left: 12px;
         margin-top: -12px;
     }
+
+    .error-block {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        margin-top: -12px;
+
+        .error-message-text {
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 16px;
+            letter-spacing: 0.2px;
+            color: #f42c4f;
+        }
+        .restore-pass-link {
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 16px;
+            letter-spacing: 0.2px;
+            color: #363636;
+            cursor: pointer;
+        }
+    }
+
+    .login-input-item {
+        display: inline-block;
+        vertical-align: top;
+        position: relative;
+        width: 100%;
+        background: #f9f9fa;
+        
+
+        // &.error {
+        //     border-bottom: 1px solid #f42c4f;
+        // }
+
+        .form-input {
+            width: 100%;
+            background: #f9f9fa;
+            border-radius: 4px;
+            min-height: 56px;
+            padding: 19px 12px;
+            outline: 0;
+            border: 0;
+            border-bottom: 1px solid #bfc4c9;
+
+
+        }
+        .form-input.error{
+             border-bottom: 1px solid #f42c4f;
+        }
+
+
+
+        .form-label {
+            position: absolute;
+            pointer-events: none;
+            left: 15px;
+            right: 15px;
+            top: 30%;
+            white-space: nowrap;
+            overflow: hidden;
+            transition: 0.2s ease all;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 18px;
+            letter-spacing: 0.1px;
+            color: #363636;
+            pointer-events: none;
+        }
+
+        .form-input:focus + .form-label,
+        .form-input:not(:focus):invalid ~ .form-label,
+        .form-input:not(:placeholder-shown) + .form-label {
+            top: 2px;
+            font-size: 10px;
+        }
+
+        .show-password-icon {
+            position: absolute;
+            top: 30%;
+            right: 5%;
+            z-index: 1;
+        }
+        .require-message {
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 16px;
+            letter-spacing: 0.2px;         
+             color: #f42c4f;
+             background-color: #ffffff;
+        }
+    }
+
+    .submit-form-button {
+        width: 100%;
+        height: 52px;
+        background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+        border-radius: 30px;
+        border: none;
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 150%;
+        letter-spacing: 0.2px;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+
+        &:hover {
+            background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+            border: 1px solid #ff740f;
+            box-shadow: 0px 2px 5px rgba(54, 54, 54, 0.1);
+            cursor: pointer;
+        }
+        &:active {
+            background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+            box-shadow: 0px 3px 4px rgba(222, 125, 11, 0.2), 0px 1px 10px rgba(249, 89, 8, 0.2);
+        }
+    }
 }
 
-.submit-form-button {
-    width: 100%;
-    height: 52px;
-    background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
-    border-radius: 30px;
-    border: none;
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 150%;
-    letter-spacing: 0.2px;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-
-    &:hover {
-        background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
-        border: 1px solid #ff740f;
-        box-shadow: 0px 2px 5px rgba(54, 54, 54, 0.1);
-        cursor: pointer;
-    }
-    &:active {
-        background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
-        box-shadow: 0px 3px 4px rgba(222, 125, 11, 0.2), 0px 1px 10px rgba(249, 89, 8, 0.2);
-    }
-}

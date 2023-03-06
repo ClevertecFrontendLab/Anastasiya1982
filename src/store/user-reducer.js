@@ -5,9 +5,10 @@ const initialState = {
   userData: null,
   isUserDataLoading: false,
   isUserRegister: false,
-  isUserLogin: false,
+  isUserAuth: false,
   userAuthData: null,
   userRegisterDataError: null,
+  userAuthError: null,
   user: null,
 };
 
@@ -19,8 +20,8 @@ export const userSlice = createSlice({
     setUserRegistrationData: (state, action) => {
       state.userData = action.payload.data;
     },
-    setIsUserLogin(state, action) {
-      state.isUserLogin = action.payload;
+    setIsUserAuth(state, action) {
+      state.isUserAuth = action.payload;
     },
     setIsUserRegister(state, action) {
       state.isUserRegister = action.payload;
@@ -38,19 +39,23 @@ export const userSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    setUserAuthError: (state, action) => {
+      state.userAuthError = action.payload;
+    },
   },
   /* eslint-enable no-param-reassign */
 });
 
 export const {
   setUserRegistrationData,
-  setIsUserLogin,
+  setIsUserAuth,
   setIsUserRegister,
   setIsUserDataLoading,
   setUserDataError,
   setUserRegisterDataError,
   setUserAuthDat,
   setUser,
+  setUserAuthError,
 } = userSlice.actions;
 export const userReducer = userSlice.reducer;
 
@@ -92,32 +97,32 @@ export const login = (data) => async (dispatch) => {
   try {
     const responce = await axiosInstance.post('auth/local', { identifier: data.username, password: data.password });
     localStorage.setItem('token', responce.data.jwt);
+    localStorage.setItem('isAuth',true);
     dispatch(setUser(responce.data.user));
-    dispatch(setIsUserLogin(true));
+    dispatch(setIsUserAuth(true));
     dispatch(setIsUserDataLoading(false));
   } catch (error) {
     // handle error
     if (error.response.status === 400) {
       dispatch(
-        setUserDataError({
+        setUserAuthError({
           name: 'login and password error',
           status: 400,
-          message:
-            'Такой логин или e-mail уже записан в системе. Попробуйте зарегистрироваться по другому логину или e-mail.',
+          message: 'Неверный логин или пароль',
         })
       );
       dispatch(setIsUserDataLoading(false));
     }
-    if (error?.response) {
-      dispatch(
-        setUserDataError({
-          name: 'bad request',
-          status: 502,
-          message: 'Что-то пошло не так и ваша регистрация не завершилась. Попробуйте ещё раз',
-        })
-      );
-      dispatch(setIsUserDataLoading(false));
-    }
+   else if (error.response.status !== 400) {
+     dispatch(
+       setUserAuthError({
+         name: 'bad request',
+         status: 502,
+         message: 'Что-то пошло не так. Попробуйте ещё раз',
+       })
+     );
+     dispatch(setIsUserDataLoading(false));
+   }
   }
 };
 
