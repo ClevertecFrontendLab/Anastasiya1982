@@ -12,6 +12,7 @@ export const PasswordInput = ({ label, register, placeholder, validateErrors, la
   const [isLengthValid, setIsLengthValid] = useState(false);
   const [isCupLetterValid, setIsCupLetterValid] = useState(false);
   const [isNumberValid, setIsNumberValid] = useState(false);
+  //   const [isPassConfirm, setIsPassConfirm] = useState(false);
 
   const togglePasswordVisiblity = () => {
     setPasswordShown(passwordShown ? false : true);
@@ -24,7 +25,7 @@ export const PasswordInput = ({ label, register, placeholder, validateErrors, la
         setIsLengthValid(false);
         setIsCupLetterValid(false);
         setIsNumberValid(false);
-        setBlurOnEmptyInput(false)
+        setBlurOnEmptyInput(false);
       } else if (!validateErrors && watchPass.length === 0) {
         setBlurOnEmptyInput(true);
       } else {
@@ -32,14 +33,16 @@ export const PasswordInput = ({ label, register, placeholder, validateErrors, la
         setBlurOnEmptyInput(false);
       }
     }
-     if (label === 'passwordConfirmation') {      
-        if (!validateErrors && watchPass.length === 0) {
-         setBlurOnEmptyConfirmInput(true);
-       } else {
-         setBlurOnEmptyConfirmInput(false);
-         
-       }
-     }
+    // if (label === 'passwordConfirmation') {
+    //   if (!validateErrors && watchPass.length === 0) {
+    //     setBlurOnEmptyConfirmInput(true);
+    //   } else if (validateErrors?.type) {
+    //     setIsPassConfirm(true);
+    //   } else {
+    //     setBlurOnEmptyConfirmInput(false);
+    //     setIsPassConfirm(false);
+    //   }
+    // }
   };
 
   const validateLength = useCallback(() => {
@@ -88,10 +91,10 @@ export const PasswordInput = ({ label, register, placeholder, validateErrors, la
             validateCupLetter();
             validateLength();
           }
-           if (label === 'passwordConfirmation') {
-             setBlurOnEmptyConfirmInput(false)
-             
-           }
+          //   if (label === 'passwordConfirmation') {
+          //     setBlurOnEmptyConfirmInput(false);
+          //     setIsPassConfirm(false);
+          //   }
         }}
       />
       {watchPass.length > 0 && (
@@ -136,12 +139,105 @@ export const PasswordInput = ({ label, register, placeholder, validateErrors, la
           <span className={!isNumberValid && validateErrors?.message ? 'valid-span error' : 'valid-span'}>цифрой</span>
         </p>
       )}
-      {label === 'passwordConfirmation' && validateErrors?.type && (
+      {/* {isPassConfirm && (
+        <p className='validation-confirm-message' data-test-id='hint'>
+          Пароли не совпадают
+        </p>
+      )} */}
+      {/* {label === 'passwordConfirmation' && blurOnEmptyConfirmInput && (
+        <p className='validation-pass-message' data-test-id='hint'>
+          Поле не может быть пустым
+        </p>
+      )} */}
+    </div>
+  );
+};
+
+export const PasswordConfirmInput = ({
+  label,
+  register,
+  placeholder,
+  validateErrors,
+  labelValue,
+  watchPass,
+  setCheckConfirmOnBlure,
+  isFormNotValid,
+  checkIsFormValid,
+}) => {
+  const [passwordShown, setPasswordShown] = useState(false);
+  const [blurOnEmptyConfirmInput, setBlurOnEmptyConfirmInput] = useState(false);
+  const [blurOnConfirmInput, setBlurOnConfirmInput] = useState(false);
+  const [isPassConfirm, setIsPassConfirm] = useState(false);
+
+  useEffect(() => {
+    if (watchPass.length === 0) {
+      setBlurOnEmptyConfirmInput(false);
+    }
+  }, [watchPass]);
+
+  //   useEffect(() => {
+  //     if (watchPass.length > 0 && !validateErrors?.type) {
+  //       setIsBtnDisabled(false);
+  //     }
+  //   }, [validateErrors?.type, watchPass]);
+
+  const togglePasswordVisiblity = () => {
+    setPasswordShown(passwordShown ? false : true);
+  };
+
+  const checkIfInputValid = () => {
+    if (!validateErrors && watchPass.length === 0) {
+      setBlurOnEmptyConfirmInput(true);
+    } else if (validateErrors?.type) {
+      setIsPassConfirm(false);
+      setBlurOnConfirmInput(true);
+      setCheckConfirmOnBlure(true);
+      checkIsFormValid(true);
+    } else {
+      setBlurOnEmptyConfirmInput(false);
+      setBlurOnConfirmInput(false);
+      setIsPassConfirm(true);
+      setCheckConfirmOnBlure(false);
+      checkIsFormValid(false);
+    }
+  };
+
+  return (
+    <div className='password-input-item'>
+      <input
+        {...register(label)}
+        className={isPassConfirm ? 'form-input error' : 'form-input'}
+        placeholder={placeholder}
+        type={passwordShown ? 'text' : 'password'}
+        onBlur={checkIfInputValid}
+        onFocus={() => {
+          setBlurOnEmptyConfirmInput(false);
+          setBlurOnConfirmInput(false);
+          setIsPassConfirm(false);
+          checkIsFormValid(false);
+        }}
+      />
+      {watchPass.length > 0 && (
+        <button type='button' className='show-password-icon-container'>
+          {passwordShown ? (
+            <OpenEye className='show-password-icon' data-test-id='eye-opened' onClick={togglePasswordVisiblity} />
+          ) : (
+            <CloseEye className='show-password-icon' data-test-id='eye-closed' onClick={togglePasswordVisiblity} />
+          )}
+        </button>
+      )}
+      <span className='form-label'>{labelValue}</span>
+      {blurOnConfirmInput && watchPass.length > 0 && (
         <p className='validation-confirm-message' data-test-id='hint'>
           Пароли не совпадают
         </p>
       )}
-      {label === 'passwordConfirmation' && blurOnEmptyConfirmInput && (
+      {isFormNotValid && (
+        <p className='validation-confirm-message' data-test-id='hint'>
+          Пароли не совпадают
+        </p>
+      )}
+      {blurOnEmptyConfirmInput && (
         <p className='validation-pass-message' data-test-id='hint'>
           Поле не может быть пустым
         </p>

@@ -1,6 +1,6 @@
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { ReactComponent as ArrorBackIconSvg } from '../../assets/arrow-back-icon.svg';
 import { ReactComponent as ArrorIconSvg } from '../../assets/arror-icon.svg';
@@ -20,8 +20,7 @@ export const ForgotPassPage = () => {
   const resetPassError = useSelector((store) => store.userData.resetPassError);
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch=useDispatch();
- 
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isAuth) {
@@ -43,50 +42,9 @@ export const ForgotPassPage = () => {
       <div className='forgot-pass-page-wrapper'>
         <h3 className='forgot-pass-page-header'>Cleverland</h3>
         <div className='form-container'>
-          {params ? (
-            <div className='form-container-wrapper' data-test-id='auth'>
-              {resetPassSuccess && (
-                <div className='form-content' data-test-id='status-block'>
-                  <h3 className='form-container-title'>Новые данные сохранены</h3>
-                  <p className='success-message'>
-                    Зайдите в личный кабинет,
-                    <br /> используя свои логин и новый пароль
-                  </p>
-                  <button type='button' className='submit-form-button' onClick={() => navigate('/auth')}>
-                    вход
-                  </button>
-                </div>
-              )}
-              {resetPassError?.status && (
-                <div className='form-content' data-test-id='status-block'>
-                  <h3 className='form-container-title'>Данные не сохранились</h3>
-                  <p className='success-message'>Что-то пошло не так. Попробуйте ещё раз</p>
-                  <button
-                    type='button'
-                    className='submit-form-button'
-                    onClick={() => dispatch(setResetPassError(null))}
-                  >
-                    вход
-                  </button>
-                </div>
-              )}
-              {!resetPassSuccess && !resetPassError && (
-                <div className='form-content' data-test-id='status-block'>
-                  <h3 className='form-container-title'>Восстановление пароля</h3>
-                  <ResetPasswordForm code={params} />
-                </div>
-              )}
-            </div>
-          ) : (
-            <div style={{ width: '100%' }}>
-              {isRestoreEmailSend ? (
-                <div className='success-message-container' data-test-id='status-block'>
-                  <h3 className='title'>Письмо выслано</h3>
-                  <p className='message-block'>
-                    Перейдите в вашу почту, чтобы воспользоваться подсказками по восстановлению пароля
-                  </p>
-                </div>
-              ) : (
+          {!params && (
+            <div className='form-container-wrapper'>
+              {!isRestoreEmailSend && (
                 <div className='form-container-wrapper' data-test-id='auth'>
                   <div className='form-container-header' role='presentation' onClick={() => navigate('/auth')}>
                     <ArrorBackIconSvg className='arrow-icon' /> <span>вход в личный кабинет</span>
@@ -101,6 +59,49 @@ export const ForgotPassPage = () => {
                       </Link>
                     </div>
                   </div>
+                </div>
+              )}
+              {isRestoreEmailSend && (
+                <div className='modal-message-container' data-test-id='status-block'>
+                  <h3 className='title'>Письмо выслано</h3>
+                  <p className='message-block'>
+                    Перейдите в вашу почту, чтобы воспользоваться подсказками по восстановлению пароля
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+          {params && (
+            <div className='form-container-wrapper' data-test-id='auth'>
+              {resetPassSuccess && (
+                <div className='modal-message-container' data-test-id='status-block'>
+                  <h3 className='title'>Новые данные сохранены</h3>
+                  <p className='message-message'>
+                    Зайдите в личный кабинет,
+                    <br /> используя свои логин и новый пароль
+                  </p>
+                  <button type='button' className='submit-form-button' onClick={() => navigate('/auth')}>
+                    вход
+                  </button>
+                </div>
+              )}
+              {resetPassError?.status && (
+                <div className='modal-message-container' data-test-id='status-block'>
+                  <h3 className='title'>Данные не сохранились</h3>
+                  <p className='message-block'>Что-то пошло не так. Попробуйте ещё раз</p>
+                  <button
+                    type='button'
+                    className='submit-form-button'
+                    onClick={() => dispatch(setResetPassError(null))}
+                  >
+                    вход
+                  </button>
+                </div>
+              )}
+              {!resetPassSuccess && !resetPassError && (
+                <div className='form-content' data-test-id='status-block'>
+                  <h3 className='form-container-title'>Восстановление пароля</h3>
+                  <ResetPasswordForm code={params} />
                 </div>
               )}
             </div>

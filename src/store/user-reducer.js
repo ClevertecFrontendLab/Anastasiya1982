@@ -159,7 +159,7 @@ export const sendEmailForgotPassword = (data) => async (dispatch) => {
   dispatch(setIsUserDataLoading(true));
 
   try {
-    const responce = await axiosInstance.post('auth/forgot-password', { email:data.email }); 
+    const responce = await axiosInstance.post('auth/forgot-password', { email:data.email });   
      dispatch(setIsRestoreEmailSend(responce.data.ok));
      dispatch(setIsUserDataLoading(false));
   } catch (error) {   
@@ -185,9 +185,7 @@ export const resetPassword = (data) => async (dispatch) => {
       passwordConfirmation: data.passwordConfirmation,
       code: data.code,
     });
-    console.log('====================================');
-    console.log(responce.data);
-    console.log('====================================');
+    
     dispatch(setUser(responce.data.user));
     dispatch(setResetPassSuccess(true));
     // localStorage.setItem('token', responce.data.jwt);

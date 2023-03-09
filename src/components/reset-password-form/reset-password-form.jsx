@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { PasswordInput } from './password-input';
+import { PasswordInput, PasswordConfirmInput } from './password-input';
+
 import { resetPassword } from '../../store/user-reducer';
 
 import './reset-password-form.scss';
@@ -26,6 +27,8 @@ export const schema = yup.object().shape({
 
 export const ResetPasswordForm = ({ code }) => {
   const [isBtnDisabled, setIsBtnDisabled] = useState(false);
+  const [checkConfirmOnBlure,setCheckConfirmOnBlure]=useState(false);
+  const [isFormNotValid,setIsFormNotValid]=useState(false)
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -53,18 +56,30 @@ export const ResetPasswordForm = ({ code }) => {
   const watchConfirmPass = watch('passwordConfirmation', '');
 
   const onSubmit = (data) => {   
-   dispatch(resetPassword(data));
+    if(errors?.passwordConfirmation?.type){
+     setIsFormNotValid(true)
+    }else{
+     dispatch(resetPassword(data));
+    }
+  
   };
+  console.log('====================================');
+  console.log(isFormNotValid);
+  console.log('====================================');
+
+  const checkIsFormValid=(p)=>{
+     setIsFormNotValid(p)
+  }
 
   useEffect(() => {
-    if (watchNewPass.length > 0 && watchConfirmPass.length > 0 && watchNewPass !== watchConfirmPass) {
+    if (watchNewPass.length > 0 && watchConfirmPass.length > 0 && isFormNotValid) {
       setIsBtnDisabled(true);
-      setError('passwordConfirmation', { type: 'oneOf' });
+      //   setError('passwordConfirmation', { type: 'oneOf' });
     } else {
       setIsBtnDisabled(false);
-     clearErrors('passwordConfirmation');
+      //  clearErrors('passwordConfirmation');
     }
-  }, [watchConfirmPass, watchNewPass, setError,clearErrors]);
+  }, [watchConfirmPass, watchNewPass, isFormNotValid]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='reset-pass-form' data-test-id='reset-password-form'>
@@ -77,7 +92,7 @@ export const ResetPasswordForm = ({ code }) => {
         clearErrors={clearErrors}
         watchPass={watchNewPass}
       />
-      <PasswordInput
+      <PasswordConfirmInput
         label='passwordConfirmation'
         register={register}
         placeholder=' '
@@ -85,6 +100,8 @@ export const ResetPasswordForm = ({ code }) => {
         validateErrors={errors?.passwordConfirmation}
         clearErrors={clearErrors}
         watchPass={watchConfirmPass}
+        setCheckConfirmOnBlure={setCheckConfirmOnBlure}
+        checkIsFormValid={checkIsFormValid}
       />
       <button type='submit' disabled={isBtnDisabled} className='submit-form-button'>
         сохранить изменения

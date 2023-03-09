@@ -564,7 +564,7 @@ describe('authorization and registartion', () => {
                 .get('[data-test-id=hint] span:contains("цифрой")')
                 .should('be.visible')
                 .should('have.css', 'color', 'rgb(167, 167, 167)');
-            cy.get('[data-test-id=reset-password-form] input[name=password]').type('23');
+            cy.get('[data-test-id=reset-password-form] input[name=password]').type('2');
             cy.get(
                 '[data-test-id=hint]:contains("Пароль не менее 8 символов, с заглавной буквой и цифрой")',
             )

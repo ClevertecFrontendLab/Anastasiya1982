@@ -1,8 +1,14 @@
+@import "../../styles.scss";
+
 .forgor-pass-form {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 32px;
+
+    @include iPad-portrate {
+        gap: 20px;
+    }
 
     .email-input-item {
         display: inline-block;
@@ -29,7 +35,7 @@
         .form-label {
             position: absolute;
             pointer-events: none;
-            left: 15px;            
+            left: 15px;
             top: 18%;
             white-space: nowrap;
             overflow: hidden;
@@ -64,7 +70,7 @@
             letter-spacing: 0.2px;
             color: rgb(244, 44, 79);
             background-color: #ffffff;
-            padding-left:15px;
+            padding-left: 15px;
         }
     }
 
@@ -91,6 +97,12 @@
         &:active {
             background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
             box-shadow: 0px 3px 4px rgba(222, 125, 11, 0.2), 0px 1px 10px rgba(249, 89, 8, 0.2);
+        }
+
+        @include iPad-portrate {
+            height: 40px;            
+            font-size: 12px;
+            line-height: 18px;
         }
     }
 
