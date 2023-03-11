@@ -16,7 +16,6 @@ export const schema = yup.object().shape({
     .string()
     .required('Поле не может быть пустым')
     .min(8, 'не менее 8 символов,')
-    // .matches(/^[A-Za-zА-Яа-я0-9]\w{8,}$/, 'не менее 8 символов')
     .matches(/^.*((?=.*[А-ЯA-Z]){1}).*$/, 'заглавной буквой')
     .matches(/^.*((?=.*[0-9]){1}).*$/, 'цифрой'),
   passwordConfirmation: yup
@@ -27,8 +26,8 @@ export const schema = yup.object().shape({
 
 export const ResetPasswordForm = ({ code }) => {
   const [isBtnDisabled, setIsBtnDisabled] = useState(false);
-  const [checkConfirmOnBlure,setCheckConfirmOnBlure]=useState(false);
-  const [isFormNotValid,setIsFormNotValid]=useState(false)
+  const [checkConfirmOnBlure, setCheckConfirmOnBlure] = useState(false);
+  const [isFormNotValid, setIsFormNotValid] = useState(false);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -55,21 +54,17 @@ export const ResetPasswordForm = ({ code }) => {
   const watchNewPass = watch('password', '');
   const watchConfirmPass = watch('passwordConfirmation', '');
 
-  const onSubmit = (data) => {   
-    if(errors?.passwordConfirmation?.type){
-     setIsFormNotValid(true)
-    }else{
-     dispatch(resetPassword(data));
+  const onSubmit = (data) => {
+    if (errors?.passwordConfirmation?.type) {
+      setIsFormNotValid(true);
+    } else {
+      dispatch(resetPassword(data));
     }
-  
   };
-  console.log('====================================');
-  console.log(isFormNotValid);
-  console.log('====================================');
 
-  const checkIsFormValid=(p)=>{
-     setIsFormNotValid(p)
-  }
+  const checkIsFormValid = (p) => {
+    setIsFormNotValid(p);
+  };
 
   useEffect(() => {
     if (watchNewPass.length > 0 && watchConfirmPass.length > 0 && isFormNotValid) {

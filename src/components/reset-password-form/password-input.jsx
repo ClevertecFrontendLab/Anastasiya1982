@@ -11,15 +11,13 @@ export const PasswordInput = ({ label, register, placeholder, validateErrors, la
   const [blurOnEmptyConfirmInput, setBlurOnEmptyConfirmInput] = useState(false);
   const [isLengthValid, setIsLengthValid] = useState(false);
   const [isCupLetterValid, setIsCupLetterValid] = useState(false);
-  const [isNumberValid, setIsNumberValid] = useState(false);
-  //   const [isPassConfirm, setIsPassConfirm] = useState(false);
+  const [isNumberValid, setIsNumberValid] = useState(false); 
 
   const togglePasswordVisiblity = () => {
     setPasswordShown(passwordShown ? false : true);
   };
 
-  const checkIfInputValid = () => {
-    if (label === 'password') {
+  const checkIfInputValid = () => {    
       if (validateErrors && watchPass.length > 0) {
         setIsPassInputOnBlur(true);
         setIsLengthValid(false);
@@ -32,17 +30,7 @@ export const PasswordInput = ({ label, register, placeholder, validateErrors, la
         setIsPassInputOnBlur(false);
         setBlurOnEmptyInput(false);
       }
-    }
-    // if (label === 'passwordConfirmation') {
-    //   if (!validateErrors && watchPass.length === 0) {
-    //     setBlurOnEmptyConfirmInput(true);
-    //   } else if (validateErrors?.type) {
-    //     setIsPassConfirm(true);
-    //   } else {
-    //     setBlurOnEmptyConfirmInput(false);
-    //     setIsPassConfirm(false);
-    //   }
-    // }
+    
   };
 
   const validateLength = useCallback(() => {
@@ -90,11 +78,7 @@ export const PasswordInput = ({ label, register, placeholder, validateErrors, la
             validateNumber();
             validateCupLetter();
             validateLength();
-          }
-          //   if (label === 'passwordConfirmation') {
-          //     setBlurOnEmptyConfirmInput(false);
-          //     setIsPassConfirm(false);
-          //   }
+          }        
         }}
       />
       {watchPass.length > 0 && (
@@ -124,7 +108,7 @@ export const PasswordInput = ({ label, register, placeholder, validateErrors, la
         </p>
       )}
 
-      <span className='form-label'>{labelValue}</span>
+      <label className='form-label'>{labelValue}</label>
       {label === 'password' && (
         <p className={!isPassInputOnBlur ? 'validation-message' : 'validation-message error'} data-test-id='hint'>
           Пароль{' '}
@@ -138,17 +122,7 @@ export const PasswordInput = ({ label, register, placeholder, validateErrors, la
           и{' '}
           <span className={!isNumberValid && validateErrors?.message ? 'valid-span error' : 'valid-span'}>цифрой</span>
         </p>
-      )}
-      {/* {isPassConfirm && (
-        <p className='validation-confirm-message' data-test-id='hint'>
-          Пароли не совпадают
-        </p>
-      )} */}
-      {/* {label === 'passwordConfirmation' && blurOnEmptyConfirmInput && (
-        <p className='validation-pass-message' data-test-id='hint'>
-          Поле не может быть пустым
-        </p>
-      )} */}
+      )}    
     </div>
   );
 };

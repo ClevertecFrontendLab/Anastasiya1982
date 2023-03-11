@@ -5,15 +5,21 @@ const initialState = {
   userData: null,
   isUserDataLoading: false,
   isUserRegister: false,
+  successfulRegistration: false,
   isUserAuth: false,
   userAuthData: null,
   userRegisterDataError: null,
+  authInfo: {
+    status:null,
+    info: null,
+
+  },
   userAuthError: null,
   user: null,
   isRestoreEmailSend: false,
-  restoreEmailError:null,  
-  resetPassError:null,
-  resetPassSuccess:false
+  restoreEmailError: null,
+  resetPassError: null,
+  resetPassSuccess: false,
 };
 
 export const userSlice = createSlice({
@@ -28,7 +34,10 @@ export const userSlice = createSlice({
       state.isUserAuth = action.payload;
     },
     setIsUserRegister(state, action) {
-      state.isUserRegister = action.payload;
+      state.successfulRegistration = action.payload;
+    },
+    setAuthInfo(state, action) {       
+      state.authInfo = action.payload;
     },
     setIsUserDataLoading(state, action) {
       state.isUserDataLoading = action.payload;
@@ -76,6 +85,7 @@ export const {
   setRestoreEmailError,
   setResetPassError,
   setResetPassSuccess,
+  setAuthInfo,
 } = userSlice.actions;
 export const userReducer = userSlice.reducer;
 
@@ -86,29 +96,29 @@ export const registration = (userData) => async (dispatch) => {
     localStorage.setItem('registration-token', responce.data.jwt);
     dispatch(setUserRegistrationData({ data: responce.data.user }));
     dispatch(setIsUserRegister(true));
+    dispatch(setAuthInfo({status:200,info:'Регистрация прошла успешно. Зайдите в личный кабинет, используя свои логин и пароль'}))
     dispatch(setIsUserDataLoading(false));
   } catch (error) {
-    // handle error
-    if (error.response.status === 502) {
+    // handle error   
+     if (error.response.status === 400) {
       dispatch(
-        setUserRegisterDataError({
-          name: 'bad request',
-          status: 502,
-          message: 'Что-то пошло не так и ваша регистрация не завершилась. Попробуйте ещё раз',
-        })
-      );
-      dispatch(setIsUserDataLoading(false));
-    } else if (error.response.status === 400) {
-      dispatch(
-        setUserRegisterDataError({
-          name: 'login and password error',
+        setAuthInfo({         
           status: 400,
-          message:
+          info:
             'Такой логин или e-mail уже записан в системе. Попробуйте зарегистрироваться по другому логину или e-mail.',
         })
       );
       dispatch(setIsUserDataLoading(false));
     }
+     else {
+       dispatch(
+         setAuthInfo({
+           status: 502,
+           info: 'Что-то пошло не так и ваша регистрация не завершилась. Попробуйте ещё раз',
+         })
+       );
+       dispatch(setIsUserDataLoading(false));
+     }
   }
 };
 
@@ -204,3 +214,7 @@ export const resetPassword = (data) => async (dispatch) => {
     }
   }
 };
+
+export const resetRegistratonOnFirstStep=()=>async(dispatch)=>{
+     dispatch(setAuthInfo({status:null,info:null}))
+}
