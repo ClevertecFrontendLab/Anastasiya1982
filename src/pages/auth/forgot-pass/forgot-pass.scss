@@ -1,0 +1,211 @@
+@import "../../../styles.scss";
+
+.forgot-pass-page {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+
+    .forgot-pass-page-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 46px;
+
+        @include iPad-portrate {
+            gap: 12px;
+        }
+    }
+
+    .forgot-pass-page-header {
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 40px;
+        letter-spacing: 0.1px;
+        color: #ffffff;
+
+        @include iPad-portrate {
+            font-size: 18px;
+            line-height: 28px;
+            letter-spacing: 0.1px;
+            margin-top: 16px;
+            margin-bottom: 12px;
+        }
+
+        @include mobile {
+            font-size: 18px;
+            line-height: 28px;
+            letter-spacing: 0.1px;
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+    }
+
+    .form-container {
+        width: 528px;
+        background: #ffffff;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        @include iPad-portrate {
+            width: 288px;
+            left: 16px;
+            top: 56px;
+            border-radius: 16px;
+            padding: 24px 16px 27px 16px;
+        }
+
+        @include iPad-portrate {
+            padding: 0;
+        }
+
+        .form-container-wrapper {
+            width: 100%;
+        }
+
+        .form-container-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px 0px 20px 16px;
+            width: 100%;
+            height: 64px;
+            background: #f9f9fa;
+            border-radius: 16px 16px 0px 0px;
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 18px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            letter-spacing: 0.2px;
+            text-transform: uppercase;
+            color: #727272;
+
+            .arrow-icon {
+                margin-right: 15px;
+            }
+        }
+
+        .form-content {
+            width: 100%;
+            padding: 32px 56px 48px 56px;
+
+            @include iPad-portrate {
+                padding: 32px 16px 50px 16px;
+            }
+        }
+
+        .form-container-title {
+            width: 100%;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 30px;
+            letter-spacing: 0.1px;
+            color: #363636;
+            margin-bottom: 32px;
+            text-align: center;
+
+            @include iPad-portrate {
+                text-align: start;
+                font-weight: 700;
+                font-size: 24px;
+                line-height: 30px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .success-message {
+            text-align: center;
+            margin: 32px 0px;
+        }
+
+        .enter-block {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            @include iPad-portrate {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-top: 0;
+                gap: 7px;
+            }
+
+            .enter-block-title {
+                display: inline-block;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 24px;
+                text-align: center;
+                letter-spacing: 0.1px;
+                color: #727272;
+                margin-right: 16px;
+            }
+
+            .enter-block-button {
+                width: 161px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                cursor: pointer;
+                background-color: transparent;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 18px;
+                letter-spacing: 0.2px;
+                text-transform: uppercase;
+                color: #363636;
+                border: none;
+
+                .enter-button-value {
+                    display: inline-block;
+                    margin-right: 15px;
+                }
+
+                &:focus {
+                    border: none;
+                }
+
+                &:active {
+                    border: none;
+                }
+            }
+        }
+
+        .modal-message-container {
+            width: 100%;
+            background: #ffffff;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+            padding: 48px 32px;
+
+             @include iPad-portrate {
+                padding: 32px 16px 50px 16px;
+            }
+
+            .title {
+                font-weight: 700;
+                font-size: 24px;
+                line-height: 30px;
+                letter-spacing: 0.1px;
+                color: #363636;
+                 text-align: center;
+            }
+            
+            .message-block {
+                text-align: center;
+            }
+        }
+    }
+}

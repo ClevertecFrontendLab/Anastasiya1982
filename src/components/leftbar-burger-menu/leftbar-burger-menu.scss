@@ -40,6 +40,7 @@
         transform: translateX(0);
         visibility: visible;
         opacity: 1;
+        height: 650px;
     }
 
     &.closeBookLsts {
@@ -69,7 +70,7 @@
     .terms-block,
     .contract-block,
     .profile-block,
-    .exit-block {
+    .exit-button {
         max-width: 255px;
         width: 100%;
         margin: 16px 0 0 32px;
@@ -94,13 +95,23 @@
     }
 
     .profile-section-left-menu {
-        margin-top: 32px;
+        margin: 32px 0px;
 
         .profile-block {
             margin: 0 32px;
         }
-        .exit-block {
+        
+        .exit-button {
             margin-top: 30px;
+            border: none;
+            background-color: transparent;
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 28px;
+            letter-spacing: 0.1px;
+            color: #363636;
+            text-align: start;
+            margin-left: 16px;           
         }
     }
 
@@ -180,13 +191,15 @@
         a {
             max-width: 246px;
             width: 100%;
-            margin:16px 0 0px 16px;
+            margin-top: 16px ;
         }
+
         .categories-list {
             padding-left: 20px;
             gap: 15px;
             margin: 0 16px 0 0;
         }
+
         .terms-block,
         .contract-block {
             margin-left: 16px;
@@ -196,8 +209,7 @@
         .profile-section-left-menu {
             margin-top: 52px;
 
-            .profile-block,
-            .exit-block {
+            .profile-block {
                 margin-left: 16px;
             }
         }

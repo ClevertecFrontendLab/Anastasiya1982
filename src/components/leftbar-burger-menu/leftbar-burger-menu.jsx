@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
+import { logout } from '../../store/user-reducer';
 import { ReactComponent as IconDown } from '../../assets/Icon_Chevron.svg';
 import { ReactComponent as IconUp } from '../../assets/icon-up-leftbar.svg';
 import { getCategoriesDataAsync, setCurrentCategory, defaultAllCategories } from '../../store/books-reducer';
 
 import './leftbar-burger-menu.scss';
-
 
 export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
   const [isHeaderActive, setIsHeaderActive] = useState(true);
@@ -17,6 +17,7 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
   const categories = useSelector((store) => store.books.categoriesData);
   const booksLoadingError = useSelector((store) => store.books.booksDataError);
   const dispatch = useDispatch();
+  const navigate=useNavigate();
 
   const location = useLocation();
   const menuRef = useRef(null);
@@ -41,8 +42,8 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
     }
   }, [location.pathname]);
 
-  const handleClick = () => {   
-    setIsMenuOpen(false); 
+  const handleClick = () => {
+    setIsMenuOpen(false);
   };
 
   useEffect(() => {
@@ -68,13 +69,19 @@ export const LeftBarBurgerMenu = ({ isMenuOpen, setIsMenuOpen }) => {
     };
   }, [isMenuOpen, setIsMenuOpen]);
 
-const toggleClickOnCategory = useCallback(
-  (category) => {
-    dispatch(setCurrentCategory(category));
-    setIsMenuOpen(false);
-  },
-  [dispatch,setIsMenuOpen]
-);
+  const toggleClickOnCategory = useCallback(
+    (category) => {
+      dispatch(setCurrentCategory(category));
+      setIsMenuOpen(false);
+    },
+    [dispatch, setIsMenuOpen]
+  );
+
+  const logoutUser = () => {
+    dispatch(logout());
+    handleClick();
+    navigate('/auth')
+  };
 
   return (
     <div
@@ -86,8 +93,8 @@ const toggleClickOnCategory = useCallback(
       ref={menuRef}
       role='presentation'
     >
-      <div className='burger-showcase' >
-        <NavLink to='/books/all' data-test-id='burger-showcase'>          
+      <div className='burger-showcase'>
+        <NavLink to='/books/all' data-test-id='burger-showcase'>
           <h5 className={isHeaderActive ? 'header-of-leftbar' : 'header-of-leftbar simple'}>
             <span className='title'>Витрина книг</span>
             {isShowcaseOfBooksOpen ? (
@@ -129,7 +136,7 @@ const toggleClickOnCategory = useCallback(
                   <div className='category-name'>{category?.name}</div>
                 </div>
               </NavLink>
-              <span className='count' data-test-id={`burger-book-count-for-${category.path}`}>               
+              <span className='count' data-test-id={`burger-book-count-for-${category.path}`}>
                 {category?.count}
               </span>
             </div>
@@ -164,14 +171,9 @@ const toggleClickOnCategory = useCallback(
         >
           <h5>Профиль</h5>
         </NavLink>
-
-        <NavLink
-          to='/books/exit'
-          className={({ isActive }) => (isActive ? 'exit-block active-link' : 'exit-block')}
-          onClick={handleClick}
-        >
-          <h5>Выход</h5>
-        </NavLink>
+        <button type='button' className='exit-button' onClick={logoutUser} data-test-id='exit-button'>
+          Выход
+        </button>
       </section>
     </div>
   );
