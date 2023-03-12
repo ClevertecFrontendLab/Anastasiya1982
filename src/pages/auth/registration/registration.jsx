@@ -1,4 +1,4 @@
-import { useEffect, useState,Fragment} from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Loader } from '../../../components/loader/loader';
@@ -11,10 +11,9 @@ import { AddressForm } from '../../../components/register-form/address-form';
 import './registration.scss';
 
 export const RegistrationPage = () => {
-    const [stepStatus, setStepStatus] = useState('first');
+  const [stepStatus, setStepStatus] = useState('first');
   const successfulRegistration = useSelector((store) => store.userData.successfulRegistration);
   const isUserDataLoading = useSelector((store) => store.userData.isUserDataLoading);
-  const error = useSelector((store) => store.userData.userDataError);
   const responseInfo = useSelector((state) => state.userData.authInfo);
   const registrationData = useSelector((store) => store.registration.registrationData);
 
@@ -33,7 +32,7 @@ export const RegistrationPage = () => {
     if (successfulRegistration) {
       navigate('/auth');
     } else {
-    setStepStatus('first');
+      setStepStatus('first');
     }
     dispatch(setAuthInfo({ status: null, info: null }));
   };
@@ -46,9 +45,9 @@ export const RegistrationPage = () => {
 
   useEffect(() => {
     if (stepStatus === 'data-collected') {
-     dispatch(registration(registrationData));
+      dispatch(registration(registrationData));
     }
-  }, [registrationData, stepStatus,dispatch]);
+  }, [registrationData, stepStatus, dispatch]);
 
   return (
     <div className='register-page'>

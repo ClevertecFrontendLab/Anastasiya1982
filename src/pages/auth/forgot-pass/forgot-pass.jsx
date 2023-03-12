@@ -1,4 +1,4 @@
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -11,43 +11,35 @@ import { setResetPassError } from '../../../store/user-reducer';
 
 import './forgot-pass.scss';
 
-export const ForgotPassPage = () => {
-  const [params, setParams] = useState(null);
+export const ForgotPassPage = () => {  
+  const [searchParams, setSearchParams] = useSearchParams();
   const isAuth = localStorage.getItem('isAuth');
   const isUserDataLoading = useSelector((store) => store.userData.isUserDataLoading);
   const isRestoreEmailSend = useSelector((store) => store.userData.isRestoreEmailSend);
   const resetPassSuccess = useSelector((store) => store.userData.resetPassSuccess);
   const resetPassError = useSelector((store) => store.userData.resetPassError);
   const navigate = useNavigate();
-  const location = useLocation();
+ 
   const dispatch = useDispatch();
 
-  console.log('====================================');
-  console.log('email.send',isRestoreEmailSend);
-  console.log('====================================');
+  const codeQuery = searchParams.get('code');
 
-  useEffect(() => {
+   useEffect(() => {
     if (isAuth) {
       navigate('/books/all');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth]);
-
-  useEffect(() => {
-    const query = new URLSearchParams(location?.search);
-    const code = query.get('code');
-    if (!code) return;
-    setParams(code);
-  }, [location]);
+ 
 
   return (
     <div className='forgot-pass-page'>
       {isUserDataLoading && <Loader />}
       <div className='forgot-pass-page-wrapper'>
         <h3 className='forgot-pass-page-header'>Cleverland</h3>
-        <div className='form-container'>
-          {params && (
-            <div className='form-container-wrapper' data-test-id='auth'>
+        <div className='form-container' data-test-id='auth'>
+          {codeQuery && (
+            <div className='form-container-wrapper'>
               {resetPassSuccess && (
                 <div className='modal-message-container' data-test-id='status-block'>
                   <h3 className='title'>Новые данные сохранены</h3>
@@ -74,23 +66,24 @@ export const ForgotPassPage = () => {
                 </div>
               )}
               {!resetPassSuccess && !resetPassError && (
-                <div className='form-content' data-test-id='auth'>
+                <div className='form-content'>
                   <h3 className='form-container-title'>Восстановление пароля</h3>
-                  <ResetPasswordForm code={params} />
+                  <ResetPasswordForm code={codeQuery} />
                 </div>
               )}
             </div>
           )}
-          {!params && (
+          {!codeQuery && (
             <div className='form-container-wrapper'>
               {isRestoreEmailSend ? (
-                 <div className='modal-message-container' data-test-id='status-block'>
+                <div className='modal-message-container' data-test-id='status-block'>
                   <h3 className='title'>Письмо выслано</h3>
                   <p className='message-block'>
                     Перейдите в вашу почту, чтобы воспользоваться подсказками по восстановлению пароля
                   </p>
-                </div>):(
-                <div className='form-container-wrapper' data-test-id='auth'>
+                </div>
+              ) : (
+                <div className='form-container-wrapper'>
                   <div className='form-container-header' role='presentation' onClick={() => navigate('/auth')}>
                     <ArrorBackIconSvg className='arrow-icon' /> <span>вход в личный кабинет</span>
                   </div>
@@ -106,7 +99,6 @@ export const ForgotPassPage = () => {
                   </div>
                 </div>
               )}
-              
             </div>
           )}
         </div>

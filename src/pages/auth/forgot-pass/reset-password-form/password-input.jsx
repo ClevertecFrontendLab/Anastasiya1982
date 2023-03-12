@@ -11,26 +11,27 @@ export const PasswordInput = ({ label, register, placeholder, validateErrors, la
   const [blurOnEmptyConfirmInput, setBlurOnEmptyConfirmInput] = useState(false);
   const [isLengthValid, setIsLengthValid] = useState(false);
   const [isCupLetterValid, setIsCupLetterValid] = useState(false);
-  const [isNumberValid, setIsNumberValid] = useState(false); 
+  const [isNumberValid, setIsNumberValid] = useState(false);
+  const [inputFocus, setInputFocus] = useState(false);
 
   const togglePasswordVisiblity = () => {
     setPasswordShown(passwordShown ? false : true);
   };
 
-  const checkIfInputValid = () => {    
-      if (validateErrors && watchPass.length > 0) {
-        setIsPassInputOnBlur(true);
-        setIsLengthValid(false);
-        setIsCupLetterValid(false);
-        setIsNumberValid(false);
-        setBlurOnEmptyInput(false);
-      } else if (!validateErrors && watchPass.length === 0) {
-        setBlurOnEmptyInput(true);
-      } else {
-        setIsPassInputOnBlur(false);
-        setBlurOnEmptyInput(false);
-      }
-    
+  const checkIfInputValid = () => {
+    if (validateErrors && watchPass.length > 0) {
+      setIsPassInputOnBlur(true);
+      setIsLengthValid(false);
+      setIsCupLetterValid(false);
+      setIsNumberValid(false);
+      setBlurOnEmptyInput(false);
+    } else if (!validateErrors && watchPass.length === 0) {
+      setBlurOnEmptyInput(true);
+    } else {
+      setIsPassInputOnBlur(false);
+      setBlurOnEmptyInput(false);
+    }
+    setInputFocus(false);
   };
 
   const validateLength = useCallback(() => {
@@ -67,18 +68,17 @@ export const PasswordInput = ({ label, register, placeholder, validateErrors, la
     <div className='password-input-item'>
       <input
         {...register(label)}
-        className={validateErrors?.message ? 'form-input error' : 'form-input'}
+        className={validateErrors?.message ? 'input error' : 'input'}
         placeholder={placeholder}
         type={passwordShown ? 'text' : 'password'}
         onBlur={checkIfInputValid}
         onFocus={() => {
-          if (label === 'password') {
+            setInputFocus(true)
             setIsPassInputOnBlur(false);
             setBlurOnEmptyInput(false);
             validateNumber();
             validateCupLetter();
-            validateLength();
-          }        
+            validateLength();          
         }}
       />
       {watchPass.length > 0 && (
@@ -108,7 +108,8 @@ export const PasswordInput = ({ label, register, placeholder, validateErrors, la
         </p>
       )}
 
-      <label className='form-label'>{labelValue}</label>
+      <label className={watchPass.length || inputFocus
+          ? 'form-label':''}>{labelValue}</label>
       {label === 'password' && (
         <p className={!isPassInputOnBlur ? 'validation-message' : 'validation-message error'} data-test-id='hint'>
           Пароль{' '}
@@ -122,7 +123,7 @@ export const PasswordInput = ({ label, register, placeholder, validateErrors, la
           и{' '}
           <span className={!isNumberValid && validateErrors?.message ? 'valid-span error' : 'valid-span'}>цифрой</span>
         </p>
-      )}    
+      )}
     </div>
   );
 };
@@ -142,6 +143,7 @@ export const PasswordConfirmInput = ({
   const [blurOnEmptyConfirmInput, setBlurOnEmptyConfirmInput] = useState(false);
   const [blurOnConfirmInput, setBlurOnConfirmInput] = useState(false);
   const [isPassConfirm, setIsPassConfirm] = useState(false);
+   const [inputFocus, setInputFocus] = useState(false);
 
   useEffect(() => {
     if (watchPass.length === 0) {
@@ -149,13 +151,10 @@ export const PasswordConfirmInput = ({
     }
   }, [watchPass]);
 
-  //   useEffect(() => {
-  //     if (watchPass.length > 0 && !validateErrors?.type) {
-  //       setIsBtnDisabled(false);
-  //     }
-  //   }, [validateErrors?.type, watchPass]);
 
-  const togglePasswordVisiblity = () => {
+
+
+   const togglePasswordVisiblity = () => {
     setPasswordShown(passwordShown ? false : true);
   };
 
@@ -174,17 +173,19 @@ export const PasswordConfirmInput = ({
       setCheckConfirmOnBlure(false);
       checkIsFormValid(false);
     }
+    setInputFocus(false)
   };
 
   return (
     <div className='password-input-item'>
       <input
         {...register(label)}
-        className={isPassConfirm ? 'form-input error' : 'form-input'}
+        className={isPassConfirm ? 'input error' : 'input'}
         placeholder={placeholder}
         type={passwordShown ? 'text' : 'password'}
         onBlur={checkIfInputValid}
         onFocus={() => {
+          setInputFocus(true);
           setBlurOnEmptyConfirmInput(false);
           setBlurOnConfirmInput(false);
           setIsPassConfirm(false);
@@ -200,7 +201,7 @@ export const PasswordConfirmInput = ({
           )}
         </button>
       )}
-      <span className='form-label'>{labelValue}</span>
+      <label className={watchPass.length || inputFocus ? 'form-label' : ''}>{labelValue}</label>
       {blurOnConfirmInput && watchPass.length > 0 && (
         <p className='validation-confirm-message' data-test-id='hint'>
           Пароли не совпадают

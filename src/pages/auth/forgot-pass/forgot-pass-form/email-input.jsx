@@ -3,20 +3,13 @@ import { useSelector } from 'react-redux';
 
 import './forgot-pass-form.scss';
 
- const PATTERN = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
+const PATTERN = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
 
-export const EmailInput = ({
-  label,
-  register, 
-  placeholder,
-  validateErrors,
-  watchEmail
-}) => {
+export const EmailInput = ({ label, register, placeholder, validateErrors, watchEmail }) => {
+  const restoreEmailError = useSelector((store) => store.userData.restoreEmailError);
+  const isRestoreEmailSend = useSelector((store) => store.userData.isRestoreEmailSend);
 
-    const restoreEmailError = useSelector((store) => store.userData.restoreEmailError); 
-     const isRestoreEmailSend = useSelector((store) => store.userData.isRestoreEmailSend);  
-
-    const [isEmailEmpty,setIsEmailEmpty]=useState(false);
+  const [isEmailEmpty, setIsEmailEmpty] = useState(false);
 
   return (
     <div className='email-input-item'>
@@ -28,15 +21,14 @@ export const EmailInput = ({
         className={validateErrors ? 'form-input error' : 'form-input'}
         placeholder={placeholder}
         onBlur={() => {
-            if(!validateErrors &&watchEmail.length===0){
-                setIsEmailEmpty(true)
-            }
-            else{
-                setIsEmailEmpty(false)
-            }
+          if (!validateErrors && watchEmail.length === 0) {
+            setIsEmailEmpty(true);
+          } else {
+            setIsEmailEmpty(false);
+          }
         }}
-        onFocus={()=>{
-            setIsEmailEmpty(false)
+        onFocus={() => {
+          setIsEmailEmpty(false);
         }}
       />
       <span className='form-label'>Email</span>
@@ -45,7 +37,7 @@ export const EmailInput = ({
           Поле не может быть пустым
         </p>
       )}
-      { isEmailEmpty  && (
+      {isEmailEmpty && (
         <p data-test-id='hint' className='error-message'>
           Поле не может быть пустым
         </p>

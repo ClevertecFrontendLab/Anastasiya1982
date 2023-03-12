@@ -90,10 +90,7 @@ export const {
 export const userReducer = userSlice.reducer;
 
 export const registration = (userData) => async (dispatch) => {
-    console.log('====================================');
-    console.log('userData from form',userData);
-    console.log('====================================');
-  dispatch(setIsUserDataLoading(true));
+   dispatch(setIsUserDataLoading(true));
   try {
     const responce = await axiosInstance.post('auth/local/register', userData);
     localStorage.setItem('registration-token', responce.data.jwt);
@@ -166,13 +163,19 @@ export const logout = () => async (dispatch) => {
   dispatch(setIsUserDataLoading(false));
 };
 
+
 export const sendEmailForgotPassword = (data) => async (dispatch) => {
   dispatch(setIsUserDataLoading(true));
 
   try {
     const responce = await axiosInstance.post('auth/forgot-password', { email:data.email });   
-     dispatch(setIsRestoreEmailSend(responce.data.ok));
-
+     dispatch(setIsRestoreEmailSend(true));
+     dispatch(
+       setAuthInfo({
+         status: 200,
+         info: 'Перейдите в вашу почту, чтобы воспользоваться подсказками по восстановлению пароля',
+       })
+     );
      dispatch(setIsUserDataLoading(false));
   } catch (error) {   
     if (error.response) {
@@ -200,8 +203,12 @@ export const resetPassword = (data) => async (dispatch) => {
     
     dispatch(setUser(responce.data.user));
     dispatch(setResetPassSuccess(true));
-    // localStorage.setItem('token', responce.data.jwt);
-   
+    dispatch(
+      setAuthInfo({
+        status: 200,
+        info: 'Зайдите в личный кабинет, используя свои логин и новый пароль',
+      })
+    );   
     dispatch(setIsUserDataLoading(false));
   } catch (error) {
     if (error.response) {
@@ -212,6 +219,10 @@ export const resetPassword = (data) => async (dispatch) => {
           message: 'что-то пошло не так. Попробуйте снова',
         })
       );
+      dispatch(setAuthInfo({
+        status:error.response.status,
+        info:'Что-то пошло не так. Попробуйте ещё раз'
+      }))
       dispatch(setIsUserDataLoading(false));
     }
   }
