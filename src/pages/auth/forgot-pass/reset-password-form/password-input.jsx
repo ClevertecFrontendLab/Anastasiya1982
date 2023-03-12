@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { ReactComponent as OpenEye } from '../../assets/open-eye.svg';
-import { ReactComponent as CloseEye } from '../../assets/close-eye.svg';
-import { ReactComponent as ValidIcon } from '../../assets/valid-success-icon.svg';
+import { ReactComponent as OpenEye } from '../../../../assets/open-eye.svg';
+import { ReactComponent as CloseEye } from '../../../../assets/close-eye.svg';
+import { ReactComponent as ValidIcon } from '../../../../assets/valid-success-icon.svg';
 
 export const PasswordInput = ({ label, register, placeholder, validateErrors, labelValue, watchPass }) => {
   const [passwordShown, setPasswordShown] = useState(false);

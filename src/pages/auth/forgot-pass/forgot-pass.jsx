@@ -2,12 +2,12 @@ import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { ReactComponent as ArrorBackIconSvg } from '../../assets/arrow-back-icon.svg';
-import { ReactComponent as ArrorIconSvg } from '../../assets/arror-icon.svg';
-import { ForgotPassForm } from '../../components/forgot-pass-form/forgot-pass-form';
-import { ResetPasswordForm } from '../../components/reset-password-form/reset-password-form';
-import { Loader } from '../../components/loader/loader';
-import { setResetPassError } from '../../store/user-reducer';
+import { ReactComponent as ArrorBackIconSvg } from '../../../assets/arrow-back-icon.svg';
+import { ReactComponent as ArrorIconSvg } from '../../../assets/arror-icon.svg';
+import { ForgotPassForm } from './forgot-pass-form/forgot-pass-form';
+import { ResetPasswordForm } from './reset-password-form/reset-password-form';
+import { Loader } from '../../../components/loader/loader';
+import { setResetPassError } from '../../../store/user-reducer';
 
 import './forgot-pass.scss';
 
@@ -21,6 +21,10 @@ export const ForgotPassPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+
+  console.log('====================================');
+  console.log('email.send',isRestoreEmailSend);
+  console.log('====================================');
 
   useEffect(() => {
     if (isAuth) {
@@ -79,7 +83,13 @@ export const ForgotPassPage = () => {
           )}
           {!params && (
             <div className='form-container-wrapper'>
-              {!isRestoreEmailSend && (
+              {isRestoreEmailSend ? (
+                 <div className='modal-message-container' data-test-id='status-block'>
+                  <h3 className='title'>Письмо выслано</h3>
+                  <p className='message-block'>
+                    Перейдите в вашу почту, чтобы воспользоваться подсказками по восстановлению пароля
+                  </p>
+                </div>):(
                 <div className='form-container-wrapper' data-test-id='auth'>
                   <div className='form-container-header' role='presentation' onClick={() => navigate('/auth')}>
                     <ArrorBackIconSvg className='arrow-icon' /> <span>вход в личный кабинет</span>
@@ -96,14 +106,7 @@ export const ForgotPassPage = () => {
                   </div>
                 </div>
               )}
-              {isRestoreEmailSend && (
-                <div className='modal-message-container' data-test-id='status-block'>
-                  <h3 className='title'>Письмо выслано</h3>
-                  <p className='message-block'>
-                    Перейдите в вашу почту, чтобы воспользоваться подсказками по восстановлению пароля
-                  </p>
-                </div>
-              )}
+              
             </div>
           )}
         </div>

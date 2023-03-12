@@ -1,50 +1,26 @@
-import { useEffect } from 'react';
+import { useEffect, useState,Fragment} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Loader } from '../../components/loader/loader';
-import { RegistrationForm } from '../../components/register-form/register-form';
-import { setUserRegisterDataError, resetRegistratonOnFirstStep } from '../../store/user-reducer';
-import { ReactComponent as ArrorIconSvg } from '../../assets/arror-icon.svg';
-
-import { setCurrentStepIndex } from '../../store/registration-reducer';
+import { Loader } from '../../../components/loader/loader';
+import { registration, setAuthInfo } from '../../../store/user-reducer';
+import { addRegistrationData } from '../../../store/registration-reducer';
+import { AccountForm } from '../../../components/register-form/account-form';
+import { UserForm } from '../../../components/register-form/user-form';
+import { AddressForm } from '../../../components/register-form/address-form';
 
 import './registration.scss';
 
-export const ModalWithRegisterForm = () => {
-  const steps = useSelector((store) => store.registration.steps);
-  const currentStepIndex = useSelector((store) => store.registration.currentStepIndex);
- 
-  const user = useSelector((store) => store.userData.userData);
-  const isUserDataLoading = useSelector((store) => store.userData.isUserDataLoading);
-
-  return (
-    <div className='register-form-wrapper' >
-      <h4 className='form-title'>Регистрация</h4>
-      <div className='step-number-block'> {steps[currentStepIndex]} шаг из 3</div>
-      <div className='form-container'>
-        <RegistrationForm />
-      </div>
-      <div className='enter-block'>
-        <span className='enter-block-title'>Есть учётная запись?</span>
-        <Link to='/auth' className='enter-block-button'>
-          <span>Войти</span>
-          <ArrorIconSvg style={{ marginLeft: '15px' }} />
-        </Link>
-      </div>
-    </div>
-  );
-};
-
-
 export const RegistrationPage = () => {
+    const [stepStatus, setStepStatus] = useState('first');
   const successfulRegistration = useSelector((store) => store.userData.successfulRegistration);
   const isUserDataLoading = useSelector((store) => store.userData.isUserDataLoading);
   const error = useSelector((store) => store.userData.userDataError);
   const responseInfo = useSelector((state) => state.userData.authInfo);
+  const registrationData = useSelector((store) => store.registration.registrationData);
+
   const isAuth = localStorage.getItem('isAuth');
   const navigate = useNavigate();
-  const dispatch=useDispatch();
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isAuth) {
@@ -56,13 +32,23 @@ export const RegistrationPage = () => {
   const onClickModalButton = () => {
     if (successfulRegistration) {
       navigate('/auth');
+    } else {
+    setStepStatus('first');
     }
-     else {
-        
-    dispatch(resetRegistratonOnFirstStep());
-    dispatch(setCurrentStepIndex(0))
+    dispatch(setAuthInfo({ status: null, info: null }));
+  };
+  const addData = (data) => {
+    dispatch(addRegistrationData(data));
+    if (stepStatus === 'first') setStepStatus('second');
+    if (stepStatus === 'second') setStepStatus('final');
+    if (stepStatus === 'final') setStepStatus('data-collected');
+  };
+
+  useEffect(() => {
+    if (stepStatus === 'data-collected') {
+     dispatch(registration(registrationData));
     }
-}
+  }, [registrationData, stepStatus,dispatch]);
 
   return (
     <div className='register-page'>
@@ -81,10 +67,14 @@ export const RegistrationPage = () => {
               </button>
             </div>
           ) : (
-            <ModalWithRegisterForm />
+            <Fragment>
+              {stepStatus === 'first' && <AccountForm addData={addData} />}
+              {stepStatus === 'second' && <UserForm addData={addData} />}
+              {stepStatus === 'final' && <AddressForm addData={addData} />}
+            </Fragment>
           )}
         </div>
       </div>
     </div>
   );
-}
+};

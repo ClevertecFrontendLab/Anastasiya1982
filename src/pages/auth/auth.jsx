@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 import { Loader } from '../../components/loader/loader';
-import { setUserAuthError } from '../../store/user-reducer';
+import { setAuthInfo } from '../../store/user-reducer';
 import { LoginForm } from '../../components/login-form/login-form';
 import { ReactComponent as ArrorIconSvg } from '../../assets/arror-icon.svg';
 
@@ -11,23 +11,20 @@ import './auth.scss';
 
 export const AuthPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const errorLoginRequest = useSelector((store) => store.userData.userAuthError);
+
+  const errorLoginRequest = useSelector((store) => store.userData.authInfo);
 
   const isAuth = localStorage.getItem('isAuth');
 
-  const fromPage = location.state?.from?.pathname || '/';
-
   const isUserDataLoading = useSelector((store) => store.userData.isUserDataLoading);
-  const isUserLogin = useSelector((store) => store.userData.isUserLogin);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (isAuth) {
       navigate('/books/all');
-    } else {
-      navigate('/auth');
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth]);
 
@@ -35,13 +32,17 @@ export const AuthPage = () => {
     <div className='auth-page'>
       {isUserDataLoading && <Loader />}
       <div className='auth-page-wrapper'>
-        <h3 className='auth-page-header'>Cleverland</h3>     
+        <h3 className='auth-page-header'>Cleverland</h3>
         <div className='form-container' data-test-id='auth'>
-          {errorLoginRequest && errorLoginRequest.status === 502 ? (
+          {errorLoginRequest?.info && errorLoginRequest?.status !== 400 ? (
             <div className='error-login-message-container' data-test-id='status-block'>
               <h3 className='error-title'>Вход не выполнен</h3>
               <p className='message-block'>Что-то пошло не так. Попробуйте ещё раз</p>
-              <button type='button' className='submit-form-button' onClick={() => dispatch(setUserAuthError(null))}>
+              <button
+                type='button'
+                className='submit-form-button'
+                onClick={() => dispatch(setAuthInfo({ status: null, info: null }))}
+              >
                 повторить
               </button>
             </div>

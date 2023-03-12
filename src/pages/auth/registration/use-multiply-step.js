@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentStepIndex } from '../../store/registration-reducer';
+import { setCurrentStepIndex } from '../../../store/registration-reducer';
 
 export function useMultistepForm() {
   const steps = useSelector((store) => store.registration.steps);
@@ -25,8 +25,8 @@ export function useMultistepForm() {
     step: steps[currentStepIndex],
     steps,
     isFirstStep: currentStepIndex === 0,
-    isSecondStep:currentStepIndex === 1,
-    isLastStep:currentStepIndex === 2,
+    isSecondStep: currentStepIndex === 1,
+    isLastStep: currentStepIndex === 2,
     isDataCollected: currentStepIndex === steps.length - 1,
     goTo,
     next,

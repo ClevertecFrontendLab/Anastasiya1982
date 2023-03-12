@@ -1,23 +1,23 @@
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../store/user-reducer';
-import { InputLoginForm } from './input-login-form';
+
+import { Input } from '../input/input';
 
 import './login-form.scss';
 
 export const LoginForm = () => {
+  const [badRequestError, toggleBadRequestError] = useState(false);
   const dispatch = useDispatch();
-  const error = useSelector((store) => store.userData.userAuthError);
+  const error = useSelector((store) => store.userData.authInfo);
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-    clearErrors,
   } = useForm({
     defaultValues: {
       identifier: '',
@@ -26,54 +26,68 @@ export const LoginForm = () => {
     mode: 'all',
   });
 
-  const watchPassword = watch('password', '');
-
-  const onSubmit = (data) => {
-    dispatch(login(data));
+  const onSubmit = async (data) => {
+    const action = dispatch(login(data));
     navigate('/books/all');
   };
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className='login-form' data-test-id='auth-form'>
-      <InputLoginForm
-        label='identifier'
-        register={register}
-        loginError={error}
-        required={true}
-        placeholder=' '
-        validateErrors={errors?.identifier}
-        clearErrors={clearErrors}
-        inputType='text'
-      />
+  useEffect(() => {
+    if (error.status === 400) {
+      toggleBadRequestError(true);
+    } else {
+      toggleBadRequestError(false);
+    }
+  }, [error]);
 
-      <InputLoginForm
-        label='password'
-        register={register}
-        loginError={error}
-        required={true}
-        placeholder=' '
-        validateErrors={errors?.password}
-        inputType='password'
-        watchPassword={watchPassword}
-      />
-      <button
-        type='button'
-        onClick={() => navigate('/forgot-pass')}
-        className={!error ? 'forgot-password-link' : 'forgot-password-link hidden'}
-      >
-        Забыли логин или пароль?
-      </button>
-      {error && (
-        <div className='error-block'>
-          <span className='error-message-text' data-test-id='hint'>
-            Неверный логин или пароль!
-          </span>
-          <Link className='restore-pass-link'>Восстановить?</Link>
+  return (
+    <form data-test-id='auth-form' onSubmit={handleSubmit(onSubmit)} className='login-form'>
+      <div style={{ width: '100%' }}>
+        <Input
+          type='text'
+          placeholder='Логин'
+          {...register('identifier', {
+            required: 'Поле не может быть пустым',
+          })}
+        />
+        {errors.identifier?.message && (
+          <div data-test-id='hint' style={{ color: '#F42C4F' }}>
+            {errors.identifier?.message}
+          </div>
+        )}
+      </div>
+      <div style={{ width: '100%' }}>
+        <div className='password-block'>
+          <Input
+            placeholder='Пароль'
+            type='password'
+            {...register('password', {
+              required: 'Поле не может быть пустым',
+            })}
+          />
+          {errors.password?.message && !badRequestError && (
+            <div data-test-id='hint' style={{ color: '#F42C4F' }}>
+              {errors.password?.message}
+            </div>
+          )}
         </div>
-      )}
-      <button type='submit' className='submit-form-button'>
-        вход
-      </button>
+        <div>
+          <div className={badRequestError ? 'active-bad-request-error' : 'not-active-bad-request-error'}>
+            <div data-test-id='hint' style={{ color: '#F42C4F' }}>
+              Неверный логин или пароль!
+            </div>
+          </div>
+          <Link to='/forgot-pass'>
+            <div style={{ color: `${badRequestError ? '#363636' : '#A7A7A7'}` }}>
+              {badRequestError ? 'Восстановить?' : 'Забыли логин или пароль?'}
+            </div>
+          </Link>
+        </div>
+      </div>
+      <div style={{ width: '100%' }}>
+        <button className='submit-form-button' type='submit'>
+          Вход
+        </button>
+      </div>
     </form>
   );
 };

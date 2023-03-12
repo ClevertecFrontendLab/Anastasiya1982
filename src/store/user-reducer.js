@@ -90,6 +90,9 @@ export const {
 export const userReducer = userSlice.reducer;
 
 export const registration = (userData) => async (dispatch) => {
+    console.log('====================================');
+    console.log('userData from form',userData);
+    console.log('====================================');
   dispatch(setIsUserDataLoading(true));
   try {
     const responce = await axiosInstance.post('auth/local/register', userData);
@@ -135,19 +138,17 @@ export const login = (data) => async (dispatch) => {
     // handle error
     if (error.response.status === 400) {
       dispatch(
-        setUserAuthError({
-          name: 'login and password error',
+        setAuthInfo({        
           status: 400,
-          message: 'Неверный логин или пароль',
+          info: 'Неверный логин или пароль',
         })
       );
       dispatch(setIsUserDataLoading(false));
-    } else if (error.response.status !== 400) {
+    } else  {
       dispatch(
-        setUserAuthError({
-          name: 'bad request',
+        setAuthInfo({         
           status: 502,
-          message: 'Что-то пошло не так. Попробуйте ещё раз',
+          info: 'Что-то пошло не так. Попробуйте ещё раз',
         })
       );
       dispatch(setIsUserDataLoading(false));
@@ -171,6 +172,7 @@ export const sendEmailForgotPassword = (data) => async (dispatch) => {
   try {
     const responce = await axiosInstance.post('auth/forgot-password', { email:data.email });   
      dispatch(setIsRestoreEmailSend(responce.data.ok));
+
      dispatch(setIsUserDataLoading(false));
   } catch (error) {   
     if (error.response) {

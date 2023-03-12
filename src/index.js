@@ -7,9 +7,9 @@ import { Layout } from './pages/routs/layout/layout';
 import { LayoutMainPage } from './pages/routs/layout-main-page/layout-main-page';
 import { MainPage } from './pages/main';
 import { TermsPage } from './pages/terms';
-import {RegistrationPage} from './pages/registration/registration';
-import {AuthPage} from './pages/auth/auth';
-import { ForgotPassPage } from './pages/forgot-pass/forgot-pass';
+import { RegistrationPage } from './pages/auth/registration/registration';
+import { AuthPage } from './pages/auth/auth';
+import { ForgotPassPage } from './pages/auth/forgot-pass/forgot-pass';
 import { ViewCardsContextProvider } from './context/view-cards-context';
 import { RequireAuth } from './pages/routs/require-auth';
 

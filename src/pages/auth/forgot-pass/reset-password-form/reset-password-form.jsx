@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 
 import { PasswordInput, PasswordConfirmInput } from './password-input';
 
-import { resetPassword } from '../../store/user-reducer';
+import { resetPassword } from '../../../../store/user-reducer';
 
 import './reset-password-form.scss';
 

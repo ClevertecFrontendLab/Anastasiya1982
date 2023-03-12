@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendEmailForgotPassword } from '../../store/user-reducer';
+import { sendEmailForgotPassword } from '../../../../store/user-reducer';
 
 import { EmailInput } from './email-input';
 
@@ -21,14 +21,14 @@ export const ForgotPassForm = () => {
     clearErrors,
   } = useForm({
     defaultValues: {
-      email: '',      
+      email: '',
     },
     mode: 'all',
   });
 
- const watchEmail=watch('email','')
+  const watchEmail = watch('email', '');
   const onSubmit = (data) => {
-   dispatch(sendEmailForgotPassword(data));
+    dispatch(sendEmailForgotPassword(data));
   };
 
   return (
@@ -48,4 +48,3 @@ export const ForgotPassForm = () => {
     </form>
   );
 };
-
